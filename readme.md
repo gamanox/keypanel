@@ -2,6 +2,24 @@
 This QuickStart was created to make it easy to get started with CodeIgniter 3.0 
 on OpenShift.
 
+
+## Database Openshift ##
+MySQL 5.5 database added.  Please make note of these credentials:
+
+    Root User: adminmVGLsk5
+    Root Password: 2WBK_hM5XtXD
+    Database Name: keypanel
+
+Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
+
+You can manage your new MySQL database by also embedding phpmyadmin.
+The phpmyadmin username and password will be the same as the MySQL credentials above.
+
+
+## Clone Repo ##
+
+---
+
 [CodeIgniter](http://www.codeigniter.com/) is a powerful PHP 
 framework with a very small footprint, built for developers who need a simple 
 and elegant toolkit to create full-featured web applications. CodeIgniter 3.0 is
