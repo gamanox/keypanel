@@ -16,9 +16,6 @@ You can manage your new MySQL database by also embedding phpmyadmin.
 The phpmyadmin username and password will be the same as the MySQL credentials above.
 
 
-## Clone Repo ##
-
----
 
 [CodeIgniter](http://www.codeigniter.com/) is a powerful PHP 
 framework with a very small footprint, built for developers who need a simple 
