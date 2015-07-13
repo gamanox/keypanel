@@ -65,7 +65,7 @@ class Account extends CI_Controller {
      */
     public function logout(){
         $this->session->destroy();
-        redirect('main');
+        redirect('main');        
     }
 }
 /* End of file Account.php */

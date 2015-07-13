@@ -2,10 +2,14 @@
 This QuickStart was created to make it easy to get started with CodeIgniter 3.0 
 on OpenShift.
 
+## Generate SSH Key ##
+
+https://help.github.com/articles/generating-ssh-keys/
 
 ## Database Openshift ##
 MySQL 5.5 database added.  Please make note of these credentials:
 
+    Host: ssh 559446645973ca07a400004f@keypanel-gamanox.rhcloud.com
     Root User: adminmVGLsk5
     Root Password: 2WBK_hM5XtXD
     Database Name: keypanel
