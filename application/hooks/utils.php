@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Utils {
-    public $controllers_sin_validar = array('errores','account','panel','main');
+    public $controllers_sin_validar = array('errores','account','main');
     private $ci;
 
     public function __construct(){
@@ -11,7 +11,7 @@ class Utils {
     }
 
     public function check_session(){
-        if(!$this->ci->input->is_ajax_request() and $this->ci->session->userdata('isloggedin') == FALSE && !in_array($this->ci->router->class,$this->controllers_sin_validar)){
+        if(!$this->ci->input->is_ajax_request() and $this->ci->session->userdata('isloggedin') == FALSE && !in_array($this->ci->router->class, $this->controllers_sin_validar)){
             redirect('errores/session_expired');
         }
     }    
@@ -31,11 +31,9 @@ class Utils {
         // $this->ci->lang->load( 'general' );
     }
 
-    public function validate_membership(){
-        $this->ci->load->model('Member_model','member');
-
-        $member_access = $this->member->is_membership_valid();
-        if( !$member_access ){
+    public function validate_membership(){    
+        $member_access = $this->ci->session->membership_valid;
+        if( !$member_access && !in_array($this->ci->router->class, $this->controllers_sin_validar)){
             redirect('errores/payment_required');
         }
     }

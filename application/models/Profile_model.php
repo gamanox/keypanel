@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+require_once APPPATH.'models/Entity_model.php';
 
 /**
  *
  */
-class Profile_model extends Entity {
+class Profile_model extends Entity_model {
 
 
         /**

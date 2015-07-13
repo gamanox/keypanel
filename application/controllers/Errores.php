@@ -19,4 +19,8 @@ class Errores extends CI_Controller {
     public function no_authorized(){
         $this->load->view('errors/no_authorized');
     }
+
+    public function payment_required(){
+        $this->load->view('errors/payment_required');
+    }
 }
