@@ -84,3 +84,17 @@ define('EXIT_USER_INPUT', 7); // invalid user input
 define('EXIT_DATABASE', 8); // database error
 define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+define("DELETED", "DELETED");
+define("ENABLED", "ENABLED");
+
+define("SUPERADMIN", "SUPERADMIN");
+define("ADMIN", "ADMIN");
+define("MIEMBRO", "MIEMBRO");
+define("PERFIL", "PERFIL");
+
+//Constantes CRUD
+define('CREATE', 'create');
+define('READ', 'read');
+define('UPDATE', 'update');
+define('DELETE', 'delete');
