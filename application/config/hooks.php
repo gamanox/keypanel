@@ -19,16 +19,23 @@ $hook['post_controller_constructor'][] = array(
         'filepath' => 'hooks'
     );
 
-$hook['post_controller'][] = array(
+$hook['post_controller_constructor'][] = array(
         'class'    => 'Utils',
-        'function' => 'profiler',
+        'function' => 'translation',
         'filename' => 'utils.php',
         'filepath' => 'hooks'
     );
 
 $hook['post_controller_constructor'][] = array(
         'class'    => 'Utils',
-        'function' => 'translation',
+        'function' => 'validate_membership',
+        'filename' => 'utils.php',
+        'filepath' => 'hooks'
+    );
+
+$hook['post_controller'][] = array(
+        'class'    => 'Utils',
+        'function' => 'profiler',
         'filename' => 'utils.php',
         'filepath' => 'hooks'
     );

@@ -14,12 +14,7 @@ class Utils {
         if(!$this->ci->input->is_ajax_request() and $this->ci->session->userdata('isloggedin') == FALSE && !in_array($this->ci->router->class,$this->controllers_sin_validar)){
             redirect('errores/session_expired');
         }
-    }
-
-    public function profiler() {
-        if (ENVIRONMENT == 'development' and !$this->ci->input->is_ajax_request())
-            $this->ci->output->enable_profiler(true);
-    }
+    }    
 
     public function translation(){
         !$this->ci->load->helper('language') ? $this->ci->load->helper('language') : false;
@@ -34,5 +29,19 @@ class Utils {
         }
 
         // $this->ci->lang->load( 'general' );
+    }
+
+    public function validate_membership(){
+        $this->ci->load->model('Member_model','member');
+
+        $member_access = $this->member->is_membership_valid();
+        if( !$member_access ){
+            redirect('errores/payment_required');
+        }
+    }
+
+    public function profiler() {
+        if (ENVIRONMENT == 'development' and !$this->ci->input->is_ajax_request())
+            $this->ci->output->enable_profiler(true);
     }
 }
