@@ -45,9 +45,29 @@ class Account extends CI_Controller {
             if( isset($member_access) ){
                 $response['status'] = true;
 
+                // Obtenemos la info del miembro para guardarlo en sesion
+                $member_info = $this->member->find($member_access->id);                
+                switch ($member_info->type) {
+                    case 'SUPERADMIN':
+                        // Es superadmin, lo mandamos a administracion
+                        $response['redirect_url'] = base_url('administration');
+                        break;
+                    default:
+                        // Es miembro, redirigimos a pantalla de su cuenta
+                        $response['redirect_url'] = base_url('account');
+                        break;
+                }
+
+                // checamos membresia y guardamos en sesion
+                $member_valid = $this->member->is_membership_valid();
+                if( $member_valid )
+                    $member_info->membership_valid = TRUE;
+                else 
+                    $member_info->membership_valid = FALSE;
+
                 // Armamos la sesion                
                 $member_access->is_loggedin = TRUE;
-                $this->session->set_userdata( $member_access );
+                $this->session->set_userdata( $member_info );
             }
 
             //Regresamos el status del evento

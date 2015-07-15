@@ -32,10 +32,8 @@ class Utils {
     }
 
     public function validate_membership(){
-        $this->ci->load->model('Member_model','member');
-
-        $member_access = $this->member->is_membership_valid();
-        if( !$member_access ){
+        $member_access = $this->ci->session->membership_valid;
+        if( !$member_access && !in_array($this->ci->router->class, $this->controllers_sin_validar)){
             redirect('errores/payment_required');
         }
     }
