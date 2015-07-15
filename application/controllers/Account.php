@@ -45,13 +45,6 @@ class Account extends CI_Controller {
             if( isset($member_access) ){
                 $response['status'] = true;
 
-                // checamos membresia y guardamos en sesion
-                $member_valid = $this->member->is_membership_valid();
-                if( $member_valid )
-                    $member_access->membership_valid = TRUE;
-                else 
-                    $member_access->membership_valid = FALSE;
-
                 // Armamos la sesion                
                 $member_access->is_loggedin = TRUE;
                 $this->session->set_userdata( $member_access );
