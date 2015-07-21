@@ -2,16 +2,22 @@
 
 
 /**
- *
+ * AccessLog_model
+ * Log de accesos al sistema
  */
 class AccessLog_model extends CI_Model {
 
         /**
-         *
+         * Constructor
          */
         public function __construct() {
                 parent::__construct();
         }
+
+        /**
+         * @var String
+         */
+        public $table= "entities_access_log";
 
         /**
          * @var Integer

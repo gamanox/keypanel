@@ -2,16 +2,22 @@
 
 
 /**
- *
+ * Membership_model
+ * Clase Membresía
  */
 class Membership_model extends CI_Model {
 
         /**
-         *
+         * Contructor
          */
         public function __construct() {
                 parent::__construct();
         }
+
+        /**
+         * @var String
+         */
+        public $table= "entities_membership";
 
         /**
          * @var Integer

@@ -2,16 +2,22 @@
 
 
 /**
- *
+ * Post_model
+ * Clase para noticias
  */
 class Post_model extends CI_Model {
 
         /**
-         *
+         * Constructor
          */
         public function __construct() {
-                parent::__construct();
+            parent::__construct();
         }
+
+        /**
+         * @var String
+         */
+        public $table= "news_posts";
 
         /**
          * @var Integer
@@ -74,50 +80,87 @@ class Post_model extends CI_Model {
         public $status_row;
 
         /**
-         * @var \\Comment
+         * @var Object
          */
-        public $comments;
+        public $comments= null;
 
 
 
         /**
+         * save
+         *
          * Guarda un post
-         * @param void $post
+         *
+         * @param Array $post
          * @return Integer
          */
-        public function save($post ) {
-                // TODO implement here
-                return null;
+        public function save($post) {
+            $post['create_at']= date('Y-m-d H:i:s');
+            $success= $this->db->insert($this->table, $post);
+            return ($success ? $this->db->insert_id() : 0);
         }
 
         /**
+         * update
+         *
          * Actualiza datos de  un post
-         * @param void $post
+         *
+         * @param Array $post
          * @return Integer
          */
         public function update($post) {
-                // TODO implement here
-                return null;
+            $post['update_at']= date('Y-m-d H:i:s');
+            $success= $this->db->update($this->table, $post, array("id" => $post['id']));
+            return ($success ? 1 : 0);
         }
 
         /**
-         * Elimina un post lógicamente, es decir actualiza  el campo __status_row__ a __DELETED__
-         * @param void $id
+         * delete
+         *
+         * Elimina un post lógicamente, es decir actualiza  el campo <b>status_row a <i>DELETED</i></b>
+         *
+         * @param Integer $id
          * @return Integer
          */
         public function delete($id ) {
-                // TODO implement here
-                return null;
+            $id = (is_array($id) ? $id : array($id));
+            if(count($id)){
+                $this->db->where_in("id", $id);
+                $this->db->limit(count($id));
+                $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+            }
+
+            return ((isset($success) and $success) ? $this->db->affected_rows() : 0);
         }
 
         /**
-         * Devuelve los posts de una entidad
-         * @param void $id_entity
-         * @return Post[]
+         * find
+         *
+         * Devuelve un objeto post
+         *
+         * @param Integer $id
+         * @return Object
          */
-        public function find($id_entity) {
-                // TODO implement here
-                return null;
+        public function find($id) {
+            $this->db->where("id", $id);
+            $post= $this->db->get($this->table)->row(0,"Post_model");
+
+            return $post;
+        }
+
+        /**
+         * find_by_entity
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene a los objetos post de una entidad especificada
+         *
+         * @param Integer $id_entity
+         * @return Object
+         */
+        public function find_by_entity($id_entity) {
+                $this->db->where("id_entity", $id_entity);
+                $posts= $this->db->get($this->table);
+
+                return $posts;
         }
 
 }

@@ -2,17 +2,21 @@
 
 
 /**
- *
+ * Address_model
+ * Clase dirección
  */
 class Address_model extends CI_Model {
 
         /**
-         *
+         * Constructor
          */
         public function __construct() {
                 parent::__construct();
         }
 
+        /**
+         * @var String
+         */
         public $table= "entities_address";
 
         /**
@@ -83,7 +87,10 @@ class Address_model extends CI_Model {
 
 
         /**
+         * save
+         *
          * Guarda una dirección
+         *
          * @param Array $address
          * @return Integer
          */
@@ -94,7 +101,10 @@ class Address_model extends CI_Model {
         }
 
         /**
+         * update
+         *
          * Actualiza datos de una dirección
+         *
          * @param Array $address
          * @return Integer
          */
@@ -105,7 +115,10 @@ class Address_model extends CI_Model {
         }
 
         /**
-         * Elimina a una dirección lógicamente, es decir actualiza  el campo __status_row__ a __DELETED__
+         * delete
+         *
+         * Elimina a una dirección lógicamente, es decir actualiza  el campo <b>status_row a <i>DELETED</i></b>
+         *
          * @param Integer $id
          * @return Integer
          */
@@ -121,7 +134,10 @@ class Address_model extends CI_Model {
         }
 
         /**
+         * find
+         *
          * Devuelve un objeto dirección
+         *
          * @param Integer $id
          * @return Object
          */
@@ -133,7 +149,10 @@ class Address_model extends CI_Model {
         }
 
         /**
+         * find_by_entity
+         *
          * Devuelve un objeto de resultado de bases de datos que contiene a los objetos dirección de una entidad especificada
+         *
          * @param Integer $id_entity
          * @return Object
          */

@@ -2,16 +2,22 @@
 
 
 /**
- *
+ * Tag_model
+ * Etiquetas del sistema
  */
 class Tag_model extends CI_Model {
 
         /**
-         *
+         * Constructor
          */
         public function __construct() {
                 parent::__construct();
         }
+
+        /**
+         * @var String
+         */
+        public $table= "tags";
 
         /**
          * @var Integer
@@ -29,7 +35,7 @@ class Tag_model extends CI_Model {
         public $name;
 
         /**
-         * @var \\Tag
+         * @var Object
          */
         public $parent;
 

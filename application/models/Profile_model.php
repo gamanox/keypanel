@@ -2,9 +2,10 @@
 
 
 /**
- *
+ * Profile_model
+ * Clase perfil
  */
-class Profile_model extends Entity {
+class Profile_model extends Entity_model {
 
 
         /**
@@ -15,12 +16,12 @@ class Profile_model extends Entity {
 
         /**
          * Devuelve un objeto perfil
-         * @param void $id
-         * @return return Profile
+         * @param Integer $id
+         * @return Object
          */
         public function find($id) {
-                // TODO implement here
-                return null;
+            // TODO implement here
+            return parent::find($id);
         }
 
 }

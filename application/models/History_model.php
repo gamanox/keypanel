@@ -1,16 +1,22 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- *
+ * History_model
+ * Perfiles vistos
  */
 class History_model extends CI_Model {
 
         /**
-         *
+         * Contructor
          */
         public function __construct() {
                 parent::__construct();
         }
+
+        /**
+         * @var String
+         */
+        public $table= "entities_history";
 
         /**
          * @var Integer
@@ -18,12 +24,12 @@ class History_model extends CI_Model {
         public $id;
 
         /**
-         * @var \\Member
+         * @var Object
          */
         public $member;
 
         /**
-         * @var \\Profile
+         * @var Object
          */
         public $profile;
 

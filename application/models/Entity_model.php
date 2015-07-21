@@ -2,18 +2,24 @@
 
 
 /**
- *
+ * Entity_model
+ * Entidades de la plataforma
  */
 class Entity_model extends CI_model {
-        public $table= "entities";
+
         /**
-         *
+         * Constructor
          */
         public function __construct() {
                 parent::__construct();
                 $this->load->model("Address_model", "address");
                 $this->load->model("Contact_model", "contact");
         }
+
+        /**
+         * @var String
+         */
+        public $table= "entities";
 
         /**
          * @var Integer
@@ -66,28 +72,31 @@ class Entity_model extends CI_model {
         public $status_row;
 
         /**
-         * @var Array
+         * @var Object
          */
-        public $addresses= array();
+        public $addresses= null;
 
         /**
-         * @var Array
+         * @var Object
          */
-        public $contacts= array();
+        public $contacts= null;
 
         /**
-         * @var Array
+         * @var Object
          */
-        public $comments= array();
+        public $comments= null;
 
         /**
-         * @var Array
+         * @var Object
          */
-        public $posts= array();
+        public $posts= null;
 
 
         /**
+         * save
+         *
          * Guarda una entidad
+         *
          * @param Array $entity
          * @return Integer
          */
@@ -98,7 +107,10 @@ class Entity_model extends CI_model {
         }
 
         /**
+         * update
+         *
          * Actualiza datos de una entidad
+         *
          * @param Array $entity
          * @return Integer
          */
@@ -109,7 +121,10 @@ class Entity_model extends CI_model {
         }
 
         /**
-         * Elimina a una entidad lógicamente, es decir actualiza  el campo __status_row__ a __DELETED__
+         * delete
+         *
+         * Elimina a una entidad lógicamente, es decir actualiza  el campo <b>status_row a <i>DELETED</i></b>
+         *
          * @param Integer $id
          * @return Integer
          */
@@ -125,7 +140,10 @@ class Entity_model extends CI_model {
         }
 
         /**
+         * find
+         *
          * Devuelve un objeto entidad
+         *
          * @param Integer $id
          * @return Object
          */
