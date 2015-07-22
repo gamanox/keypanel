@@ -29,6 +29,8 @@
 
 #micro ul#nav-mobile {
   display: inline-block;
+  margin-left: 50%;
+  transform: translateX(-50%);
   position: relative;
   height: auto;
   overflow: auto;
@@ -67,6 +69,117 @@ form#login-card {
 
 form#login-card p {
   text-align: center !important;
+}
+
+#dashboard .main-content {
+  margin-top: 25px;
+}
+
+#dashboard .card.small {
+  height: 350px;
+}
+
+#dashboard .brand-logo img {
+  padding-top: 9px;
+}
+
+#dashboard #close-session {
+  margin-left: 25px;
+}
+
+#dashboard .card-middle .badge {
+  display: block;
+  float: left;
+  position: relative;
+  margin: 3px;
+  border-radius: 2px;
+  font-size: 14px;
+  padding: 5px;
+  color: #fff;
+}
+
+#dashboard .card-middle .card-title {
+  margin-bottom: 15px;
+}
+
+#dashboard .card-middle p.news {
+  font-size: 10px;
+}
+
+#dashboard .card-middle ul.collection li.collection-item {
+  padding: 5px;
+}
+
+#dashboard .card-middle .card-item {
+  font-size: 12px;
+}
+
+#dashboard .card-middle .card-item i {
+  font-size: 14px;
+  padding-top: 5px;
+  margin-right: 3px;
+}
+
+#dashboard .card-middle .card-title {
+  font-size: 16px;
+  line-height: 18px;
+}
+
+#dashboard .card-middle .card-title i {
+  margin-right: 10px;
+}
+
+#dashboard .card.profile .social {
+  margin-bottom: 0px;
+}
+
+#dashboard .card.profile .user-bio {
+  font-size: 10px;
+  text-align: justify;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+#dashboard .card.profile .divider {
+  margin-top: 8px;
+  margin-bottom: 13px;
+}
+
+#dashboard .card.profile .user-address, #dashboard .card.profile .user-phone {
+  font-size: 10px;
+  margin-top: 10px;
+}
+
+#dashboard .card.profile .user-address i, #dashboard .card.profile .user-phone i {
+  margin-right: 0px;
+}
+
+#dashboard .card.profile .terms-conditions {
+  display: block;
+  font-size: 10px;
+  text-align: center;
+  margin-top: 75px;
+}
+
+#dashboard .card-content {
+  height: 250px;
+}
+
+#dashboard .card.sector p.card-title {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  line-height: 18px;
+}
+
+#dashboard .card.sector p.card-description {
+  font-size: 10px;
+  text-align: center;
+}
+
+#dashboard .card-action a {
+  color: #fff;
 }
 
 /*# sourceMappingURL=custom.css.map */

@@ -1,0 +1,186 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+		meta(name='description', content='')
+		title
+		//- link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
+
+		link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
+		link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css', media="screen,projection")
+		link(rel='stylesheet', href='/assets/css/custom.css', media="screen,projection")
+		link(href='favicon.png', rel='icon', type='image/png')
+	body#dashboard.grey.lighten-4
+		.navbar-fixed
+			nav.blue.accent-2
+				.container
+					.nav-wrapper
+						a.brand-logo(href='#!')
+							img(src="/assets/images/logo-white.png", alt="")
+						a.button-collapse.right(href='#', data-activates='mobile-demo')
+							i.material-icons menu
+
+						ul.right.hide-on-med-and-down#nav-dashboard
+							li
+								a.waves-light.waves-effect(href='#')
+									i.tiny.material-icons settings
+							li
+								a.waves-light.waves-effect(href='#')
+									i.tiny.material-icons help
+							li.blue.accent-2
+								a.btn.blue.accent-4.waves-light.waves-effect#close-session(href='#')
+									| CERRAR SESIÓN
+							
+						ul.side-nav#mobile-demo
+							li
+								a(href='#')
+									i.tiny.material-icons settings
+							li
+								a(href='#')
+									i.tiny.material-icons help
+							li
+								a(href='#')
+									| CERRAR SESIÓN
+		
+		.container.main-content
+			.row
+				.col.s12.m2.l2
+					.card.profile.hoverable
+						.card-content
+							.row
+								.col.s12.m12.l12.center-align
+									img.profile-pic.responsive-img.circle(src="/assets/images/profile-pic.png", alt="")
+							p.user-name.center-align.blue-grey-text.text-darken-4 Clyde Meyer
+							p.user-bio.blue-grey-text.text-darken-1
+								| Apophenia tattoo sign artisanal fluidity papier-mache table courier <a href="#"> Leer más</a>
+							.divider
+							.row.social
+								a.col.s4.m4.l4(href="#", target="_blank")
+									img.responsive-img(src="/assets/images/fb-off.png", alt="")
+								a.col.s4.m4.l4(href="#", target="_blank")
+									img.responsive-img(src="/assets/images/tw-off.png", alt="")
+								a.col.s4.m4.l4(href="#", target="_blank")
+									img.responsive-img(src="/assets/images/mail-off.png", alt="")
+							.divider
+							p.user-address.blue-grey-text.text-darken-1
+								i.tiny.material-icons.blue-grey-text.text-darken-1 location_on
+								| Calle A 11, Edificio Torre 11, Ecuador
+							p.user-phone.blue-grey-text.text-darken-1
+								i.tiny.material-icons.blue-grey-text.text-darken-1 smartphone
+								| +011 593 2213346<br/>+011 593 2213346
+							a.terms-conditions.blue-grey-text.text-darken-1(href="#")
+								| términos y condiciones
+
+				.col.s12.m7.l7
+					.row
+						//- CONTENEDOR DONDE VAN LOS PARTIALS
+						.col.s12.m7.l7
+							.row
+								.col.s12.m12.l12
+									.card.card-middle.small
+										.card-content
+											p.card-title.blue-grey-text.text-darken-4
+												i.tiny.material-icons question_answer
+												| Noticias
+											ul.collection
+												li.collection-item
+													a.card-item
+														p.news.blue-grey-text.text-darken-3
+															|	<span class="news-date blue-grey-text text-darken-1">Marzo 12, 2015</span> <br/>Sentient cartel dolphin warehouse sign ablative bridge vehicle footage corporation. 
+												li.collection-item
+													a.card-item
+														p.news.blue-grey-text.text-darken-3
+															|	<span class="news-date blue-grey-text text-darken-1">Marzo 12, 2015</span> <br/>Sentient cartel dolphin warehouse sign ablative bridge vehicle footage corporation. 
+										.card-action
+											a.btn-large.blue.waves-effect.waves-light.col.s12.m12.l12.text-white(href="#") MÁS NOTICIAS
+									
+								.col.s12.m12.l12
+									.card.card-middle.small
+										.card-content
+											p.card-title.blue-grey-text.text-darken-4
+												i.tiny.material-icons notifications
+												| Actualizaciones
+											
+											a.card-item
+												p.news.blue-grey-text.text-darken-3
+													|	<span class="news-date blue-grey-text text-darken-1">Marzo 12, 2015</span> <br/> Network A.I. hotdog vinyl paranoid RAF-space assault jeans disposable sunglasses euro-pop savant nano. Drugs receding grenade uplink beef noodles RAF tower cardboard savant BASE jump cyber-singularity rebar.  
+										
+										.card-action
+											a.btn-large.blue.waves-effect.waves-light.col.s12.m12.l12.text-white(href="#") VER MÁS
+											
+						.col.s12.m5.l5
+							.row
+								.col.s12.m12.l12
+									.card.card-middle.small
+										.card-content
+											p.card-title.blue-grey-text.text-darken-4
+												i.tiny.material-icons history
+												| Historial
+											ul.collection
+												li.collection-item
+													a.card-item.blue-grey-text.text-darken-1
+														i.tiny.material-icons link
+														| Juan Carlos Anda Luis
+												li.collection-item
+													a.card-item.blue-grey-text.text-darken-1
+														i.tiny.material-icons link
+														| Juan Carlos Anda Luis
+												li.collection-item
+													a.card-item.blue-grey-text.text-darken-1
+														i.tiny.material-icons link
+														| Juan Carlos Anda Luis
+												li.collection-item
+													a.card-item.blue-grey-text.text-darken-1
+														i.tiny.material-icons link
+														| Juan Carlos Anda Luis
+												li.collection-item
+													a.card-item.blue-grey-text.text-darken-1
+														i.tiny.material-icons link
+														| Juan Carlos Anda Luis
+											
+										.card-action
+											a.btn-large.blue.waves-effect.waves-light.col.s12.m12.l12.text-white(href="#") VER MÁS
+								.col.s12.m12.l12
+									.card.card-middle.small
+										.card-content
+											p.card-title.blue-grey-text.text-darken-4
+												i.tiny.material-icons local_offer
+												| Tendencias
+											p
+												a.badge.blue(href="#") Lorem Ipsum
+												a.badge.blue(href="#") Lorem
+												a.badge.blue(href="#") Lorem Ipsum Dolor
+												a.badge.blue(href="#") Lorem Ipsum
+												a.badge.blue(href="#") Lorem
+												a.badge.blue(href="#") Lorem Ipsum Dolor
+											
+										//- .card-action
+										//- 	a.btn-large.blue.waves-effect.waves-light.col.s12.m12.l12.text-white(href="#") VER MÁS
+
+						//- FIN DEL CONTENEDOR PARTIALS
+				.col.s12.m3.l3
+					.row
+						.col.s12.m12.l12
+							.card.small.sector.hoverable
+								.card-content
+									p.card-title.blue-grey-text.text-darken-4 Públicos
+									p.card-description.blue-grey-text.text-darken-1
+										| Información relevante sobre instituciones públicas de los diferentes poderes del Estado y Gobiernos Autónomos Descentralizados, sus autoridades y actores clave.
+										img.responsive-img(src="/assets/images/people.jpg", alt="")
+								.card-action
+									a.btn-large.blue.waves-effect.waves-light.col.s12.m12.l12.text-white(href="#") ENTRAR
+						.col.s12.m12.l12
+							.card.small.sector.hoverable
+								.card-content
+									p.card-title.blue-grey-text.text-darken-4 Privados
+									p.card-description.blue-grey-text.text-darken-1
+										| Información relevante sobre organismos e instituciones privadas y otras entidades de interés, sus autoridades y actores clave.
+										img.responsive-img(src="/assets/images/people.jpg", alt="")
+								.card-action
+									
+									a.btn-large.blue.waves-effect.waves-light.col.s12.m12.l12.text-white(href="#") ENTRAR
+
+		script(src="https://code.jquery.com/jquery-2.1.1.min.js")
+		script(src="/assets/js/materialize.min.js")
+		script(src="/assets/js/init.js")

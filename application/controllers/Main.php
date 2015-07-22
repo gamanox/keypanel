@@ -9,8 +9,8 @@ class Main extends CI_Controller {
     }
 
     public function index(){
-        // $this->load->view('micrositio/main');    
-        $this->load->view('micrositio/micro');    
+        $this->load->view('micrositio/main');    
+        // $this->load->view('micrositio/micro');    
     }
 }
 /* End of file Main.php */
