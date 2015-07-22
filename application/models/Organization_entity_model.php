@@ -3,16 +3,22 @@
 
 
 /**
- *
+ * Organization_entity_model
+ * Perfiles de un organigrama
  */
 class Organization_entity_model extends CI_Model {
 
         /**
-         *
+         * Constructor
          */
         public function __construct() {
                 parent::__construct();
         }
+
+        /**
+         * @var String
+         */
+        public $table= "organization_profiles";
 
         /**
          * @var Integer
@@ -20,12 +26,12 @@ class Organization_entity_model extends CI_Model {
         public $id;
 
         /**
-         * @var \\Organization
+         * @var Object
          */
         public $organization;
 
         /**
-         * @var \\Entity
+         * @var Object
          */
         public $entity;
 

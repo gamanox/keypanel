@@ -2,17 +2,21 @@
 
 
 /**
- *
+ * Contact_model
+ * Clase contacto
  */
 class Contact_model extends CI_Model {
 
         /**
-         *
+         * Constructor
          */
         public function __construct() {
                 parent::__construct();
         }
 
+        /**
+         * @var String
+         */
         public $table= "contacts";
 
         /**
@@ -83,7 +87,10 @@ class Contact_model extends CI_Model {
 
 
         /**
+         * save
+         *
          * Guarda un contacto
+         *
          * @param Array $contact
          * @return Integer
          */
@@ -94,7 +101,10 @@ class Contact_model extends CI_Model {
         }
 
         /**
+         * update
+         *
          * Actualiza un contacto
+         *
          * @param Array $contact
          * @return Integer
          */
@@ -105,7 +115,10 @@ class Contact_model extends CI_Model {
         }
 
         /**
-         * Elimina contacto lógicamente, es decir actualiza  el campo __status_row__ a __DELETED__
+         * delete
+         *
+         * Elimina contacto lógicamente, es decir actualiza  el campo <b>status_row a <i>DELETED</i></b>
+         *
          * @param Integer $id
          * @return Integer
          */
@@ -121,7 +134,10 @@ class Contact_model extends CI_Model {
         }
 
         /**
+         * find
+         *
          * Devuelve un objeto contacto
+         *
          * @param Integer $id
          * @return Object
          */
@@ -133,7 +149,10 @@ class Contact_model extends CI_Model {
         }
 
         /**
+         * find_by_entity
+         *
          * Devuelve un objeto de resultado de bases de datos que contiene a los objetos dirección de una entidad especificada
+         *
          * @param Integer $id_entity
          * @return Object
          */

@@ -1,17 +1,21 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- *
+ * Auth_model
+ * Permisos de entidad
  */
 class Auth_model extends CI_Model {
 
         /**
-         *
+         * Constructor
          */
         public function __construct() {
                 parent::__construct();
         }
 
+        /**
+         * @var String
+         */
         public $table= "entities_auth";
 
         /**
@@ -55,7 +59,10 @@ class Auth_model extends CI_Model {
         public $delete;
 
         /**
+         * find_by_entity
+         *
          * Devuelve un objeto de resultado de bases de datos que contiene los objetos de permisos que tiene la entidad ordenados por el permiso especifico, dejando al final los permisos generales de su tipo de entidad
+         *
          * @param Integer $entity_id
          * @param String $entity_type
          * @return Object
@@ -63,13 +70,16 @@ class Auth_model extends CI_Model {
         public function find_by_entity($entity_id, $entity_type) {
                 $this->db->where("id_entity", $entity_id);
                 $this->db->or_where("user_type", $entity_type);
-                $this->db->order_by("id_entity,user_type,nombre");
+                $this->db->order_by("id_entity desc,user_type,nombre");
 
                 return $this->db->get($this->table);
         }
 
         /**
+         * is_auth
+         *
          * Devuelve *1 o 0* que define si esta o no autorizado para ejecutar la acción solicitada
+         *
          * @param String $auth
          * @param String $mode
          * @return Boolean
@@ -81,8 +91,8 @@ class Auth_model extends CI_Model {
                         $permisos = $this->find_by_entity($this->session->id, $this->session->type);
 
                         foreach ($permisos->result() as $permiso) {
-                                if ($permiso->nombre === $auth and isset($permiso->$mode) and $permiso->$mode) {
-                                        return true;
+                                if ($permiso->nombre === $auth) {
+                                    return (isset($permiso->$mode) ? $permiso->$mode : false);
                                 }
                         }
 
