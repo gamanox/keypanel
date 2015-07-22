@@ -1,0 +1,72 @@
+#micro .feature {
+  height: 250px;
+  text-align: center;
+}
+
+#micro .feature .card-action a {
+  color: #fff;
+}
+
+#micro nav.header {
+  overflow: auto;
+  height: auto;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#micro nav.header .nav-wrapper {
+  overflow: auto;
+  height: auto;
+}
+
+#micro a.brand-logo {
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  width: 177px;
+  height: 83px;
+}
+
+#micro ul#nav-mobile {
+  display: inline-block;
+  position: relative;
+  height: auto;
+  overflow: auto;
+  text-align: center;
+}
+
+#micro ul#nav-mobile li {
+  background-color: transparent;
+}
+
+#micro ul#nav-mobile li.active {
+  background-color: transparent;
+}
+
+#micro ul#nav-mobile li.active a {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+#micro ul#nav-mobile li:hover {
+  background-color: transparent;
+}
+
+#micro ul#nav-mobile li:hover a {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+#micro ul#nav-mobile li a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+form#login-card {
+  text-align: center;
+}
+
+form#login-card p {
+  text-align: center !important;
+}
+
+/*# sourceMappingURL=custom.css.map */

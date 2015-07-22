@@ -1,13 +1,81 @@
 doctype html
 html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
-    meta(name='description', content='')
-    title
-    link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
-    link(href='favicon.png', rel='icon', type='image/png')
-  body
-    .container
-      | Micrositio
-    script(src="<?php echo base_url('assets/javascripts/material.min.js'); ?>")
+	head
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+		meta(name='description', content='')
+		title
+		//- link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
+		link(rel='stylesheet', href='/assets/css/materialize.css', media="screen,projection")
+		link(rel='stylesheet', href='/assets/css/custom.css', media="screen,projection")
+		link(href='favicon.png', rel='icon', type='image/png')
+	body#micro
+		.container
+			nav.header
+				.nav-wrapper
+					a.brand-logo(href='#')
+						img(src="/assets/images/logo-micrositio.png", alt="")
+					ul#nav-mobile.center-align
+						li.active
+							a(href='sass.html') Inicio
+						li
+							a(href='badges.html') Características del servicio
+						li
+							a(href='collapsible.html') Contacto
+			.row
+				.col.sm12.m8.l8
+					.card
+						.card-image
+							img(src="images/", alt="")
+							span.card-title
+								¿Qué es Key panel?
+				form#login-card.col.sm12.m4.l4
+					.card
+						.card-content
+							h6.blue-grey-text.text-darken-4
+								| Ingresa a tu KeyPanel
+							a#forgot-pass(href='#') 
+								p.blue-grey-text.text-lighten-3
+									| ¿Olvidaste tu clave?
+							.row
+								.input-field.col.s12.m12.l12
+									input#email.validate(type="email")
+									label(for="email") Usuario
+							
+								.input-field.col.s12.m12.l12
+									input#password.validate(type="password")
+									label(for="password") Clave
+							.row
+								button.col.s12.m12.l12.btn-large.blue.waves-effect.waves-light(type="submit", name="action") Ingresar
+				.col.sm12.m4.l4
+					.card.small.feature
+						.card-content
+							.row
+								h6.s12.m12.l12.blue-grey-text.text-darken-4 Nuestro Servicio
+							.row
+								p.s12.m12.l12.blue-grey-text.text-lighten-3 Conoce más de KeyPanel aquí.
+						.card-action
+							.row
+								a#knowmore.btn-large.blue.waves-effect.waves-light.col.s12.m12.l12.text-white(href="#") CARACTERÍSTICAS
+				.col.sm12.m4.l4
+					.card.small.feature
+						.card-content
+							.row
+								h6.col.s12.m12.l12.blue-grey-text.text-darken-4 Estadísticas
+							.row
+								p.col.s12.m12.l12.blue-grey-text.text-lighten-3 Más de 1,500 perfiles y 200 organigramas de los principales stakeholders públicos.
+						//- .card-action
+						//- 	.row
+						//- 		a#knowmore.btn-large.blue.waves-effect.waves-light.col.s12.m12.l12.text-white(href="#") PRUEBA EL SERVICIO
+				.col.sm12.m4.l4
+					.card.small.feature
+						.card-content
+							.row
+								h6.col.s12.m12.l12.blue-grey-text.text-darken-4 Solicita una prueba hoy
+							.row
+								p.col.s12.m12.l12.blue-grey-text.text-lighten-3 Prueba todo lo que KeyPanel puede hacer.
+						.card-action
+							.row
+								a#knowmore.btn-large.blue.waves-effect.waves-light.col.s12.m12.l12.text-white(href="#") SOLICITA TU PRUEBA
+		script(src="https://code.jquery.com/jquery-2.1.1.min.js")
+		script(src="/assets/js/materialize.min.js")
