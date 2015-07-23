@@ -28,15 +28,14 @@ class Member_model extends Entity_model {
          *
          * Valida las credenciales de un miembro, si son correctas devuelve un array de lo contrario null
          *
-         * @param String $username Nombre de usuario.
-         * @param String $password Contraseña.
+         * @param Array $member_data username y password dentro del arreglo
          * @return Array|Null Array('status'=>boolean, 'user_data'=>Array())
          */
-        public function validate_credentials($username, $password) {
+        public function validate_credentials($member_data) {
             $response = array('status' => false);
             $this->db->select("u.id, u.username, u.first_name, u.type")
-            ->where("(u.username = '".$username."' OR u.email= '".$username."')")
-            ->where('u.password', $password)
+            ->where("(u.username = '".$member_data['username']."' OR u.email= '".$member_data['username']."')")
+            ->where('u.password', $member_data['password'])
             ->where('u.status_row', ENABLED);
 
             $member = $this->db->get($this->table. " u");

@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Utils {
-    public $controllers_sin_validar = array('errores','account','panel','main');
+    public $controllers_sin_validar = array('errores','account','panel','main','administration');
     private $ci;
 
     public function __construct(){
@@ -28,7 +28,7 @@ class Utils {
             $this->ci->lang->load( $this->ci->router->class );
         }
 
-        // $this->ci->lang->load( 'general' );
+        $this->ci->lang->load( 'General' );
     }
 
     public function validate_membership(){

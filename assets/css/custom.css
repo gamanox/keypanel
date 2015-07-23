@@ -183,3 +183,23 @@ form#login-card p {
 }
 
 /*# sourceMappingURL=custom.css.map */
+.clearfix { clear: both; }
+.nopadding { padding: 0; }
+.nomargin { margin: 0; }
+
+.p-t-5 { padding-top: 5px; }
+.p-b-5 { padding-bottom: 5px; }
+.p-l-5 { padding-left: 5px; }
+.p-r-5 { padding-right: 5px; }
+
+.nav-secundary { 
+  height: 45px; 
+  min-height: 45px; 
+  line-height: 45px;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+/* Override */
+i.tiny { font-size: 1.2rem !important; }
+nav ul a { font-size: 12px; }

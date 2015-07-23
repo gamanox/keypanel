@@ -1,11 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-    
+
+/**
+ * @package keypanel
+ * @version 1.0
+ */    
 class Account extends CI_Controller {
     
     /**
      * [__construct]
-     * 
-     * 
+     * @ignore
      */
     function __construct()
     {
@@ -26,8 +29,10 @@ class Account extends CI_Controller {
 
     /**
      * [login]
+     *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright
      * 
      * @return json
      */
@@ -42,11 +47,10 @@ class Account extends CI_Controller {
             $member_data   = $this->input->post('member');
             $member_access = $this->member->validate_credentials($member_data);
 
-            if( isset($member_access) ){
+            if( isset($member_access) and $member_access['status'] ){
+                $member_session_data = $member_access['user_data'];
                 $response['status'] = true;
 
-                // Obtenemos la info del miembro para guardarlo en sesion
-                $member_info = $this->member->find($member_access->id);                
                 switch ($member_info->type) {
                     case 'SUPERADMIN':
                         // Es superadmin, lo mandamos a administracion
@@ -58,16 +62,18 @@ class Account extends CI_Controller {
                         break;
                 }
 
+                $member_access = (Array) $member_access; // Quitar esto en produccion
+
                 // checamos membresia y guardamos en sesion
                 $member_valid = $this->member->is_membership_valid();
                 if( $member_valid )
-                    $member_info->membership_valid = TRUE;
+                    $member_session_data['membership_valid'] = TRUE;
                 else 
-                    $member_info->membership_valid = FALSE;
+                    $member_session_data['membership_valid'] = FALSE;
 
-                // Armamos la sesion                
-                $member_access->is_loggedin = TRUE;
-                $this->session->set_userdata( $member_info );
+                // Armamos la sesion
+                $member_session_data['is_loggedin'] = TRUE;
+                $this->session->set_userdata( $member_session_data );
             }
 
             //Regresamos el status del evento
@@ -84,7 +90,7 @@ class Account extends CI_Controller {
      * @return void
      */
     public function logout(){
-        $this->session->destroy();
+        session_destroy();
         redirect('main');        
     }
 }

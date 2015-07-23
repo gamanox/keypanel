@@ -90,8 +90,8 @@ define("ENABLED", "ENABLED");
 
 define("SUPERADMIN", "SUPERADMIN");
 define("ADMIN", "ADMIN");
-define("MIEMBRO", "MIEMBRO");
-define("PERFIL", "PERFIL");
+define("MEMBER", "MEMBER");
+define("PROFILE", "PROFILE");
 
 //Constantes CRUD
 define('CREATE', 'create');
