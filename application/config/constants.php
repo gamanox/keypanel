@@ -94,7 +94,7 @@ define("MEMBER", "MEMBER");
 define("PROFILE", "PROFILE");
 
 //Constantes CRUD
-define('CREATE', 'create');
-define('READ', 'read');
-define('UPDATE', 'update');
-define('DELETE', 'delete');
+define('CREATE', 'c');
+define('READ', 'r');
+define('UPDATE', 'u');
+define('DELETE', 'd');
