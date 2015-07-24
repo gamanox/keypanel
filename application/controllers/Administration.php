@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-    
+
 /**
  * @package keypanel
  * @version 1.0
@@ -8,11 +8,11 @@ class Administration extends CI_Controller {
 
     /**
      * __construct
-     * 
+     *
      * @ignore
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
      * @copyright KeyPanel - 2015
-     * 
+     *
      */
     function __construct()
     {
@@ -24,13 +24,13 @@ class Administration extends CI_Controller {
 
     /**
      * index
-     * 
+     *
      * Dashboard para superadmin
-     * 
+     *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
      * @copyright KeyPanel 2015
-     * 
+     *
      * @return void
      */
     public function index(){
@@ -46,45 +46,45 @@ class Administration extends CI_Controller {
         $this->load->view('users/'. strtolower(SUPERADMIN) .'/dashboard');
 
         $this->load->view('includes/footer');
-    }    
+    }
 
     /**
      * members
-     * 
+     *
      * Devuelve el listado de miembros registrados en el sistema
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
      * @copyright
-     * 
+     *
      * @return void
-     */    
+     */
     public function members(){
         if( !$this->auth->is_auth('Auth-Members', READ) ){
             redirect('account');
         }
-        
+
         $param_header['title'] = lang('members_title');
         $this->load->view('includes/header', $param_header);
 
         $this->load->view('includes/menu-'. strtolower(SUPERADMIN));
 
         // Cargamos la lista de miembros
-        $param_view['members'] = array();
-        $this->load->view('users/member/list');
+        $param_view['members'] = $this->member->find_all( MEMBER );
+        $this->load->view('users/member/list', $param_view);
 
         $this->load->view('includes/footer');
     }
 
     /**
      * add_member
-     * 
+     *
      * Funcion para agregar miembros a la plataforma - Formulario
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
      * @copyright
-     * 
+     *
      * @return void
      */
     public function add_member(){
@@ -94,10 +94,10 @@ class Administration extends CI_Controller {
 
         if( $_POST ){
             $member             = $this->input->post('member');
-            
+
             $member['username'] = 'johndoe';
             $member['password'] = md5('johndoe');
-            
+
             $member['type']     = MEMBER;
 
             $success = $this->entity->save( $member );
