@@ -138,4 +138,18 @@ class Organization_model extends CI_Model {
             return $nodes;
         }
 
+        /**
+         * find_parents
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene objetos nodos padres que no tienen un nodo padre en el organigrama
+         *
+         * @return Object
+         */
+        public function find_parents() {
+            $this->db->where("id_parent is null");
+            $nodes= $this->db->get($this->table);
+
+            return $nodes;
+        }
+
 }

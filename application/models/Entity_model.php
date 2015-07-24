@@ -91,11 +91,14 @@ class Entity_model extends CI_model {
          */
         public $posts= null;
 
+        /**
+         * @var Array
+         */
         public $user_types = array(
-           'SUPERADMIN'  => SUPERADMIN,
-           'ADMIN' => ADMIN,
-           'MEMBER' => MEMBER,
-           'PROFILE' => PROFILE
+           SUPERADMIN  => SUPERADMIN,
+           ADMIN => ADMIN,
+           MEMBER => MEMBER,
+           PROFILE => PROFILE
         );
 
 
@@ -172,14 +175,16 @@ class Entity_model extends CI_model {
          *
          * Devuelve un objeto de resultado de bases de datos que contiene a los objetos entities del sistema
          *
-         * @param Mixed $user_type String|Array|Null
-         * @param String $status_row    ENABLED|DISABLED
+         * @param Mixed $user_type String|Array
+         * @param String $status_row    String|Array
          * @param String $order_by  Order by column1 asc|desc
          *
          * @return Object
          */
         function find_all($user_type=null, $status_row= ENABLED, $order_by=null) {
-            $user_type= (is_null($user_type) ? array_keys($this->user_types) : array($user_type));
+            $user_type= (is_null($user_type) ? array_keys($this->user_types) : $user_type);
+            $user_type= (is_array($user_type) ? $user_type : array($user_type));
+            $status_row= (is_null($status_row)? ENABLED: $status_row);
             $status_row= (is_array($status_row) ? $status_row : array($status_row));
 
             $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name",false);
