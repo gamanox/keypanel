@@ -3,6 +3,9 @@
      * Variables de lenguaje para el micrositio
      */
     
-    $lang['main-title'] = 'Titulo principal';
-    $lang['main-title2'] = 'Titulo principal';
-    $lang['main-title3'] = 'Titulo principal';
+    $lang['main-title']                = 'KeyPanel';
+    $lang['main-menu-inicio']          = 'Inicio';
+    $lang['main-menu-caracteristicas'] = 'Características del Servicio';
+    $lang['main-menu-contacto']        = 'Contacto';
+    
+    $lang['micrositio_form_title']     = 'Ingresa a tu KeyPanel';

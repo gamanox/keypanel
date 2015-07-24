@@ -17,8 +17,18 @@ class Account extends CI_Controller {
         $this->load->model('Profile_model','profile',TRUE);
     }
 
-    public function index(){
-        // Editar mi cuenta
+    /**
+     * index
+     *
+     * Funcion que carga tu informacion de la cuenta
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright KeyPanel 2015
+     * 
+     * @return void
+     */
+    public function index(){        
         if( $this->session->is_loggedin ){
 
         }
@@ -28,7 +38,7 @@ class Account extends CI_Controller {
     }
 
     /**
-     * [login]
+     * login
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -44,14 +54,15 @@ class Account extends CI_Controller {
             $response = array('status' => false);
 
             // Obtenemos los datos desde el formulario de login via ajax y validamos credenciales
-            $member_data   = $this->input->post('member');
-            $member_access = $this->member->validate_credentials($member_data);
-
+            $member_data             = $this->input->post('member');
+            $member_data['password'] = md5($member_data['password']);
+            
+            $member_access  = $this->member->validate_credentials($member_data);
             if( isset($member_access) and $member_access['status'] ){
-                $member_session_data = $member_access['user_data'];
+                $member_session_data = $member_access['user_data'];                
                 $response['status'] = true;
 
-                switch ($member_info->type) {
+                switch ($member_session_data['type']) {
                     case 'SUPERADMIN':
                         // Es superadmin, lo mandamos a administracion
                         $response['redirect_url'] = base_url('administration');
@@ -60,9 +71,7 @@ class Account extends CI_Controller {
                         // Es miembro, redirigimos a pantalla de su cuenta
                         $response['redirect_url'] = base_url('account');
                         break;
-                }
-
-                $member_access = (Array) $member_access; // Quitar esto en produccion
+                }                
 
                 // checamos membresia y guardamos en sesion
                 $member_valid = $this->member->is_membership_valid();

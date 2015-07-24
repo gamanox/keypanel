@@ -7,7 +7,7 @@
 class Administration extends CI_Controller {
 
     /**
-     * [__construct]
+     * __construct
      * 
      * @ignore
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -17,6 +17,7 @@ class Administration extends CI_Controller {
     function __construct()
     {
         parent::__construct();
+        $this->load->model('Entity_model','entity',TRUE);
         $this->load->model('Member_model','member',TRUE);
         $this->load->model('Profile_model','profile',TRUE);
     }
@@ -121,6 +122,20 @@ class Administration extends CI_Controller {
     public function add_member(){
         if( !$this->auth->is_auth('Auth-Members', CREATE) ){
             redirect('account');
+        }
+
+        if( $_POST ){
+            $member             = $this->input->post('member');
+            
+            $member['username'] = 'johndoe';
+            $member['password'] = md5('johndoe');
+            
+            $member['type']     = MEMBER;
+
+            $success = $this->entity->save( $member );
+            if( isset($success) and $success ){
+                redirect('administration/members');
+            }
         }
 
         $param_header['title'] = lang('members_title');

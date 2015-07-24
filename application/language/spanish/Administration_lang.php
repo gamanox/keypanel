@@ -8,7 +8,7 @@
     $lang['enterprises_title']     = 'Empresas | KeyPanel';
     
     $lang['members_card_title']    = 'Lista de miembros';
-    $lang['add_member_card_title'] = 'Agregar Miembro';
+    $lang['add_member_card_title'] = 'Nuevo Miembro';
 
     /**
      * Buttons
