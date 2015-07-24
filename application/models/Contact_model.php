@@ -17,7 +17,7 @@ class Contact_model extends CI_Model {
         /**
          * @var String
          */
-        public $table= "contacts";
+        public $table= "entities_contacts";
 
         /**
          * @var Integer

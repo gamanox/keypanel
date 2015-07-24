@@ -91,6 +91,13 @@ class Entity_model extends CI_model {
          */
         public $posts= null;
 
+        public $user_types = array(
+           'SUPERADMIN'  => SUPERADMIN,
+           'ADMIN' => ADMIN,
+           'MEMBER' => MEMBER,
+           'PROFILE' => PROFILE
+        );
+
 
         /**
          * save
@@ -159,5 +166,40 @@ class Entity_model extends CI_model {
 
                 return $entity;
         }
+
+        /**
+         * find_all
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene a los objetos entities del sistema
+         *
+         * @param Mixed $user_type String|Array|Null
+         * @param String $status_row    ENABLED|DISABLED
+         * @param String $order_by  Order by column1 asc|desc
+         *
+         * @return Object
+         */
+        function find_all($user_type=null, $status_row= ENABLED, $order_by=null) {
+            $user_type= (is_null($user_type) ? array_keys($this->user_types) : array($user_type));
+            $status_row= (is_array($status_row) ? $status_row : array($status_row));
+
+            $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name",false);
+
+            if(count($user_type)){
+                $this->db->where_in("type", $user_type);
+            }
+
+            if(count($status_row)){
+                $this->db->where_in("status_row", $status_row);
+            }
+
+            if(!is_null($order_by)){
+                $this->db->order_by($order_by);
+            }
+
+            $entities= $this->db->get($this->table. " u");
+
+            return $entities;
+        }
+
 
 }
