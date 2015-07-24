@@ -90,11 +90,11 @@ define("ENABLED", "ENABLED");
 
 define("SUPERADMIN", "SUPERADMIN");
 define("ADMIN", "ADMIN");
-define("MIEMBRO", "MIEMBRO");
-define("PERFIL", "PERFIL");
+define("MEMBER", "MEMBER");
+define("PROFILE", "PROFILE");
 
 //Constantes CRUD
-define('CREATE', 'create');
-define('READ', 'read');
-define('UPDATE', 'update');
-define('DELETE', 'delete');
+define('CREATE', 'c');
+define('READ', 'r');
+define('UPDATE', 'u');
+define('DELETE', 'd');

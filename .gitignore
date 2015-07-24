@@ -3,6 +3,8 @@
 application/cache/*
 !application/cache/index.html
 !application/cache/.htaccess
+prepros.cfg
+prepros.2.cfg
 
 application/logs/*
 !application/logs/index.html
@@ -15,3 +17,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /vendor/
 /nbproject/
 /application/controllers/Test.php
+application/config/development/*

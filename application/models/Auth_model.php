@@ -69,8 +69,8 @@ class Auth_model extends CI_Model {
          */
         public function find_by_entity($entity_id, $entity_type) {
                 $this->db->where("id_entity", $entity_id);
-                $this->db->or_where("user_type", $entity_type);
-                $this->db->order_by("id_entity desc,user_type,nombre");
+                $this->db->or_where("entity_type", $entity_type);
+                $this->db->order_by("id_entity desc, entity_type, name");
 
                 return $this->db->get($this->table);
         }

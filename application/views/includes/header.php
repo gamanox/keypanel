@@ -1,14 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="">
-    <title></title>
-    <?php echo link_tag('assets/stylesheets/material.min.css'); ?>
-    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-    <link href="favicon.png" rel="icon" type="image/png" />
+    <title><?php echo $title; ?></title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css" media="screen,projection">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css'); ?>" media="screen,projection">
+    <link href="favicon.png" rel="icon" type="image/png">
 </head>
-<body>
-    <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+<body id="dashboard" class="grey lighten-4">

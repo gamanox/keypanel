@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+require_once APPPATH.'models/Entity_model.php';
 
 /**
  * Profile_model

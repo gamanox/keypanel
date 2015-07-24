@@ -12,6 +12,11 @@
 <body>
     <div class="container">
         Micrositio
+        <?php if( $this->session->is_loggedin ) : ?>
+            <!-- Esta loggeado -->
+        <?php else : ?>
+            <!-- No esta loggeado, mostramos el form para login -->
+        <?php endif; ?>
     </div>
     <script src="<?php echo base_url('assets/javascripts/material.min.js'); ?>"></script>
 </body>
