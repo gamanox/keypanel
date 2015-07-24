@@ -3,6 +3,7 @@
 /**
  * @package keypanel
  * @version 1.0
+ * @copyright KeyPanel 2015
  */    
 class Account extends CI_Controller {
     
@@ -31,6 +32,16 @@ class Account extends CI_Controller {
     public function index(){        
         if( $this->session->is_loggedin ){
 
+            $param_header['title'] = lang('my-account-title');
+            $this->load->view('includes/header', $param_header);
+
+            $param_menu['show_secundary_nav'] = true;
+            $this->load->view('includes/menu-'. strtolower($this->session->type));
+
+            
+            $this->load->view('users/'. strtolower($this->session->type) .'/my_account');
+
+            $this->load->view('includes/footer');
         }
         else {
             redirect('main');
@@ -39,10 +50,12 @@ class Account extends CI_Controller {
 
     /**
      * login
+     * 
+     * Funcion para validar credenciales y armar sesion de usuario
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
-     * @copyright
+     * @copyright KeyPanel 2015
      * 
      * @return json
      */
@@ -60,7 +73,7 @@ class Account extends CI_Controller {
             $member_access  = $this->member->validate_credentials($member_data);
             if( isset($member_access) and $member_access['status'] ){
                 $member_session_data = $member_access['user_data'];                
-                $response['status'] = true;
+                $response['status']  = true;
 
                 switch ($member_session_data['type']) {
                     case 'SUPERADMIN':
@@ -92,9 +105,13 @@ class Account extends CI_Controller {
     }
 
     /**
-     * [logout description]
+     * logout
+     *
+     * Funcion para cerrar sesion del usuario
+     * 
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright KeyPanel 2015
      *
      * @return void
      */

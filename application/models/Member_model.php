@@ -34,9 +34,10 @@ class Member_model extends Entity_model {
         public function validate_credentials($member_data) {
             $response = array('status' => false);
             $this->db->select("u.id, u.username, u.first_name, u.type")
-            ->where("(u.username = '".$member_data['username']."' OR u.email= '".$member_data['username']."')")
-            ->where('u.password', $member_data['password'])
-            ->where('u.status_row', ENABLED);
+                ->where("(u.username = '".$member_data['username']."' OR u.email= '".$member_data['username']."')")
+                ->where('u.password', $member_data['password'])
+                ->where_in('u.type', array( SUPERADMIN, MEMBER ))
+                ->where('u.status_row', ENABLED);
 
             $member = $this->db->get($this->table. " u");
 

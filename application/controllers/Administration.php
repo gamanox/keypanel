@@ -21,44 +21,10 @@ class Administration extends CI_Controller {
         $this->load->model('Member_model','member',TRUE);
         $this->load->model('Profile_model','profile',TRUE);
     }
-    
-    /**
-     * [loadAdmin]
-     * @return void
-     */
-    public function loadAdmin(){
-        // Armamos sesion de admin, en lo que quedan las vistas del micrositio
-        if( !$this->session->is_loggedin ){
-
-            $member_data = array(
-                    'username' => 'admin',
-                    'password' => md5('admin')
-                );
-
-            $member_access = $this->member->validate_credentials($member_data);
-
-            if( isset($member_access) and $member_access['status'] ){
-                $member_session_data = $member_access['user_data'];
-
-                // checamos membresia y guardamos en sesion
-                $member_valid = $this->member->is_membership_valid();
-                if( $member_valid )
-                    $member_session_data['membership_valid'] = TRUE;
-                else 
-                    $member_session_data['membership_valid'] = FALSE;
-
-                // Armamos la sesion
-                $member_session_data['is_loggedin'] = TRUE;
-                $this->session->set_userdata( $member_session_data );
-            }
-        }
-        else {
-            redirect('administration');
-        }
-    }
 
     /**
      * index
+     * 
      * Dashboard para superadmin
      * 
      * @access public
@@ -83,7 +49,8 @@ class Administration extends CI_Controller {
     }    
 
     /**
-     * [members]
+     * members
+     * 
      * Devuelve el listado de miembros registrados en el sistema
      *
      * @access public
@@ -110,7 +77,8 @@ class Administration extends CI_Controller {
     }
 
     /**
-     * [add_member]
+     * add_member
+     * 
      * Funcion para agregar miembros a la plataforma - Formulario
      *
      * @access public
