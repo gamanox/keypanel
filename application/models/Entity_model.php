@@ -108,7 +108,7 @@ class Entity_model extends CI_model {
          * Guarda una entidad
          *
          * @param Array $entity
-         * @return Integer
+         * @return Integer Devuelve el <b>id</b> del insert que se creó si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function save($entity) {
                 $entity['create_at']= date('Y-m-d H:i:s');
@@ -122,7 +122,7 @@ class Entity_model extends CI_model {
          * Actualiza datos de una entidad
          *
          * @param Array $entity
-         * @return Integer
+         * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($entity) {
                 $entity['update_at']= date('Y-m-d H:i:s');
@@ -136,7 +136,7 @@ class Entity_model extends CI_model {
          * Elimina a una entidad lógicamente, es decir actualiza  el campo <b>status_row a <i>DELETED</i></b>
          *
          * @param Integer $id
-         * @return Integer
+         * @return Integer Devuelve la cantidad de registros afectados
          */
         public function delete($id ) {
                 $id = (is_array($id) ? $id : array($id));

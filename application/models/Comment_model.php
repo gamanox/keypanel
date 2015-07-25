@@ -66,7 +66,7 @@ class Comment_model extends CI_Model {
          * Guarda un comentario
          *
          * @param Array $comment
-         * @return Integer
+         * @return Integer Devuelve el <b>id</b> del insert que se creó si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function save($comment) {
             $comment['create_at']= date('Y-m-d H:i:s');
@@ -80,7 +80,7 @@ class Comment_model extends CI_Model {
          * Actualiza datos de  un comentario
          *
          * @param Array $comment
-         * @return Integer
+         * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($comment) {
             $comment['update_at']= date('Y-m-d H:i:s');
@@ -94,7 +94,7 @@ class Comment_model extends CI_Model {
          * Elimina un comentario lógicamente, es decir actualiza  el campo <b>status_row a <i>DELETED</i></b>
          *
          * @param Integer $id
-         * @return Integer
+         * @return Integer Devuelve la cantidad de registros afectados
          */
         public function delete($id ) {
             $id = (is_array($id) ? $id : array($id));

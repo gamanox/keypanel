@@ -108,7 +108,7 @@ class Member_model extends Entity_model {
          * Guarda una relación del perfil visto por el miembro
          *
          * @param Array $history
-         * @return Integer
+         * @return Integer Devuelve el <b>id</b> del insert que se creó si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function history_save($history) {
                 $history['create_at']= date('Y-m-d H:i:s');

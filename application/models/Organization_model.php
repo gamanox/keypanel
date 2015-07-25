@@ -67,7 +67,7 @@ class Organization_model extends CI_Model {
          * Guarda un nodo en el organigrama
          *
          * @param Array $node
-         * @return Integer
+         * @return Integer Devuelve el <b>id</b> del insert que se creó si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function save($node ) {
             $node['create_at']= date('Y-m-d H:i:s');
@@ -81,7 +81,7 @@ class Organization_model extends CI_Model {
          * Actualiza un nodo en el organigrama
          *
          * @param Array $node
-         * @return Integer
+         * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($node ) {
             $node['update_at']= date('Y-m-d H:i:s');
@@ -94,8 +94,8 @@ class Organization_model extends CI_Model {
          *
          * Elimina a un nodo del organigrama lógicamente, es decir actualiza  el campo <b>status_row a <i>DELETED</i></b>
          *
-         * @param void $id
-         * @return Integer
+         * @param Integer $id
+         * @return Integer Devuelve la cantidad de registros afectados
          */
         public function delete($id ) {
             $id = (is_array($id) ? $id : array($id));
@@ -113,7 +113,7 @@ class Organization_model extends CI_Model {
          *
          * Devuelve un objeto Organization
          *
-         * @param void $id
+         * @param Integer $id
          * @return Object
          */
         public function find($id) {

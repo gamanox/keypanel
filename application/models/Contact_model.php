@@ -92,7 +92,7 @@ class Contact_model extends CI_Model {
          * Guarda un contacto
          *
          * @param Array $contact
-         * @return Integer
+         * @return Integer Devuelve el <b>id</b> del insert que se creó si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function save($contact) {
                 $contact['create_at']= date('Y-m-d H:i:s');
@@ -106,7 +106,7 @@ class Contact_model extends CI_Model {
          * Actualiza un contacto
          *
          * @param Array $contact
-         * @return Integer
+         * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($contact) {
                 $contact['update_at']= date('Y-m-d H:i:s');
@@ -120,7 +120,7 @@ class Contact_model extends CI_Model {
          * Elimina contacto lógicamente, es decir actualiza  el campo <b>status_row a <i>DELETED</i></b>
          *
          * @param Integer $id
-         * @return Integer
+         * @return Integer Devuelve la cantidad de registros afectados
          */
         public function delete($id) {
                 $id = (is_array($id) ? $id : array($id));
