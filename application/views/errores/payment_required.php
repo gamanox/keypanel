@@ -1,1 +1,0 @@
-se requiere pago, bitch!

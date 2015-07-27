@@ -28,7 +28,7 @@
                     <div class="row">
                         <?php /* CARD - NOTICIAS */ ?>
                         <div class="col s12 m12 l12">
-                            <div class="card card-middle small">
+                            <div class="card card-middle small hoverable">
                                 <div class="card-content">
                                     <p class="card-title blue-grey-text text-darken-4">
                                         <i class="tiny material-icons">question_answer</i><?php echo lang('card-noticias-title'); ?>
@@ -42,7 +42,7 @@
 
                         <?php /* CARD - ACTUALIZACIONES */ ?>
                         <div class="col s12 m12 l12">
-                            <div class="card card-middle small">
+                            <div class="card card-middle small hoverable">
                                 <div class="card-content">
                                     <p class="card-title blue-grey-text text-darken-4">
                                         <i class="tiny material-icons">notifications</i><?php echo lang('card-actualizaciones-title'); ?>
@@ -60,7 +60,7 @@
                     <div class="row">
                         <?php /* CARD - HISTORIAL */ ?>
                         <div class="col s12 m12 l12">
-                            <div class="card card-middle small">
+                            <div class="card card-middle small hoverable">
                                 <div class="card-content">
                                     <p class="card-title blue-grey-text text-darken-4">
                                         <i class="tiny material-icons">restore</i><?php echo lang('card-historial-title'); ?>
@@ -74,7 +74,7 @@
 
                         <?php /* CARD - TENDENCIAS */ ?>
                         <div class="col s12 m12 l12">
-                            <div class="card card-middle small">
+                            <div class="card card-middle small hoverable">
                                 <div class="card-content">
                                     <p class="card-title blue-grey-text text-darken-4">
                                         <i class="tiny material-icons">local_offer</i><?php echo lang('card-tendencias-title'); ?>
