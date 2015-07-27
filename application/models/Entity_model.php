@@ -206,5 +206,45 @@ class Entity_model extends CI_model {
             return $entities;
         }
 
+        /**
+         * is_unique
+         *
+         * Determina si un valor de un campo definido es único
+         *
+         * @access private
+         * @param Mixed $value Valor a ser comparado
+         * @param String $column Nombre de la columna definida en la tabla
+         * @return Boolean <b>true es único</b> | <b>false</b> no lo es.
+         */
+        private function is_unique($value, $column) {
+            $this->db->where($column, $value);
+            $entity= $this->db->get($this->table. " u");
+
+            return ($entity->num_rows() <= 0 ? true : false);
+        }
+
+        /**
+         * is_unique_email
+         *
+         * Determina si un email especificado es único
+         *
+         * @param Mixed $email Email a ser comparado
+         * @return Boolean <b>true es único</b> | <b>false</b> no lo es.
+         */
+        public function is_unique_email($email) {
+            return $this->is_unique($email, "email");
+        }
+
+        /**
+         * is_unique_username
+         *
+         * Determina si un username especificado es único
+         *
+         * @param Mixed $username Username a ser comparado
+         * @return Boolean <b>true es único</b> | <b>false</b> no lo es.
+         */
+        public function is_unique_username($username) {
+            return $this->is_unique($username, "email");
+        }
 
 }

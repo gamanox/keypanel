@@ -151,30 +151,28 @@ class Member_model extends Entity_model {
      * @return void
      */
     public function update_access_log(){
+        $this->load->model("AccessLog_model","access_log");
         $this->load->library('user_agent');
-        $id_user = $this->session->id;
+        $id_entity = $this->session->id;
 
-        $this->db->where('id_entity', $id_user);
-        $this->db->order_by('date','ASC');
+        $access_log_history = $this->access_log->find_by_entity($id_entity);
 
-        $access_log_history = $this->db->get('entities_access_log');
         $new_access_log = array(
-                'id_entity'  => $id_user,
+                'id_entity'  => $id_entity,
                 'date'       => date('Y-m-d H:i:s'),
                 'ip_address' => $_SERVER['REMOTE_ADDR'],
                 'browser'    => $this->agent->browser .' '. $this->agent->version .' '. $this->agent->platform
             );
 
         if( $access_log_history->num_rows() < 10 ){
-            $this->db->insert('entities_access_log', $new_access_log);
+            $this->access_log->save($new_access_log);
         }
         else {
             // Eliminamos el primer login
-            $this->db->where('id', $access_log_history->row('id'));
-            $this->db->delete('entities_access_log');
+            $this->access_log->delete($access_log_history->row('id'));
 
             // Registramos el nuevo
-            $this->db->insert('entities_access_log', $new_access_log);
+            $this->access_log->save($new_access_log);
         }
     }
 }

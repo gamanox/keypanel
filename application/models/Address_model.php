@@ -158,6 +158,7 @@ class Address_model extends CI_Model {
          */
         public function find_by_entity($id_entity) {
                 $this->db->where("id_entity", $id_entity);
+                $this->db->order_by('date','ASC');
                 $address= $this->db->get($this->table);
 
                 return $address;
