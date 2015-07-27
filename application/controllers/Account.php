@@ -98,6 +98,9 @@ class Account extends CI_Controller {
                 // Armamos la sesion
                 $member_session_data['isloggedin'] = TRUE;
                 $this->session->set_userdata( $member_session_data );
+
+                // Guardamos el ultimo login
+                $this->member->update_access_log();
             }
 
             //Regresamos el status del evento
