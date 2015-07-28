@@ -24,7 +24,7 @@
         <nav class="nav-secundary">
             <ul class="nomargin left">
                 <li><a href="<?php echo base_url('administration/members'); ?>"><?php echo lang('menu_members'); ?></a></li>
-                <li><a href="#"><?php echo lang('menu_enterprises'); ?></a></li>
+                <li><a href="<?php echo base_url('panel'); ?>"><?php echo lang('menu_enterprises'); ?></a></li>
             </ul>
         </nav>
 
