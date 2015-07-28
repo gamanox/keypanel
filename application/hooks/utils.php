@@ -24,9 +24,9 @@ class Utils {
 
         $basepath = APPPATH .'language/'. $lang .'/'. $this->ci->router->class .'_lang.php';
         
-        if (file_exists($basepath)){
-            $this->ci->lang->load( $this->ci->router->class, $lang );
-        }
+        // if (file_exists($basepath)){
+            @$this->ci->lang->load( $this->ci->router->class, $lang );
+        // }
 
         $this->ci->lang->load( 'General' );
     }
