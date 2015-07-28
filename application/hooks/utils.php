@@ -2,7 +2,7 @@
 
 class Utils {
     public $controllers_sin_validar = array('errores','account','main', 'test');
-    public $ci;
+    private $ci;
 
     public function __construct(){
         $this->ci =& get_instance();
@@ -23,10 +23,10 @@ class Utils {
         $lang = empty($lang) ? 'english' : $lang;
 
         $basepath = APPPATH .'language/'. $lang .'/'. $this->ci->router->class .'_lang.php';
-        
-        // if (file_exists($basepath)){
-            @$this->ci->lang->load( $this->ci->router->class, $lang );
-        // }
+
+        if (file_exists($basepath)){
+            $this->ci->lang->load( $this->ci->router->class );
+        }
 
         $this->ci->lang->load( 'General' );
     }
