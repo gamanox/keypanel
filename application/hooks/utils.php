@@ -2,7 +2,7 @@
 
 class Utils {
     public $controllers_sin_validar = array('errores','account','main', 'test');
-    private $ci;
+    public $ci;
 
     public function __construct(){
         $this->ci =& get_instance();
