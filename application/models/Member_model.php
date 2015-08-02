@@ -86,10 +86,11 @@ class Member_model extends Entity_model {
          * @param Integer $offset   A partir de cual registro devolverá la consulta, por default null desde el comienzo
          * @return Object
          */
-        public function history($limit=null, $offset=null) {
-            $this->db->where("id_entity", $this->session->id);
+        public function history($id_member=null, $limit=null, $offset=null) {
+            $id_member= (is_null($id_member) ? $this->session->id : $id_member);
+            $this->db->where("id_member", $id_member);
             $this->db->where('status_row', ENABLED);
-            $this->db->order_by("id_entity desc,user_type,nombre");
+            $this->db->order_by("create_at");
 
             if((isset($limit) and is_numeric($limit))){
                 $this->db->limit($limit);
@@ -99,7 +100,13 @@ class Member_model extends Entity_model {
                 $this->db->offset($offset);
             }
 
-            return $this->db->get("entities_history");
+            $history= $this->db->get("entities_history");
+
+            foreach ($history->result() as $row) {
+                $row->profile= $this->find($row->id_profile);
+            }
+
+            return $history;
         }
 
         /**

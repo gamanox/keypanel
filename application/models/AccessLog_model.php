@@ -53,6 +53,7 @@ class AccessLog_model extends CI_Model {
          * @return Integer Devuelve el <b>id</b> del insert que se creó si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function save($access_log) {
+                $access_log['date']= date('Y-m-d H:i:s');
                 $success= $this->db->insert($this->table, $access_log);
                 return ($success ? $this->db->insert_id() : 0);
         }

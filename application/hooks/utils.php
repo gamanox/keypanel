@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Utils {
-    public $controllers_sin_validar = array('errores','account','main', 'test');
+    public $controllers_sin_validar = array('errores','account','main', 'test','seed');
     private $ci;
 
     public function __construct(){
