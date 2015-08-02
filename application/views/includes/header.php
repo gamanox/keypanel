@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="">
-    <title><?php echo $title; ?></title>
+    <title><?php echo ( isset($title) ? $title : ''); ?></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css'); ?>" media="screen,projection">

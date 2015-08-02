@@ -28,7 +28,7 @@ class Utils {
             $this->ci->lang->load( $this->ci->router->class );
         }
 
-        $this->ci->lang->load( 'General' );
+        $this->ci->lang->load( 'general' );
     }
 
     public function validate_membership(){

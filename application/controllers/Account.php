@@ -41,7 +41,9 @@ class Account extends CI_Controller {
             $param_menu['show_secundary_nav'] = true;
             $this->load->view('includes/menu-'. strtolower($this->session->type));
 
-            $this->load->view('users/'. strtolower($this->session->type) .'/my_account');
+            // $this->load->view('users/'. strtolower($this->session->type) .'/my_account');
+            $param_view['path_view'] = 'users/'. strtolower($this->session->type) .'/my_account';
+            $this->load->view('includes/template', $param_view);
 
             $this->load->view('includes/footer');
         }
@@ -84,7 +86,7 @@ class Account extends CI_Controller {
                         break;
                     default:
                         // Es miembro, redirigimos a pantalla de su cuenta
-                        $response['redirect_url'] = base_url('account');
+                        $response['redirect_url'] = base_url('panel');
                         break;
                 }
 

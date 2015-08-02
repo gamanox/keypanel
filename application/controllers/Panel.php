@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-    
+
 class Panel extends CI_Controller {
-    
+
     //Constructor del Controlador
     function __construct()
     {
@@ -9,9 +9,13 @@ class Panel extends CI_Controller {
     }
 
     public function index(){
-        $this->load->view('includes/header');
-        $this->load->view('includes/menu-superadmin');
-        $this->load->view('users/superadmin/dashboard');
+        $param_header['title'] = 'keypanel';
+        $this->load->view('includes/header', $param_header);
+        $this->load->view('includes/menu-'. strtolower($this->session->type));
+
+        $this->load->view('includes/template');
+        // $this->load->view('panel/home');
+
         $this->load->view('includes/footer');
     }
 }
