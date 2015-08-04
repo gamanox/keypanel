@@ -106,6 +106,11 @@ form#login-card p {
   font-size: 10px;
 }
 
+.card-title {
+  font-size: 16px !important;
+  line-height: 18px !important;
+}
+
 #dashboard .card-middle ul.collection li.collection-item {
   padding: 5px;
 }
@@ -192,9 +197,9 @@ form#login-card p {
 .p-l-5 { padding-left: 5px; }
 .p-r-5 { padding-right: 5px; }
 
-.nav-secundary { 
-  height: 45px; 
-  min-height: 45px; 
+.nav-secundary {
+  height: 45px;
+  min-height: 45px;
   line-height: 45px;
   box-shadow: none;
   background-color: transparent;
