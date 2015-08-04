@@ -40,3 +40,6 @@ AddType application/x-font-woff        woff
     SetOutputFilter DEFLATE
   </FilesMatch>
 </IfModule>
+<IfModule mod_speling.c>
+  CheckSpelling off
+</IfModule>
