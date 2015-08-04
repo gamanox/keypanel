@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'https://' . getenv('OPENSHIFT_APP_DNS') . '/';
+$config['base_url'] = 'http://' . getenv('OPENSHIFT_APP_DNS') . '/';
 
 /*
 |--------------------------------------------------------------------------
