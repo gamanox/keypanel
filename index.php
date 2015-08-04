@@ -286,7 +286,7 @@ switch (ENVIRONMENT)
  * LOAD THE COMPOSER AUTOLOAD FILE
  * --
  */
-include_once '/vendor/autoload.php';
+include_once './vendor/autoload.php';
 
 /*
  * --------------------------------------------------------------------

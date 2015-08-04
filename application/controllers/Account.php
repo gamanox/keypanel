@@ -126,19 +126,6 @@ class Account extends CI_Controller {
         session_destroy();
         redirect('main');
     }
-
-    /**
-     * [function_name description]
-     *
-     * @access public
-     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
-     * @copyright
-     *
-     * @return [type] [description]
-     */
-    public function test(){
-        $this->load->view('users/member/dashboard');
-    }
 }
 /* End of file Account.php */
 /* Location: ./application/controllers/Account.php */

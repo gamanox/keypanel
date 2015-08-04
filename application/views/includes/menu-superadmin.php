@@ -2,7 +2,7 @@
     <nav class="blue accent-2">
         <div class="container">
             <div class="nav-wrapper">
-                <a href="#!" class="brand-logo"><img src="<?php echo base_url('assets/images/logo-white.png'); ?>" alt=""></a>
+                <a href="<?php echo base_url('panel'); ?>" class="brand-logo"><img src="<?php echo base_url('assets/images/logo-white.png'); ?>" alt=""></a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse left"><i class="material-icons"><?php echo lang('btn_menu'); ?></i></a>
                 <ul id="nav-dashboard" class="right hide-on-med-and-down">
                     <li><a href="<?php echo base_url('account'); ?>" class="waves-light waves-effect p-r-5 p-l-5"><i class="tiny material-icons">settings</i></a></li>

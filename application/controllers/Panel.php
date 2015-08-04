@@ -13,8 +13,7 @@ class Panel extends CI_Controller {
         $this->load->view('includes/header', $param_header);
         $this->load->view('includes/menu-'. strtolower($this->session->type));
 
-        $this->load->view('includes/template');
-        // $this->load->view('panel/home');
+        $this->load->view('panel/template');
 
         $this->load->view('includes/footer');
     }
