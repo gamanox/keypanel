@@ -42,8 +42,11 @@ class Account extends CI_Controller {
             $this->load->view('includes/menu-'. strtolower($this->session->type));
 
             // $this->load->view('users/'. strtolower($this->session->type) .'/my_account');
-            $param_view['path_view'] = 'users/'. strtolower($this->session->type) .'/my_account';
-            $this->load->view('includes/template', $param_view);
+            $param_view['user_info']    = $this->member->find_me();
+            $param_view['dynamic_view'] = 'users/'. strtolower($this->session->type) .'/my_account';
+            $param_view['vars_to_load'] = array('user_info');
+
+            $this->load->view('panel/template', $param_view);
 
             $this->load->view('includes/footer');
         }

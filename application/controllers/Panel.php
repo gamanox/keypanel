@@ -6,6 +6,7 @@ class Panel extends CI_Controller {
     function __construct()
     {
         parent::__construct();
+        $this->load->model('Member_model','member');
     }
 
     public function index(){
@@ -13,7 +14,50 @@ class Panel extends CI_Controller {
         $this->load->view('includes/header', $param_header);
         $this->load->view('includes/menu-'. strtolower($this->session->type));
 
-        $this->load->view('panel/template');
+        $param['user_info']    = $this->member->find_me();
+        $param['dynamic_view'] = 'panel/home';
+        $param['vars_to_load'] = array('user_info');
+
+        $this->load->view('panel/template', $param);
+
+        $this->load->view('includes/footer');
+    }
+
+    /**
+     * updates
+     * @return void
+     */
+    public function updates(){
+        $param_header['title'] = 'keypanel';
+        $this->load->view('includes/header', $param_header);
+        $this->load->view('includes/menu-'. strtolower($this->session->type));
+
+        $param['user_info'] = $this->member->find_me();
+        $param['updates']   = NULL;
+
+        $param['dynamic_view'] = 'panel/updates';
+        $param['vars_to_load'] = array('user_info','updates');
+
+        $this->load->view('panel/template', $param);
+
+        $this->load->view('includes/footer');
+    }
+
+     /**
+     * updates
+     * @return void
+     */
+    public function history(){
+        $param_header['title'] = 'keypanel';
+        $this->load->view('includes/header', $param_header);
+        $this->load->view('includes/menu-'. strtolower($this->session->type));
+
+        $param['user_info'] = $this->member->find_me();
+
+        $param['dynamic_view'] = 'panel/history';
+        $param['vars_to_load'] = array('user_info');
+
+        $this->load->view('panel/template', $param);
 
         $this->load->view('includes/footer');
     }
