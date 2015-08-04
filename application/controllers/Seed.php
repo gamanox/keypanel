@@ -26,36 +26,62 @@ class Seed extends CI_Controller {
             $this->load->model('Organization_category_model','category');
         }
 
-	public function run()
+	public function run($limit=50)
 	{
             // purge existing data
             $this->_truncate_db();
 
             // seed users
-            $this->_seed_entities(25);
+            $this->_seed_entities($limit);
             $this->_seed_history();
             $this->_seed_categories();
 
         }
 
-        function _seed_entities($limit)
+        private function _seed_entities($limit)
         {
             echo "seeding $limit users";
 
+            //admin
+            $entity = array(
+                'username' => 'admin', // get a unique nickname
+                'password' => md5("demo"),
+                'type' => ADMIN,
+                'first_name' => 'Administrador',
+                'last_name' => 'General',
+                'email' => 'admin@keypanel.org',
+                'status_row' => ENABLED
+            );
+            $id_entity= $this->member->save($entity);
+
             // create a bunch of base buyer accounts
-            for ($i = 0; $i < $limit; $i++) {
+            for ($i = 0; $i < $limit+1; $i++) {
                 echo ".";
-                $types= array('MEMBER','PROFILE');
-                $entity = array(
-                    'username' => $this->faker->unique()->userName, // get a unique nickname
-                    'password' => md5("demo"),
-                    'type' => $this->faker->randomElement($types),
-                    'first_name' => $this->faker->firstName,
-                    'last_name' => $this->faker->lastName,
-                    'email' => $this->faker->unique()->email,
-                    'status_row' => (rand(0, 1) ? ENABLED : DELETED),
-                    //'avatar' => $this->faker->imageUrl,
-                );
+
+                if($i==0){
+                    //member
+                    $entity = array(
+                        'username' => 'johndoe', // get a unique nickname
+                        'password' => md5("demo"),
+                        'type' => MEMBER,
+                        'first_name' => 'John',
+                        'last_name' => 'Doe',
+                        'email' => 'johndoe@keypanel.org',
+                        'status_row' => ENABLED
+                    );
+                }else{
+                    $types= array('MEMBER','PROFILE');
+                    $entity = array(
+                        'username' => $this->faker->unique()->userName, // get a unique nickname
+                        'password' => md5("demo"),
+                        'type' => $this->faker->randomElement($types),
+                        'first_name' => $this->faker->firstName,
+                        'last_name' => $this->faker->lastName,
+                        'email' => $this->faker->unique()->email,
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED),
+                        //'avatar' => $this->faker->imageUrl,
+                    );
+                }
 
                 $id_entity= $this->member->save($entity);
 
@@ -117,7 +143,7 @@ class Seed extends CI_Controller {
             echo PHP_EOL;
         }
 
-        function _seed_history(){
+        private function _seed_history(){
             echo "seeding history users from members";
             //history
             foreach ($this->member->find_all(MEMBER)->result() as $member) {
@@ -138,7 +164,7 @@ class Seed extends CI_Controller {
             echo PHP_EOL;
         }
 
-        function _seed_categories(){
+        private function _seed_categories(){
             echo "seeding categories";
 
             //categorias fijas
