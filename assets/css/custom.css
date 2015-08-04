@@ -62,6 +62,23 @@ form#login-card p {
   text-align: center !important;
 }
 
+#dashboard .partial.card.small {
+  height: auto;
+}
+
+#dashboard .partial.card.small .card-content {
+  height: auto;
+  min-height: 400px;
+}
+
+#dashboard .partial.card.small .card-title a.close {
+  padding: 0 15px;
+  position: absolute;
+  display: block;
+  top: 8px;
+  right: 8px;
+}
+
 #dashboard #nav-dashboard .account {
   margin-right: 20px;
 }
@@ -214,6 +231,15 @@ form#login-card p {
 #dashboard .card.sector p.card-description {
   font-size: 10px;
   text-align: center;
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+#dashboard .card.sector .image {
+  width: 100%;
+  height: 150px;
+  margin-top: 15px;
+  background-color: #e1e7e9;
 }
 
 #dashboard .card-action a {
@@ -224,12 +250,21 @@ form#login-card p {
   padding: 0;
 }
 
-#dashboard .card .card-title {
+#dashboard .card.small .card-title {
   padding: 15px;
   font-size: 16px;
   margin: 0;
-  text-align: center;
+  background-color: #f9fafa;
   line-height: 18px;
+  border-bottom: 1px solid #e1e7e9;
+}
+
+#dashboard .card.small ul.collection {
+  margin-top: -1px;
+}
+
+#dashboard .card.small .card-action .btn-large.blue {
+  background-color: #527cf8 !important;
 }
 
 .clearfix {
