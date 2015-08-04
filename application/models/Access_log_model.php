@@ -5,7 +5,7 @@
  * AccessLog_model
  * Log de accesos al sistema
  */
-class AccessLog_model extends CI_Model {
+class Access_log_model extends CI_Model {
 
         /**
          * Constructor

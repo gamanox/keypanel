@@ -158,7 +158,7 @@ class Member_model extends Entity_model {
      * @return void
      */
     public function update_access_log(){
-        $this->load->model("AccessLog_model","access_log");
+        $this->load->model("Access_log_model","access_log");
         $this->load->library('user_agent');
         $id_entity = $this->session->id;
 

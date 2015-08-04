@@ -278,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `keypanel`.`entities_history` (
   PRIMARY KEY (`id`),
   INDEX `id_member` (`id_member` ASC),
   INDEX `id_profile` (`id_profile` ASC))
-ENGINE = InnoDB;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
