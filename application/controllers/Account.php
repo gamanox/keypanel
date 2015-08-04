@@ -33,7 +33,7 @@ class Account extends CI_Controller {
         if( $this->session->isloggedin ){
 
             if( $this->session->type == SUPERADMIN )
-                $this->lang->load('Administration');
+                $this->lang->load('administration');
 
             $param_header['title'] = lang('my-account-title');
             $this->load->view('includes/header', $param_header);
