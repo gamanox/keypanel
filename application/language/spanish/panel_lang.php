@@ -14,3 +14,5 @@
     $lang['card-noticias-title']        = 'Noticias';
     $lang['card-actualizaciones-title'] = 'Actualizaciones';
     $lang['card-tendencias-title']      = 'Tendencias';
+    $lang['card-ayuda-title']      = 'Ayuda';
+    $lang['card-actualizaciones-title']      = 'Actualizaciones';

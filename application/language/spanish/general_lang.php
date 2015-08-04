@@ -30,3 +30,5 @@
     $lang['session-expired-back-home']  = 'Tu sesión ha expirado, para volver a iniciar haz clic <a href="'. base_url() .'">aquí</a>';
 
     $lang['label-member-since']         = '%s desde';
+    $lang['card-configuracion-title']      = 'Configuración';
+    

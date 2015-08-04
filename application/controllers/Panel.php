@@ -61,6 +61,34 @@ class Panel extends CI_Controller {
 
         $this->load->view('includes/footer');
     }
+    public function help(){
+        $param_header['title'] = 'keypanel';
+        $this->load->view('includes/header', $param_header);
+        $this->load->view('includes/menu-'. strtolower($this->session->type));
+
+        $param['user_info'] = $this->member->find_me();
+
+        $param['dynamic_view'] = 'panel/help';
+        $param['vars_to_load'] = array('user_info');
+
+        $this->load->view('panel/template', $param);
+
+        $this->load->view('includes/footer');
+    }
+    public function news(){
+        $param_header['title'] = 'keypanel';
+        $this->load->view('includes/header', $param_header);
+        $this->load->view('includes/menu-'. strtolower($this->session->type));
+
+        $param['user_info'] = $this->member->find_me();
+
+        $param['dynamic_view'] = 'panel/news';
+        $param['vars_to_load'] = array('user_info');
+
+        $this->load->view('panel/template', $param);
+
+        $this->load->view('includes/footer');
+    }
 }
 /* End of file Panel.php */
 /* Location: ./application/controllers/Panel.php */
