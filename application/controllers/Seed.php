@@ -21,7 +21,7 @@ class Seed extends CI_Controller {
             // load any required models
             $this->load->model('Member_model','member');
             $this->load->model('Profile_model','profile');
-            $this->load->model('AccessLog_model','access');
+            $this->load->model('Access_log_model','access');
             $this->load->model('History_model','history');
         }
 
