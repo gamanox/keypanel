@@ -22,10 +22,6 @@
     $lang['btn_help']                   = 'help';
     $lang['btn_menu']                   = 'menu';
     $lang['btn_cerrar_sesion']          = 'CERRAR SESIÓN';
-    $lang['btn_entrar']                 = 'Entrar';
-    $lang['btn_ver_mas']                = 'Ver más';
-    $lang['btn_mas_noticias']           = 'Más noticias';
-    $lang['read_more']                  = 'Leer más';
 
     $lang['session-expired-back-home']  = 'Tu sesión ha expirado, para volver a iniciar haz clic <a href="'. base_url() .'">aquí</a>';
 
