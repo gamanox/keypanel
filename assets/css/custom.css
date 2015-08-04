@@ -41,20 +41,11 @@
   background-color: transparent;
 }
 
-#micro ul#nav-mobile li.active {
+#micro ul#nav-mobile li.active, #micro ul#nav-mobile li:hover {
   background-color: transparent;
 }
 
-#micro ul#nav-mobile li.active a {
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.9);
-}
-
-#micro ul#nav-mobile li:hover {
-  background-color: transparent;
-}
-
-#micro ul#nav-mobile li:hover a {
+#micro ul#nav-mobile li.active a, #micro ul#nav-mobile li:hover a {
   font-weight: 500;
   color: rgba(0, 0, 0, 0.9);
 }
@@ -69,6 +60,39 @@ form#login-card {
 
 form#login-card p {
   text-align: center !important;
+}
+
+#dashboard #nav-dashboard .account {
+  margin-right: 20px;
+}
+
+#dashboard #nav-dashboard .profile-pic {
+  width: 40px;
+  height: 40px;
+  margin-top: 13px;
+}
+
+#dashboard #nav-dashboard p.user-name {
+  height: 64px;
+  padding: 0;
+  margin: 0;
+}
+
+#dashboard #nav-dashboard p.user-name span {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 400;
+  margin-right: 10px;
+  display: block;
+  float: left;
+}
+
+#dashboard .blue.accent-2 {
+  background-color: #4e6cef !important;
+}
+
+#dashboard .blue.accent-4 {
+  background-color: #3f60c1 !important;
 }
 
 #dashboard .main-content {
@@ -182,24 +206,46 @@ form#login-card p {
   color: #fff;
 }
 
-/*# sourceMappingURL=custom.css.map */
-.clearfix { clear: both; }
-.nopadding { padding: 0; }
-.nomargin { margin: 0; }
+.clearfix {
+  clear: both;
+}
 
-.p-t-5 { padding-top: 5px; }
-.p-b-5 { padding-bottom: 5px; }
-.p-l-5 { padding-left: 5px; }
-.p-r-5 { padding-right: 5px; }
+.nopadding {
+  padding: 0;
+}
 
-.nav-secundary { 
-  height: 45px; 
-  min-height: 45px; 
+.nomargin {
+  margin: 0;
+}
+
+.p-t-5 {
+  padding-top: 5px;
+}
+
+.p-b-5 {
+  padding-bottom: 5px;
+}
+
+.p-l-5 {
+  padding-left: 5px;
+}
+
+.p-r-5 {
+  padding-right: 5px;
+}
+
+.nav-secundary {
+  height: 45px;
+  min-height: 45px;
   line-height: 45px;
   box-shadow: none;
   background-color: transparent;
 }
 
-/* Override */
-i.tiny { font-size: 1.2rem !important; }
-nav ul a { font-size: 12px; }
+i.tiny {
+  font-size: 1.2rem !important;
+}
+
+nav ul a {
+  font-size: 12px;
+}

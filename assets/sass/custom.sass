@@ -2,9 +2,8 @@
 	.feature
 		height: 250px
 		text-align: center
-		.card-action
-			a
-				color: #fff
+		.card-action a
+			color: #fff
 	nav.header
 		overflow: auto
 		height: auto
@@ -13,20 +12,14 @@
 		.nav-wrapper
 			overflow: auto
 			height: auto
-			
 	a.brand-logo
-		//left: 50%
 		display: block
 		position: relative
 		margin: 0 auto
 		width: 177px
 		height: 83px
-		
-		//transform: translateX(-50%)
 	ul#nav-mobile
 		display: inline-block
-		// margin: 0 auto
-		// width: auto
 		margin-left: 50%
 		transform: translateX(-50%)
 		position: relative
@@ -35,37 +28,50 @@
 		text-align: center
 		li
 			background-color: transparent
-			&.active
+			&.active, &:hover
 				background-color: transparent
 				a
 					font-weight: 500
-					color: rgba(0,0,0,0.9)
-			&:hover
-				background-color: transparent
-				a
-					font-weight: 500
-					color: rgba(0,0,0,0.9)
-
+					color: rgba(0, 0, 0, 0.9)
 			a
-				color: rgba(0,0,0,0.6)
+				color: rgba(0, 0, 0, 0.6)
 
 form#login-card
-	text-align: center 
-	#forgot-pass
-		a
+	text-align: center
 	p
 		text-align: center !important
-	
-
 
 #dashboard
+	#nav-dashboard
+		.account
+			margin-right: 20px
+		.profile-pic
+			width: 40px
+			height: 40px
+			margin-top: 13px
+		p.user-name
+			height: 64px
+			padding: 0
+			margin: 0
+
+			span
+				font-size: 14px
+				color: #fff
+				font-weight: 400
+				margin-right: 10px
+				// padding-top: 5px
+				display: block
+				float: left
+	.blue.accent-2
+		background-color: #4e6cef !important
+	.blue.accent-4
+		background-color: #3f60c1 !important
 	.main-content
 		margin-top: 25px
 	.card.small
 		height: 350px
-	.brand-logo
-		img
-			padding-top: 9px
+	.brand-logo img
+		padding-top: 9px
 	#close-session
 		margin-left: 25px
 	.card-middle
@@ -82,9 +88,8 @@ form#login-card
 			margin-bottom: 15px
 		p.news
 			font-size: 10px
-		ul.collection
-			li.collection-item
-				padding: 5px
+		ul.collection li.collection-item
+			padding: 5px
 		.card-item
 			font-size: 12px
 			i
@@ -110,9 +115,8 @@ form#login-card
 		.user-address, .user-phone
 			font-size: 10px
 			margin-top: 10px
-			i
-
-				margin-right: 0px
+		.user-address i, .user-phone i
+			margin-right: 0px
 		.terms-conditions
 			display: block
 			font-size: 10px
@@ -120,19 +124,53 @@ form#login-card
 			margin-top: 75px
 	.card-content
 		height: 250px
-	.card.sector
-		p.card-title
+	.card.sector p
+		&.card-title
 			font-size: 16px
 			margin: 0
 			padding: 0
 			text-align: center
 			line-height: 18px
-		p.card-description
+		&.card-description
 			font-size: 10px
 			text-align: center
-		img
-	.card-action
-		a
-			color: #fff
+	.card-action a
+		color: #fff
 
+// /*# sourceMappingURL=custom.css.map
 
+.clearfix
+	clear: both
+
+.nopadding
+	padding: 0
+
+.nomargin
+	margin: 0
+
+.p-t-5
+	padding-top: 5px
+
+.p-b-5
+	padding-bottom: 5px
+
+.p-l-5
+	padding-left: 5px
+
+.p-r-5
+	padding-right: 5px
+
+.nav-secundary
+	height: 45px
+	min-height: 45px
+	line-height: 45px
+	box-shadow: none
+	background-color: transparent
+
+// Override
+
+i.tiny
+	font-size: 1.2rem !important
+
+nav ul a
+	font-size: 12px
