@@ -226,6 +226,10 @@ form#login-card p {
 
 #dashboard .card .card-title {
   padding: 15px;
+  font-size: 16px;
+  margin: 0;
+  text-align: center;
+  line-height: 18px;
 }
 
 .clearfix {
