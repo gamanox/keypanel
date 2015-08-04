@@ -49,8 +49,8 @@
 
 <?php /* CARD TENDENCIAS */ ?>
 <div class="col s5 m5 l5">
-    <div class="card card-panel hoverable">
-        <div class="card-content no-padding">
+    <div class="card small hoverable">
+        <div class="card-content">
             <p class="card-title blue-grey-text text-darken-4"><i class="tiny material-icons">local_offer</i>&nbsp;<?php echo lang('card-tendencias-title'); ?></p>
         </div>
     </div>

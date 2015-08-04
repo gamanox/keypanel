@@ -130,11 +130,6 @@ form#login-card p {
   font-size: 10px;
 }
 
-.card-title {
-  font-size: 16px !important;
-  line-height: 18px !important;
-}
-
 #dashboard .card-middle ul.collection li.collection-item {
   padding: 5px;
 }
@@ -160,6 +155,20 @@ form#login-card p {
 
 #dashboard .card.profile .social {
   margin-bottom: 0px;
+}
+
+#dashboard .card.profile .social .fb {
+  background-image: url(/assets/images/fb-off.png);
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+#dashboard .card.profile .social .tw {
+  background-image: url(/assets/images/fb-off.png);
+  height: 24px;
+  width: 24px;
+  display: inline-block;
 }
 
 #dashboard .card.profile .user-bio {
@@ -192,12 +201,13 @@ form#login-card p {
 
 #dashboard .card-content {
   height: 250px;
+  padding: 0;
 }
 
 #dashboard .card.sector p.card-title {
   font-size: 16px;
   margin: 0;
-  padding: 0;
+  padding: 15px;
   text-align: center;
   line-height: 18px;
 }
@@ -209,6 +219,10 @@ form#login-card p {
 
 #dashboard .card-action a {
   color: #fff;
+}
+
+#dashboard .card-action {
+  padding: 0;
 }
 
 .clearfix {
