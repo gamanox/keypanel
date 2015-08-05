@@ -191,7 +191,7 @@ form#login-card p {
 }
 
 #dashboard .card-content {
-  height: 250px;
+  /*height: 250px;*/
 }
 
 #dashboard .card.sector p.card-title {
@@ -254,3 +254,8 @@ i.tiny {
 nav ul a {
   font-size: 12px;
 }
+
+.copy { font-size: 12px; color: #ccc; }
+.card-title { padding: 10px; }
+.card-title span { color:#000; }
+.card-panel .card-content { padding: 20px; }

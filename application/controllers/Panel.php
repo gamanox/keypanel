@@ -20,7 +20,7 @@ class Panel extends CI_Controller {
     }
 
     public function index(){
-        $param_header['title'] = 'keypanel';
+        $param_header['title'] = 'KeyPanel';
         $this->load->view('includes/header', $param_header);
         $this->load->view('includes/menu-'. strtolower($this->session->type));
 

@@ -18,15 +18,3 @@
         </div>
     </nav>
 </div>
-
-<?php if( isset($show_secundary_nav) and $show_secundary_nav ) : ?>
-<div class="row blue accent-3">
-    <div class="container">
-        <nav class="nav-secundary">
-            <ul class="nomargin left"></ul>
-        </nav>
-
-        <div class="clearfix"></div>
-    </div>
-</div>
-<?php endif; ?>

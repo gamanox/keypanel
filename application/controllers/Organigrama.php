@@ -16,12 +16,12 @@ class Organigrama extends CI_Controller {
     function __construct()
     {
         parent::__construct();
+        $this->load->model('Organization_model','organization');
+        $this->load->model('Organization_category_model','organization_category');
     }
 
     /**
      * index
-     *
-     * Esta función carga todas las categorias de organigramas publicos y/o privados
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -30,11 +30,13 @@ class Organigrama extends CI_Controller {
      * @return void
      */
     public function index(){
-
+        redirect('panel');
     }
 
     /**
      * explorar
+     *
+     * Esta función carga todas las sub-categorias de una categoria dada
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -43,7 +45,27 @@ class Organigrama extends CI_Controller {
      * @return void
      */
     public function explorar( $slug = NULL ){
-        echo $slug;
+        if( !isset($slug) ){
+            redirect('panel');
+        }
+
+        // Buscamos la categoria enviada
+        $info_categoria = $this->organization_category->find_by_slug( $slug );
+        if( isset($info_categoria) ){
+            $param_header['title'] = 'KeyPanel';
+            $this->load->view('includes/header', $param_header);
+
+            $param_menu['breadcrumb'] = array();
+            $this->load->view('includes/menu-extended-'. strtolower($this->session->type));
+
+            $param_view['sub_categorias'] = $this->organization_category->find_children( $info_categoria->id );
+            $this->load->view('panel/categories', $param_view);
+
+            $this->load->view('includes/footer');
+        }
+        else {
+            // No se encontro la categoria, mandar vista de error
+        }
     }
 }
 /* End of file Organigrama.php */

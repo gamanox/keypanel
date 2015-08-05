@@ -118,6 +118,22 @@ class Organization_category_model extends CI_Model {
         }
 
         /**
+         * find_by_slug
+         *
+         * Devuelve un objeto categoria
+         *
+         * @param void $slug slug de la categoría
+         * @return Object
+         */
+        public function find_by_slug($slug) {
+            $this->db->where("slug", $slug);
+            $this->db->where('status_row', ENABLED);
+            $node= $this->db->get($this->table)->row(0,"Organization_category_model");
+
+            return $node;
+        }
+
+        /**
          * find_children
          *
          * Devuelve un objeto de resultado de bases de datos que contiene nodos categorias hijos que tienen como antecesor a una categoria nodo padre

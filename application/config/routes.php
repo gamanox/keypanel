@@ -53,8 +53,8 @@ $route['default_controller']   = 'main';
 $route['404_override']         = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['organigrama/publicos'] = 'organigrama/explorar/publicos';
-$route['organigrama/privados'] = 'organigrama/explorar/privados';
+$route['organigramas_publicos'] = 'organigrama/explorar/publico';
+$route['organigramas_privados'] = 'organigrama/explorar/otros';
 
 $route['organigrama/cat-(:any)'] = 'organigrama/explorar/$1';
 

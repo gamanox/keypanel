@@ -1,6 +1,7 @@
 <div class="container main-content">
     <div class="row">
 
+        <?php if( $this->session->type == MEMBER ) : ?>
         <?php /* CARD - USER INFO */ ?>
         <?php
             $contact   = $user_info->contacts->row();
@@ -54,8 +55,9 @@
                 <a href="#" class="terms-conditions blue-grey-text text-darken-1"><?php echo lang('btn_terminos_y_condiciones'); ?></a>
             </div>
         </div>
+        <?php endif; ?>
 
-        <div class="col s12 m7 l7">
+        <div class="col <?php echo ( $this->session->tipo_usuario == MEMBER ? 's12 m7 l7' : 's12 m9 l9' ); ?>">
             <div class="row">
                 <?php
                     if( isset( $dynamic_view) ) {
@@ -83,7 +85,7 @@
                             <p class="card-description blue-grey-text text-darken-1"><?php echo lang('card-organigramas-publicos-desc'); ?></p>
                         </div>
                         <div class="card-action">
-                            <a href="<?php echo base_url('organigrama/publicos'); ?>" class="col s12 m12 l12 btn-large blue waves-effect waves-light"><?php echo strtoupper(lang('btn_entrar')); ?></a>
+                            <a href="<?php echo base_url('organigramas_publicos'); ?>" class="col s12 m12 l12 btn-large blue waves-effect waves-light"><?php echo strtoupper(lang('btn_entrar')); ?></a>
                         </div>
                     </div>
                 </div>
@@ -96,7 +98,7 @@
                             <p class="card-description blue-grey-text text-darken-1"><?php echo lang('card-organigramas-privados-desc'); ?></p>
                         </div>
                         <div class="card-action">
-                            <a href="<?php echo base_url('organigrama/privados'); ?>" class="col s12 m12 l12 btn-large blue waves-effect waves-light"><?php echo strtoupper(lang('btn_entrar')); ?></a>
+                            <a href="<?php echo base_url('organigramas_privados'); ?>" class="col s12 m12 l12 btn-large blue waves-effect waves-light"><?php echo strtoupper(lang('btn_entrar')); ?></a>
                         </div>
                     </div>
                 </div>
