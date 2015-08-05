@@ -172,6 +172,7 @@ class Seed extends CI_Controller {
                 'id_parent' => NULL,
                 'breadcrumb' => NULL,
                 'name' => 'PÚBLICO',
+                'slug' => 'publico',
             );
 
             $id_cat_publico= $this->category->save($data);
@@ -180,6 +181,7 @@ class Seed extends CI_Controller {
                 'id_parent' => NULL,
                 'breadcrumb' => NULL,
                 'name' => 'OTROS',
+                'slug' => 'otros',
             );
 
             $id_cat_otros= $this->category->save($data);
@@ -191,6 +193,7 @@ class Seed extends CI_Controller {
                     'id_parent' => $id_cat_publico,
                     'breadcrumb' => $id_cat_publico,
                     'name' => 'ESTADO CENTRAL',
+                    'slug' => 'estado-central',
                     'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                 );
                 $insert_id= $this->category->save($data);
@@ -199,6 +202,7 @@ class Seed extends CI_Controller {
                         'id_parent' => $insert_id,
                         'breadcrumb' => $breadcrumb,
                         'name' => 'FUNCION EJECUTIVA',
+                        'slug' => 'funcion-ejecutiva',
                         'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                     );
                     $insert_id_x= $this->category->save($data);
@@ -207,6 +211,7 @@ class Seed extends CI_Controller {
                             'id_parent' => $insert_id_x,
                             'breadcrumb' => $breadcrumb_x,
                             'name' => 'MINISTERIOS',
+                            'slug' => 'ministerios',
                             'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                         );
                         $this->category->save($data);
@@ -214,6 +219,7 @@ class Seed extends CI_Controller {
                             'id_parent' => $insert_id_x,
                             'breadcrumb' => $breadcrumb_x,
                             'name' => 'MINISTERIO COORDINADOR',
+                            'slug' => 'ministerio-coordinador',
                             'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                         );
                         $this->category->save($data);
@@ -222,6 +228,7 @@ class Seed extends CI_Controller {
                         'id_parent' => $insert_id,
                         'breadcrumb' => $breadcrumb,
                         'name' => 'FUNCION LEGISLATIVA',
+                        'slug' => 'funcion-legislativa',
                         'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                     );
                     $this->category->save($data);
@@ -229,6 +236,7 @@ class Seed extends CI_Controller {
                         'id_parent' => $insert_id,
                         'breadcrumb' => $breadcrumb,
                         'name' => 'FUNCION JUDICIAL',
+                        'slug' => 'funcion-judicial',
                         'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                     );
                     $this->category->save($data);
@@ -236,6 +244,7 @@ class Seed extends CI_Controller {
                         'id_parent' => $insert_id,
                         'breadcrumb' => $breadcrumb,
                         'name' => 'FUNCION ELECTORAL',
+                        'slug' => 'funcion-electoral',
                         'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                     );
                     $this->category->save($data);
@@ -243,6 +252,7 @@ class Seed extends CI_Controller {
                         'id_parent' => $insert_id,
                         'breadcrumb' => $breadcrumb,
                         'name' => 'FUNCION DE TRANSPARECIA Y CONTROL SOCIAL',
+                        'slug' => 'funcion-de-trasnparencia-y-control-social',
                         'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                     );
                     $this->category->save($data);
@@ -250,6 +260,7 @@ class Seed extends CI_Controller {
                         'id_parent' => $insert_id,
                         'breadcrumb' => $breadcrumb,
                         'name' => 'OTROS',
+                        'slug' => 'otros-2',
                         'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                     );
                     $insert_id= $this->category->save($data);
@@ -258,6 +269,7 @@ class Seed extends CI_Controller {
                             'id_parent' => $insert_id,
                             'breadcrumb' => $breadcrumb,
                             'name' => 'CUERPOS COLEGIADOS',
+                            'slug' => 'cuerpos-colegiados',
                             'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                         );
                         $this->category->save($data);
@@ -265,6 +277,7 @@ class Seed extends CI_Controller {
                             'id_parent' => $insert_id,
                             'breadcrumb' => $breadcrumb,
                             'name' => 'EMPRESAS PUBLICAS',
+                            'slug' => 'empresas-publicas',
                             'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                         );
                         $this->category->save($data);
@@ -274,6 +287,7 @@ class Seed extends CI_Controller {
                     'id_parent' => $id_cat_publico,
                     'breadcrumb' => $id_cat_publico,
                     'name' => 'GADS',
+                    'slug' => 'gads',
                     'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                 );
                 $insert_id= $this->category->save($data);
@@ -282,6 +296,7 @@ class Seed extends CI_Controller {
                         'id_parent' => $insert_id,
                         'breadcrumb' => $breadcrumb,
                         'name' => 'PERFECTURAS',
+                        'slug' => 'perfecturas',
                         'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                     );
                     $this->category->save($data);
@@ -290,6 +305,7 @@ class Seed extends CI_Controller {
                         'id_parent' => $insert_id,
                         'breadcrumb' => $breadcrumb,
                         'name' => 'ALCALDIAS',
+                        'slug' => 'alcaldias',
                         'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                     );
                     $this->category->save($data);
@@ -302,6 +318,7 @@ class Seed extends CI_Controller {
                     'id_parent' => $id_cat_otros,
                     'breadcrumb' => $id_cat_otros,
                     'name' => 'EMBAJADAS Y CONSULADOS',
+                    'slug' => 'embajadas-y-consulados',
                     'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                 );
                 $this->category->save($data);
@@ -310,6 +327,7 @@ class Seed extends CI_Controller {
                     'id_parent' => $id_cat_otros,
                     'breadcrumb' => $id_cat_otros,
                     'name' => 'FUNDACIONES',
+                    'slug' => 'fundaciones',
                     'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                 );
                 $this->category->save($data);
@@ -318,6 +336,7 @@ class Seed extends CI_Controller {
                     'id_parent' => $id_cat_otros,
                     'breadcrumb' => $id_cat_otros,
                     'name' => 'MEDIOS DE COMUNICACION',
+                    'slug' => 'medios-de-comunicacion',
                     'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                 );
                 $this->category->save($data);
@@ -326,6 +345,7 @@ class Seed extends CI_Controller {
                     'id_parent' => $id_cat_otros,
                     'breadcrumb' => $id_cat_otros,
                     'name' => 'ACADEMIA',
+                    'slug' => 'academia',
                     'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                 );
                 $this->category->save($data);
@@ -334,6 +354,7 @@ class Seed extends CI_Controller {
                     'id_parent' => $id_cat_otros,
                     'breadcrumb' => $id_cat_otros,
                     'name' => 'ORGANISMOS INTERNACIONALES',
+                    'slug' => 'organismos-internacionales',
                     'status_row' => (rand(0, 1) ? ENABLED : DELETED)
                 );
                 $this->category->save($data);
