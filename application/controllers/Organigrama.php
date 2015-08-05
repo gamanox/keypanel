@@ -32,6 +32,19 @@ class Organigrama extends CI_Controller {
     public function index(){
 
     }
+
+    /**
+     * explorar
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright KeyPanel - 2015
+     *
+     * @return void
+     */
+    public function explorar( $slug = NULL ){
+        echo $slug;
+    }
 }
 /* End of file Organigrama.php */
 /* Location: ./application/controllers/Organigrama.php */

@@ -52,3 +52,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller']   = 'main';
 $route['404_override']         = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['organigrama/publicos'] = 'organigrama/explorar/publicos';
+$route['organigrama/privados'] = 'organigrama/explorar/privados';
+
+$route['organigrama/cat-(:any)'] = 'organigrama/explorar/$1';
+
+// Routing para profiles
+$route['organigrama/perfil-(:num)'] = "perfil/find_by_id/$1";

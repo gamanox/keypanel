@@ -1,0 +1,6 @@
+<?php
+
+    /**
+     * Organigrama lang
+     */
+

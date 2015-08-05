@@ -83,7 +83,7 @@
                             <p class="card-description blue-grey-text text-darken-1"><?php echo lang('card-organigramas-publicos-desc'); ?></p>
                         </div>
                         <div class="card-action">
-                            <button class="col s12 m12 l12 btn-large blue waves-effect waves-light" type="button"><?php echo strtoupper(lang('btn_entrar')); ?></button>
+                            <a href="<?php echo base_url('organigrama/publicos'); ?>" class="col s12 m12 l12 btn-large blue waves-effect waves-light"><?php echo strtoupper(lang('btn_entrar')); ?></a>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                             <p class="card-description blue-grey-text text-darken-1"><?php echo lang('card-organigramas-privados-desc'); ?></p>
                         </div>
                         <div class="card-action">
-                            <button class="col s12 m12 l12 btn-large blue waves-effect waves-light" type="button"><?php echo strtoupper(lang('btn_entrar')); ?></button>
+                            <a href="<?php echo base_url('organigrama/privados'); ?>" class="col s12 m12 l12 btn-large blue waves-effect waves-light"><?php echo strtoupper(lang('btn_entrar')); ?></a>
                         </div>
                     </div>
                 </div>

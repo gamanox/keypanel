@@ -1,8 +1,18 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * @package keypanel
+ * @version 1.0
+ * @copyright KeyPanel 2015
+ */
 class Panel extends CI_Controller {
 
-    //Constructor del Controlador
+    /**
+     * __construct
+     *
+     * @ignore
+     * @copyright KeyPanel - 2015
+     */
     function __construct()
     {
         parent::__construct();
@@ -28,7 +38,7 @@ class Panel extends CI_Controller {
      * @return void
      */
     public function updates(){
-        $param_header['title'] = 'keypanel';
+        $param_header['title'] = lang('card-updates-title') .' | KeyPanel';
         $this->load->view('includes/header', $param_header);
         $this->load->view('includes/menu-'. strtolower($this->session->type));
 
@@ -44,11 +54,18 @@ class Panel extends CI_Controller {
     }
 
      /**
-     * updates
+     * history
+     *
+     * Esta funcion se encarga de mostrar el historial de navegacion del usuario loggeado.
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright KeyPanel - 2015
+     *
      * @return void
      */
     public function history(){
-        $param_header['title'] = 'keypanel';
+        $param_header['title'] = lang('card-history-title') .' | KeyPanel';
         $this->load->view('includes/header', $param_header);
         $this->load->view('includes/menu-'. strtolower($this->session->type));
 
