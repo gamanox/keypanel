@@ -61,18 +61,7 @@ class Administration extends CI_Controller {
      * @return void
      */
     public function index(){
-        if( $this->session->type != SUPERADMIN ){
-            redirect('account');
-        }
-
-        $param_header['title'] = lang('dashboard_title');
-        $this->load->view('includes/header', $param_header);
-
-        $this->load->view('includes/menu-'. strtolower(SUPERADMIN));
-
-        $this->load->view('users/'. strtolower(SUPERADMIN) .'/dashboard');
-
-        $this->load->view('includes/footer');
+        redirect('administration/members');
     }
 
     /**
@@ -91,14 +80,19 @@ class Administration extends CI_Controller {
             redirect('account');
         }
 
+        $this->lang->load('panel');
+
         $param_header['title'] = lang('members_title');
         $this->load->view('includes/header', $param_header);
 
-        $this->load->view('includes/menu-'. strtolower(SUPERADMIN));
+        $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN));
 
         // Cargamos la lista de miembros
-        $param_view['members'] = $this->member->find_all( MEMBER );
-        $this->load->view('users/member/list', $param_view);
+        $param['members']      = $this->member->find_all( MEMBER );
+        $param['dynamic_view'] = 'users/member/list';
+        $param['vars_to_load'] = array('members');
+
+        $this->load->view('panel/template', $param);
 
         $this->load->view('includes/footer');
     }

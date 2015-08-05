@@ -2,22 +2,22 @@
 
 
 /**
- * Tag_model
- * Etiquetas del sistema
+ * Organization_category_model
+ * Categorias del los organigramas
  */
-class Tag_model extends CI_Model {
+class Organization_category_model extends CI_Model {
 
         /**
          * Constructor
          */
         public function __construct() {
-                parent::__construct();
+            parent::__construct();
         }
 
         /**
          * @var String
          */
-        public $table= "tags";
+        public $table= "organization_category";
 
         /**
          * @var Integer
@@ -57,35 +57,35 @@ class Tag_model extends CI_Model {
         /**
          * save
          *
-         * Guarda una etiqueta
+         * Guarda una categoria
          *
-         * @param Array $tag
+         * @param Array $category
          * @return Integer Devuelve el <b>id</b> del insert que se creó si hubo éxito, caso contrario devuelve <b>0</b>
          */
-        public function save($tag ) {
-            $tag['create_at']= date('Y-m-d H:i:s');
-            $success= $this->db->insert($this->table, $tag);
+        public function save($category ) {
+            $category['create_at']= date('Y-m-d H:i:s');
+            $success= $this->db->insert($this->table, $category);
             return ($success ? $this->db->insert_id() : 0);
         }
 
         /**
          * update
          *
-         * Actualiza una etiqueta
+         * Actualiza una categoria
          *
-         * @param Array $tag
+         * @param Array $category
          * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
-        public function update($tag ) {
-            $tag['update_at']= date('Y-m-d H:i:s');
-            $success= $this->db->update($this->table, $tag, array("id" => $tag['id']));
+        public function update($category ) {
+            $category['update_at']= date('Y-m-d H:i:s');
+            $success= $this->db->update($this->table, $category, array("id" => $category['id']));
             return ($success ? 1 : 0);
         }
 
         /**
          * delete
          *
-         * Elimina a una etiqueta lógicamente, es decir actualiza  el campo <b>status_row  a <i>DELETED</i></b>
+         * Elimina a una categoria lógicamente, es decir actualiza  el campo <b>status_row  a <i>DELETED</i></b>
          *
          * @param void $id
          * @return Integer Devuelve la cantidad de registros afectados
@@ -104,14 +104,31 @@ class Tag_model extends CI_Model {
         /**
          * find
          *
-         * Devuelve un objeto Etiqueta
+         * Devuelve un objeto categoria
          *
          * @param void $id
          * @return Object
          */
         public function find($id) {
             $this->db->where("id", $id);
-            $node= $this->db->get($this->table)->row(0,"Tag_model");
+            $this->db->where('status_row', ENABLED);
+            $node= $this->db->get($this->table)->row(0,"Organization_category_model");
+
+            return $node;
+        }
+
+        /**
+         * find_by_slug
+         *
+         * Devuelve un objeto categoria
+         *
+         * @param void $slug slug de la categoría
+         * @return Object
+         */
+        public function find_by_slug($slug) {
+            $this->db->where("slug", $slug);
+            $this->db->where('status_row', ENABLED);
+            $node= $this->db->get($this->table)->row(0,"Organization_category_model");
 
             return $node;
         }
@@ -119,30 +136,32 @@ class Tag_model extends CI_Model {
         /**
          * find_children
          *
-         * Devuelve un objeto de resultado de bases de datos que contiene nodos etiquetas hijos que tienen como antecesor a una etiqueta nodo padre
+         * Devuelve un objeto de resultado de bases de datos que contiene nodos categorias hijos que tienen como antecesor a una categoria nodo padre
          *
          * @param Integer $id
          * @return Object
          */
         public function find_children($id) {
             $this->db->where("id_parent", $id);
-            $tags= $this->db->get($this->table);
+            $this->db->where('status_row', ENABLED);
+            $categories= $this->db->get($this->table);
 
-            return $tags;
+            return $categories;
         }
 
         /**
          * find_parents
          *
-         * Devuelve un objeto de resultado de bases de datos que contiene etiquetas nodos padres que no tienen un nodo padre asignado
+         * Devuelve un objeto de resultado de bases de datos que contiene categorias nodos padres que no tienen un nodo padre asignado
          *
          * @return Object
          */
         public function find_parents() {
             $this->db->where("id_parent is null");
-            $tags= $this->db->get($this->table);
+            $this->db->where('status_row', ENABLED);
+            $categories= $this->db->get($this->table);
 
-            return $tags;
+            return $categories;
         }
 
 }

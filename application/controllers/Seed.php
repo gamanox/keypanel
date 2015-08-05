@@ -21,40 +21,67 @@ class Seed extends CI_Controller {
             // load any required models
             $this->load->model('Member_model','member');
             $this->load->model('Profile_model','profile');
-            $this->load->model('AccessLog_model','access');
+            $this->load->model('Access_log_model','access');
             $this->load->model('History_model','history');
+            $this->load->model('Organization_category_model','category');
         }
 
-	public function run()
+	public function run($limit=50)
 	{
             // purge existing data
             $this->_truncate_db();
 
             // seed users
-            $this->_seed_db(25);
+            $this->_seed_entities($limit);
+            $this->_seed_history();
+            $this->_seed_categories();
 
-            // call more seeds here...
+        }
 
-            }
-
-        function _seed_db($limit)
+        private function _seed_entities($limit)
         {
             echo "seeding $limit users";
 
+            //admin
+            $entity = array(
+                'username' => 'admin', // get a unique nickname
+                'password' => md5("demo"),
+                'type' => ADMIN,
+                'first_name' => 'Administrador',
+                'last_name' => 'General',
+                'email' => 'admin@keypanel.org',
+                'status_row' => ENABLED
+            );
+            $id_entity= $this->member->save($entity);
+
             // create a bunch of base buyer accounts
-            for ($i = 0; $i < $limit; $i++) {
+            for ($i = 0; $i < $limit+1; $i++) {
                 echo ".";
-                $types= array('MEMBER','PROFILE');
-                $entity = array(
-                    'username' => $this->faker->unique()->userName, // get a unique nickname
-                    'password' => md5("demo"),
-                    'type' => $this->faker->randomElement($types),
-                    'first_name' => $this->faker->firstName,
-                    'last_name' => $this->faker->lastName,
-                    'email' => $this->faker->unique()->email,
-                    'status_row' => (rand(0, 1) ? ENABLED : DELETED),
-                    //'avatar' => $this->faker->imageUrl,
-                );
+
+                if($i==0){
+                    //member
+                    $entity = array(
+                        'username' => 'johndoe', // get a unique nickname
+                        'password' => md5("demo"),
+                        'type' => MEMBER,
+                        'first_name' => 'John',
+                        'last_name' => 'Doe',
+                        'email' => 'johndoe@keypanel.org',
+                        'status_row' => ENABLED
+                    );
+                }else{
+                    $types= array('MEMBER','PROFILE');
+                    $entity = array(
+                        'username' => $this->faker->unique()->userName, // get a unique nickname
+                        'password' => md5("demo"),
+                        'type' => $this->faker->randomElement($types),
+                        'first_name' => $this->faker->firstName,
+                        'last_name' => $this->faker->lastName,
+                        'email' => $this->faker->unique()->email,
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED),
+                        //'avatar' => $this->faker->imageUrl,
+                    );
+                }
 
                 $id_entity= $this->member->save($entity);
 
@@ -113,6 +140,11 @@ class Seed extends CI_Controller {
 
             }
 
+            echo PHP_EOL;
+        }
+
+        private function _seed_history(){
+            echo "seeding history users from members";
             //history
             foreach ($this->member->find_all(MEMBER)->result() as $member) {
                 $random= rand(1,20);
@@ -128,6 +160,206 @@ class Seed extends CI_Controller {
                     $this->member->history_save($data);
                 }
             }
+
+            echo PHP_EOL;
+        }
+
+        private function _seed_categories(){
+            echo "seeding categories";
+
+            //categorias fijas
+            $data = array(
+                'id_parent' => NULL,
+                'breadcrumb' => NULL,
+                'name' => 'PÚBLICO',
+                'slug' => 'publico',
+            );
+
+            $id_cat_publico= $this->category->save($data);
+
+            $data = array(
+                'id_parent' => NULL,
+                'breadcrumb' => NULL,
+                'name' => 'OTROS',
+                'slug' => 'otros',
+            );
+
+            $id_cat_otros= $this->category->save($data);
+
+
+            //categorias publicas hijas
+            {
+                $data = array(
+                    'id_parent' => $id_cat_publico,
+                    'breadcrumb' => $id_cat_publico,
+                    'name' => 'ESTADO CENTRAL',
+                    'slug' => 'estado-central',
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                );
+                $insert_id= $this->category->save($data);
+                $breadcrumb= $id_cat_publico."|".$insert_id;
+                    $data = array(
+                        'id_parent' => $insert_id,
+                        'breadcrumb' => $breadcrumb,
+                        'name' => 'FUNCION EJECUTIVA',
+                        'slug' => 'funcion-ejecutiva',
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                    );
+                    $insert_id_x= $this->category->save($data);
+                    $breadcrumb_x= $breadcrumb."|".$insert_id_x;
+                        $data = array(
+                            'id_parent' => $insert_id_x,
+                            'breadcrumb' => $breadcrumb_x,
+                            'name' => 'MINISTERIOS',
+                            'slug' => 'ministerios',
+                            'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                        );
+                        $this->category->save($data);
+                        $data = array(
+                            'id_parent' => $insert_id_x,
+                            'breadcrumb' => $breadcrumb_x,
+                            'name' => 'MINISTERIO COORDINADOR',
+                            'slug' => 'ministerio-coordinador',
+                            'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                        );
+                        $this->category->save($data);
+
+                    $data = array(
+                        'id_parent' => $insert_id,
+                        'breadcrumb' => $breadcrumb,
+                        'name' => 'FUNCION LEGISLATIVA',
+                        'slug' => 'funcion-legislativa',
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                    );
+                    $this->category->save($data);
+                    $data = array(
+                        'id_parent' => $insert_id,
+                        'breadcrumb' => $breadcrumb,
+                        'name' => 'FUNCION JUDICIAL',
+                        'slug' => 'funcion-judicial',
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                    );
+                    $this->category->save($data);
+                    $data = array(
+                        'id_parent' => $insert_id,
+                        'breadcrumb' => $breadcrumb,
+                        'name' => 'FUNCION ELECTORAL',
+                        'slug' => 'funcion-electoral',
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                    );
+                    $this->category->save($data);
+                    $data = array(
+                        'id_parent' => $insert_id,
+                        'breadcrumb' => $breadcrumb,
+                        'name' => 'FUNCION DE TRANSPARECIA Y CONTROL SOCIAL',
+                        'slug' => 'funcion-de-trasnparencia-y-control-social',
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                    );
+                    $this->category->save($data);
+                    $data = array(
+                        'id_parent' => $insert_id,
+                        'breadcrumb' => $breadcrumb,
+                        'name' => 'OTROS',
+                        'slug' => 'otros-2',
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                    );
+                    $insert_id= $this->category->save($data);
+                    $breadcrumb= $breadcrumb."|".$insert_id;
+                        $data = array(
+                            'id_parent' => $insert_id,
+                            'breadcrumb' => $breadcrumb,
+                            'name' => 'CUERPOS COLEGIADOS',
+                            'slug' => 'cuerpos-colegiados',
+                            'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                        );
+                        $this->category->save($data);
+                        $data = array(
+                            'id_parent' => $insert_id,
+                            'breadcrumb' => $breadcrumb,
+                            'name' => 'EMPRESAS PUBLICAS',
+                            'slug' => 'empresas-publicas',
+                            'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                        );
+                        $this->category->save($data);
+
+
+                $data = array(
+                    'id_parent' => $id_cat_publico,
+                    'breadcrumb' => $id_cat_publico,
+                    'name' => 'GADS',
+                    'slug' => 'gads',
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                );
+                $insert_id= $this->category->save($data);
+                $breadcrumb= $id_cat_publico."|".$insert_id;
+                    $data = array(
+                        'id_parent' => $insert_id,
+                        'breadcrumb' => $breadcrumb,
+                        'name' => 'PERFECTURAS',
+                        'slug' => 'perfecturas',
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                    );
+                    $this->category->save($data);
+
+                    $data = array(
+                        'id_parent' => $insert_id,
+                        'breadcrumb' => $breadcrumb,
+                        'name' => 'ALCALDIAS',
+                        'slug' => 'alcaldias',
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                    );
+                    $this->category->save($data);
+
+            }
+
+            {
+                //categorias otras hijas
+                $data = array(
+                    'id_parent' => $id_cat_otros,
+                    'breadcrumb' => $id_cat_otros,
+                    'name' => 'EMBAJADAS Y CONSULADOS',
+                    'slug' => 'embajadas-y-consulados',
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                );
+                $this->category->save($data);
+
+                $data = array(
+                    'id_parent' => $id_cat_otros,
+                    'breadcrumb' => $id_cat_otros,
+                    'name' => 'FUNDACIONES',
+                    'slug' => 'fundaciones',
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                );
+                $this->category->save($data);
+
+                $data = array(
+                    'id_parent' => $id_cat_otros,
+                    'breadcrumb' => $id_cat_otros,
+                    'name' => 'MEDIOS DE COMUNICACION',
+                    'slug' => 'medios-de-comunicacion',
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                );
+                $this->category->save($data);
+
+                $data = array(
+                    'id_parent' => $id_cat_otros,
+                    'breadcrumb' => $id_cat_otros,
+                    'name' => 'ACADEMIA',
+                    'slug' => 'academia',
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                );
+                $this->category->save($data);
+
+                $data = array(
+                    'id_parent' => $id_cat_otros,
+                    'breadcrumb' => $id_cat_otros,
+                    'name' => 'ORGANISMOS INTERNACIONALES',
+                    'slug' => 'organismos-internacionales',
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                );
+                $this->category->save($data);
+            }
+
 
             echo PHP_EOL;
         }

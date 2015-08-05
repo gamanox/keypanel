@@ -26,6 +26,7 @@
     $lang['btn_ver_mas']                = 'Ver más';
     $lang['btn_mas_noticias']           = 'Más noticias';
     $lang['read_more']                  = 'Leer más';
+    $lang['dashboard']                  = 'Dashboard';
 
     $lang['session-expired-back-home']  = 'Tu sesión ha expirado, para volver a iniciar haz clic <a href="'. base_url() .'">aquí</a>';
 

@@ -310,3 +310,7 @@ i.tiny {
 nav ul a {
   font-size: 12px;
 }
+
+.copy { font-size: 12px; color: #ccc; }
+.card-header .card-title { padding: 12px; }
+.card-panel .card-content { padding: 20px; }

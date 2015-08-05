@@ -39,7 +39,7 @@ class Utils {
     }
 
     public function profiler() {
-        if (ENVIRONMENT == 'development' and !$this->ci->input->is_ajax_request())
-            $this->ci->output->enable_profiler(true);
+        if (ENVIRONMENT == 'development' and !$this->ci->input->is_ajax_request() and !$this->ci->input->is_cli_request())
+            $this->ci->output->enable_profiler(TRUE);
     }
 }
