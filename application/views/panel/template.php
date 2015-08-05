@@ -57,7 +57,7 @@
         </div>
         <?php endif; ?>
 
-        <div class="col <?php echo ( $this->session->tipo_usuario == MEMBER ? 's12 m7 l7' : 's12 m9 l9' ); ?>">
+        <div class="col <?php echo ( $this->session->type == MEMBER ? 's12 m7 l7' : 's12 m9 l9' ); ?>">
             <div class="row">
                 <?php
                     if( isset( $dynamic_view) ) {
@@ -84,7 +84,7 @@
                             <p class="card-title blue-grey-text text-darken-4"><?php echo lang('card-organigramas-publicos-title'); ?></p>
                             <p class="card-description blue-grey-text text-darken-1"><?php echo lang('card-organigramas-publicos-desc'); ?></p>
                         </div>
-                        <div class="card-action">
+                        <div class="card-action no-padding">
                             <a href="<?php echo base_url('organigramas_publicos'); ?>" class="col s12 m12 l12 btn-large blue waves-effect waves-light"><?php echo strtoupper(lang('btn_entrar')); ?></a>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                             <p class="card-title blue-grey-text text-darken-4"><?php echo lang('card-organigramas-privados-title'); ?></p>
                             <p class="card-description blue-grey-text text-darken-1"><?php echo lang('card-organigramas-privados-desc'); ?></p>
                         </div>
-                        <div class="card-action">
+                        <div class="card-action no-padding">
                             <a href="<?php echo base_url('organigramas_privados'); ?>" class="col s12 m12 l12 btn-large blue waves-effect waves-light"><?php echo strtoupper(lang('btn_entrar')); ?></a>
                         </div>
                     </div>

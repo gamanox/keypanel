@@ -2,10 +2,8 @@
 
 <div class="s12 m12 l12">
     <div class="card-panel nopadding">
-        <div class="card-header grey lighten-3">
-            <div class="card-title">
-                <span class="grey-text darken-3"><?php echo lang('members_card_title'); ?></span>
-            </div>
+        <div class="card-header grey lighten-5">
+            <p class="card-title grey-text nomargin valign-wrapper"><i class="material-icons valign">view_list</i>&nbsp;<?php echo lang('members_card_title'); ?></p>
         </div>
 
         <div class="card-content">

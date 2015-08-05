@@ -256,6 +256,5 @@ nav ul a {
 }
 
 .copy { font-size: 12px; color: #ccc; }
-.card-title { padding: 10px; }
-.card-title span { color:#000; }
+.card-header .card-title { padding: 12px; }
 .card-panel .card-content { padding: 20px; }
