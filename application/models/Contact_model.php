@@ -143,9 +143,9 @@ class Contact_model extends CI_Model {
          */
         public function find($id) {
                 $this->db->where("id", $id);
-                $contact= $this->db->get($this->table)->row(0,"Contact_model");
+                $contact= $this->db->get($this->table);
 
-                return $contact;
+                return ($contact->num_rows() > 0 ? $contact->row(0,"Contact_model") : $contact->row());
         }
 
         /**
