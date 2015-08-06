@@ -259,4 +259,33 @@ class Entity_model extends CI_model {
             return $this->is_unique($username, "email");
         }
 
+        /**
+         * updates
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene a los objetos entities del sistema que se han creado o actualizado
+         * ordenados por la fecha mas reciente
+         *
+         * @return Object
+         */
+        public function updates($limit=null, $offset=null) {
+                $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name");
+                $this->db->select("if(create_at > update_at, create_at, update_at)updates, if(create_at > update_at, 'CREATED', 'UPDATED')action", false);
+                $this->db->where_in("status_row", ENABLED);
+                $this->db->where_in("type", array(ORGANIZATION, PROFILE));
+                $this->db->order_by("updates","desc");
+
+                if((isset($limit) and is_numeric($limit))){
+                    $this->db->limit($limit);
+                }
+
+                if((isset($offset) and is_numeric($offset))){
+                    $this->db->offset($offset);
+                }
+
+                $entities= $this->db->get($this->table." u");
+
+
+                return $entities;
+        }
+
 }
