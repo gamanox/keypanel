@@ -11,7 +11,7 @@
                 // echo '<pre>'. print_r($members->result(), true) .'</pre>';
             ?>
             <?php if( isset($members) and count($members) > 0 ) : ?>
-            <table class="responsive-table striped">
+            <table class="responsive-table striped datatable">
                 <thead>
                     <tr>
                         <th data-field="name"><?php echo lang('column-info'); ?></th>
@@ -33,6 +33,7 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <div class="clearfix"></div>
             <?php else : ?>
 
             <?php endif; ?>
