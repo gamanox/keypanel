@@ -6,8 +6,8 @@
         </div>
         <div class="card-content">
         </div>
-        <div class="card-action no-padding">
-            <button class="col s12 m12 l12 btn-large blue waves-effect waves-light" type="button"><?php echo strtoupper(lang('btn_mas_noticias')); ?></button>
+        <div class="card-action">
+            <a href="<?php echo base_url('panel/news'); ?>" class="col s12 m12 l12 btn-large blue waves-effect waves-light" type="button"><?php echo strtoupper(lang('btn_mas_noticias')); ?></a>
         </div>
     </div>
 </div>
@@ -54,9 +54,9 @@
 
 <?php /* CARD TENDENCIAS */ ?>
 <div class="col s5 m5 l5">
-    <div class="card small hoverable nopadding">
-        <div class="card-header grey lighten-5">
-            <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">local_offer</i>&nbsp;<?php echo lang('card-tendencias-title'); ?></p>
+    <div class="card small hoverable">
+        <div class="card-content">
+            <p class="card-title blue-grey-text text-darken-4"><i class="tiny material-icons">local_offer</i>&nbsp;<?php echo lang('card-tendencias-title'); ?></p>
         </div>
         <div class="card-content"></div>
     </div>

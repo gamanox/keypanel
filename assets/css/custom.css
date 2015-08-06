@@ -62,6 +62,23 @@ form#login-card p {
   text-align: center !important;
 }
 
+#dashboard .partial.card.small {
+  height: auto;
+}
+
+#dashboard .partial.card.small .card-content {
+  height: auto;
+  min-height: 400px;
+}
+
+#dashboard .partial.card.small .card-title a.close {
+  padding: 0 15px;
+  position: absolute;
+  display: block;
+  top: 8px;
+  right: 8px;
+}
+
 #dashboard #nav-dashboard .account {
   margin-right: 20px;
 }
@@ -130,11 +147,6 @@ form#login-card p {
   font-size: 10px;
 }
 
-.card-title {
-  font-size: 16px !important;
-  line-height: 18px !important;
-}
-
 #dashboard .card-middle ul.collection li.collection-item {
   padding: 5px;
 }
@@ -160,6 +172,20 @@ form#login-card p {
 
 #dashboard .card.profile .social {
   margin-bottom: 0px;
+}
+
+#dashboard .card.profile .social .fb {
+  background-image: url(/assets/images/fb-off.png);
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+#dashboard .card.profile .social .tw {
+  background-image: url(/assets/images/fb-off.png);
+  height: 24px;
+  width: 24px;
+  display: inline-block;
 }
 
 #dashboard .card.profile .user-bio {
@@ -191,13 +217,13 @@ form#login-card p {
 }
 
 #dashboard .card-content {
-  /*height: 250px;*/
+  height: 250px;
+  padding: 0;
 }
 
 #dashboard .card.sector p.card-title {
   font-size: 16px;
   margin: 0;
-  padding: 0;
   text-align: center;
   line-height: 18px;
 }
@@ -205,10 +231,40 @@ form#login-card p {
 #dashboard .card.sector p.card-description {
   font-size: 10px;
   text-align: center;
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+#dashboard .card.sector .image {
+  width: 100%;
+  height: 150px;
+  margin-top: 15px;
+  background-color: #e1e7e9;
 }
 
 #dashboard .card-action a {
   color: #fff;
+}
+
+#dashboard .card-action {
+  padding: 0;
+}
+
+#dashboard .card.small .card-title {
+  padding: 15px;
+  font-size: 16px;
+  margin: 0;
+  background-color: #f9fafa;
+  line-height: 18px;
+  border-bottom: 1px solid #e1e7e9;
+}
+
+#dashboard .card.small ul.collection {
+  margin-top: -1px;
+}
+
+#dashboard .card.small .card-action .btn-large.blue {
+  background-color: #527cf8 !important;
 }
 
 .clearfix {

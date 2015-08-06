@@ -42,6 +42,20 @@ form#login-card
 		text-align: center !important
 
 #dashboard
+	.partial.card.small
+		height: auto
+		.card-content
+			height: auto
+			min-height: 400px
+		.card-title
+			a.close
+				padding: 0 15px
+				position: absolute
+				display: block
+				top: 8px
+				right: 8px
+				
+
 	#nav-dashboard
 		.account
 			margin-right: 20px
@@ -104,6 +118,17 @@ form#login-card
 	.card.profile
 		.social
 			margin-bottom: 0px
+			.fb
+				background-image: url(/assets/images/fb-off.png)
+				height: 24px
+				width: 24px
+				display: inline-block
+			.tw
+				background-image: url(/assets/images/fb-off.png)
+				height: 24px
+				width: 24px
+				display: inline-block
+				
 		.user-bio
 			font-size: 10px
 			text-align: justify
@@ -124,18 +149,44 @@ form#login-card
 			margin-top: 75px
 	.card-content
 		height: 250px
+		padding: 0
 	.card.sector p
 		&.card-title
 			font-size: 16px
 			margin: 0
-			padding: 0
 			text-align: center
 			line-height: 18px
 		&.card-description
 			font-size: 10px
 			text-align: center
+			margin-top: 10px
+			padding: 0 10px
+	.card.sector
+		.image
+			width: 100%
+			height: 150px
+			margin-top: 15px
+			background-color: #e1e7e9
 	.card-action a
 		color: #fff
+	.card-action
+		padding: 0
+
+	.card.small
+		.card-title
+			padding: 15px
+			font-size: 16px
+			margin: 0
+			background-color: #f9fafa
+			// text-align: center
+			line-height: 18px
+			border-bottom: 1px solid #e1e7e9
+		ul.collection
+			margin-top: -1px
+		.card-action
+			.btn-large.blue
+				background-color: #527cf8 !important
+
 
 // /*# sourceMappingURL=custom.css.map
 
