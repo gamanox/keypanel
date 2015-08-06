@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Entity_tag_model
- * Perfiles etiquetados
+ * Entity_category_model
+ * Perfiles y organigramas categorizadas
  */
-class Entity_tag_model extends CI_Model {
+class Entity_category_model extends CI_Model {
 
         /**
          * Constructor
@@ -16,7 +16,7 @@ class Entity_tag_model extends CI_Model {
         /**
          * @var String
          */
-        public $table= "entities_tags";
+        public $table= "entities_categories";
 
         /**
          * @var Integer
@@ -31,42 +31,42 @@ class Entity_tag_model extends CI_Model {
         /**
          * @var Object
          */
-        public $tag;
+        public $category;
 
         /**
-         * find_entities_by_tag
+         * find_entities_by_category
          *
-         * Devuelve un objeto de resultado de bases de datos que contiene nodos entidades  etiquetados con id de etiqueta especificado
+         * Devuelve un objeto de resultado de bases de datos que contiene nodos entidades categorizadas con id de categoria especificado
          *
          * @param Integer $id
          * @return Object
          */
-        public function find_entities_by_tag($id) {
+        public function find_entities_by_category($id) {
             $this->db->select("e.*");
-            $this->db->where("et.id_tag", $id);
+            $this->db->where("ec.id_category", $id);
             $this->db->where('e.status_row', ENABLED);
-            $this->db->where('et.status_row', ENABLED);
-            $this->db->join("entities e","e.id=et.id_entity");
-            $nodes= $this->db->get($this->table." et");
+            $this->db->where('ec.status_row', ENABLED);
+            $this->db->join("entities e","e.id=ec.id_entity");
+            $nodes= $this->db->get($this->table." ec");
 
             return $nodes;
         }
 
         /**
-         * find_tags_by_entity
+         * find_categories_by_entity
          *
-         * Devuelve un objeto de resultado de bases de datos que contiene nodos etiquetas asignadas a un id entidad especificado
+         * Devuelve un objeto de resultado de bases de datos que contiene nodos categorias asignadas a un id entidad especificado
          *
          * @param Integer $id
          * @return Object
          */
-        public function find_tags_by_entity($id) {
-            $this->db->select("t.*");
-            $this->db->where("et.id_entity", $id);
-            $this->db->where('t.status_row', ENABLED);
-            $this->db->where('et.status_row', ENABLED);
-            $this->db->join("tags t","t.id=et.id_tag");
-            $nodes= $this->db->get($this->table." et");
+        public function find_categories_by_entity($id) {
+            $this->db->select("c.*");
+            $this->db->where("ec.id_entity", $id);
+            $this->db->where('c.status_row', ENABLED);
+            $this->db->where('ec.status_row', ENABLED);
+            $this->db->join("categories c","c.id=ec.id_category");
+            $nodes= $this->db->get($this->table." ec");
 
             return $nodes;
         }
@@ -74,21 +74,21 @@ class Entity_tag_model extends CI_Model {
         /**
          * save
          *
-         * Guarda una relación entity tag
+         * Guarda una relación entity category
          *
-         * @param Array $entity_tag
+         * @param Array $entity_category
          * @return Integer Devuelve el <b>id</b> del insert que se creó si hubo éxito, caso contrario devuelve <b>0</b>
          */
-        public function save($entity_tag ) {
-            $entity_tag['create_at']= date('Y-m-d H:i:s');
-            $success= $this->db->insert($this->table, $entity_tag);
+        public function save($entity_category ) {
+            $entity_category['create_at']= date('Y-m-d H:i:s');
+            $success= $this->db->insert($this->table, $entity_category);
             return ($success ? $this->db->insert_id() : 0);
         }
 
         /**
          * delete
          *
-         * Elimina una relación entity tag lógicamente, es decir actualiza  el campo <b>status_row a <i>DELETED</i></b>
+         * Elimina una relación entity category lógicamente, es decir actualiza el campo <b>status_row a <i>DELETED</i></b>
          *
          * @param Integer $id
          * @return Integer Devuelve la cantidad de registros afectados

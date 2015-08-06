@@ -92,6 +92,8 @@ define("SUPERADMIN", "SUPERADMIN");
 define("ADMIN", "ADMIN");
 define("MEMBER", "MEMBER");
 define("PROFILE", "PROFILE");
+define("ORGANIZATION", "ORGANIZATION");
+define('AREA', 'AREA');
 
 //Constantes CRUD
 define('CREATE', 'c');

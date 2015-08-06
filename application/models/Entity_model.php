@@ -27,6 +27,16 @@ class Entity_model extends CI_model {
         public $id;
 
         /**
+         * @var Object
+         */
+        public $parent;
+
+        /**
+         * @var String
+         */
+        public $breadcrumb;
+
+        /**
          * @var String
          */
         public $name;
@@ -98,7 +108,8 @@ class Entity_model extends CI_model {
            SUPERADMIN  => SUPERADMIN,
            ADMIN => ADMIN,
            MEMBER => MEMBER,
-           PROFILE => PROFILE
+           PROFILE => PROFILE,
+           ORGANIZATION=>ORGANIZATION
         );
 
 
@@ -160,11 +171,12 @@ class Entity_model extends CI_model {
         public function find($id) {
                 $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name",false);
                 $this->db->where("id", $id);
-                $entity= $this->db->get($this->table. " u")->row(0,"Entity_model");
+                $q= $this->db->get($this->table." u");
+                $entity= ($q->num_rows() > 0 ? $q->row(0,"Entity_model") : $q->row());
 
                 if(isset($entity->id)){
                         $entity->addresses= $this->address->find_by_entity($entity->id);
-                        $entity->contacts= $this->contact->find_by_entity($entity->id);
+                        $entity->contact= $this->contact->find($entity->id_contact);
                 }
 
                 return $entity;

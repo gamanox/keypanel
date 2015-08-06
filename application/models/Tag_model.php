@@ -111,9 +111,9 @@ class Tag_model extends CI_Model {
          */
         public function find($id) {
             $this->db->where("id", $id);
-            $node= $this->db->get($this->table)->row(0,"Tag_model");
+            $tag= $this->db->get($this->table);
 
-            return $node;
+            return ($tag->num_rows() > 0 ? $tag->row(0,"Tag_model") : $tag->row());
         }
 
         /**

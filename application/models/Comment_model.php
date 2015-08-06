@@ -117,9 +117,9 @@ class Comment_model extends CI_Model {
          */
         public function find($id) {
             $this->db->where("id", $id);
-            $comment= $this->db->get($this->table)->row(0,"Comment_model");
+            $comment= $this->db->get($this->table);
 
-            return $comment;
+            return ($comment->num_rows() > 0 ? $comment->row(0,"Comment_model") : $comment->row());
         }
 
         /**
