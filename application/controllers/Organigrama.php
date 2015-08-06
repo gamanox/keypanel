@@ -17,7 +17,7 @@ class Organigrama extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Organization_model','organization');
-        $this->load->model('Organization_category_model','organization_category');
+        $this->load->model('Category_model','category');
     }
 
     /**
@@ -50,7 +50,7 @@ class Organigrama extends CI_Controller {
         }
 
         // Buscamos la categoria enviada
-        $info_categoria = $this->organization_category->find_by_slug( $slug );
+        $info_categoria = $this->category->find_by_slug( $slug );
         if( isset($info_categoria) ){
             $param_header['title'] = 'KeyPanel';
             $this->load->view('includes/header', $param_header);
@@ -58,7 +58,7 @@ class Organigrama extends CI_Controller {
             $param_menu['breadcrumb'] = array();
             $this->load->view('includes/menu-extended-'. strtolower($this->session->type));
 
-            $param_view['sub_categorias'] = $this->organization_category->find_children( $info_categoria->id );
+            $param_view['sub_categorias'] = $this->category->find_children( $info_categoria->id );
             $this->load->view('panel/categories', $param_view);
 
             $this->load->view('includes/footer');

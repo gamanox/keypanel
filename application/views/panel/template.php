@@ -4,7 +4,7 @@
         <?php if( $this->session->type == MEMBER ) : ?>
         <?php /* CARD - USER INFO */ ?>
         <?php
-            $contact   = $user_info->contacts->row();
+            $contact   = $user_info->contact;
             $addresses = $user_info->addresses->row();
         ?>
         <div class="col s12 m2 l2">

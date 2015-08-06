@@ -143,9 +143,9 @@ class Post_model extends CI_Model {
          */
         public function find($id) {
             $this->db->where("id", $id);
-            $post= $this->db->get($this->table)->row(0,"Post_model");
+            $post= $this->db->get($this->table);
 
-            return $post;
+            return ($post->num_rows() > 0 ? $post->row(0,"Post_model") : $post->row());
         }
 
         /**
