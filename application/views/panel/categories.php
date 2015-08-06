@@ -14,7 +14,8 @@
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
     <a class="btn-floating btn-large red"><i class="large material-icons">add</i></a>
     <ul>
-        <li><a class="btn-floating green"><i class="material-icons">control_point_duplicate</i></i></a></li>
+        <li><a class="btn-floating green"><i class="material-icons">control_point_duplicate</i></a></li>
+        <li><a class="btn-floating blue"><i class="material-icons">device_hub</i></a></li>
     </ul>
 </div>
 <?php endif; ?>

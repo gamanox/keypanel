@@ -217,8 +217,8 @@ form#login-card p {
 }
 
 #dashboard .card-content {
-  height: 250px;
-  padding: 0;
+  /*height: 250px;
+  padding: 0;*/
 }
 
 #dashboard .card.sector p.card-title {
