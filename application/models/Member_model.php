@@ -90,7 +90,7 @@ class Member_model extends Entity_model {
         $id_member= (is_null($id_member) ? $this->session->id : $id_member);
         $this->db->where("id_member", $id_member);
         $this->db->where('status_row', ENABLED);
-        $this->db->order_by("create_at");
+        $this->db->order_by("create_at",'desc');
 
         if((isset($limit) and is_numeric($limit))){
             $this->db->limit($limit);
