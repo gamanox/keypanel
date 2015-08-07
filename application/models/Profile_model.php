@@ -18,7 +18,7 @@ class Profile_model extends Entity_model {
          * find
          *
          * Devuelve un objeto perfil
-         * 
+         *
          * @param Integer $id
          * @return Object
          */

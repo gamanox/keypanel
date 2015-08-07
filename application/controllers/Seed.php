@@ -28,7 +28,7 @@ class Seed extends CI_Controller {
             $this->load->model('Entity_category_model','entity_category');
             $this->load->model('Post_model','post');
             $this->load->model('Tag_model','tag');
-             $this->load->model('Entity_tag_model','entity_tag');
+            $this->load->model('Entity_tag_model','entity_tag');
         }
 
 	public function run($limit=50)
@@ -46,6 +46,7 @@ class Seed extends CI_Controller {
             $this->_seed_history();
             $this->_seed_news();
             $this->_seed_tags();
+            $this->_seed_entities_tags();
 
         }
 
@@ -1041,6 +1042,26 @@ class Seed extends CI_Controller {
                     );
 
                     $this->tag->save($tag);
+                }
+            }
+
+            echo PHP_EOL;
+        }
+
+        private function _seed_entities_tags(){
+            echo "seeding entities - tags";
+            $tags= $this->db->get('tags')->result();
+            foreach ($tags as $tag) {
+                foreach ($this->member->find_all(PROFILE)->result() as $profile) {
+                    if(rand(1,6)>5){
+                        $data = array(
+                            'id_entity' => $profile->id,
+                            'id_tag' => $tag->id,
+                            'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                        );
+
+                        $this->entity_tag->save($data);
+                    }
                 }
             }
 

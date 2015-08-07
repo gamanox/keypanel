@@ -189,7 +189,7 @@ class Entity_model extends CI_model {
          *
          * @param Mixed $user_type String|Array
          * @param String $status_row    String|Array
-         * @param String $order_by  Order by column1 asc|desc
+         * @param String $order_by  Ordenar por <b>column1 asc|desc</b>
          *
          * @return Object
          */
