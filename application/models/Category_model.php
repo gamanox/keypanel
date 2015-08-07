@@ -12,6 +12,7 @@ class Category_model extends CI_Model {
          */
         public function __construct() {
             parent::__construct();
+            $this->load->model('Entity_category_model','entity_category');
         }
 
         /**
@@ -112,9 +113,15 @@ class Category_model extends CI_Model {
         public function find($id) {
             $this->db->where("id", $id);
             $this->db->where('status_row', ENABLED);
-            $node= $this->db->get($this->table);
+            $q= $this->db->get($this->table);
 
-            return ($node->num_rows() > 0 ? $node->row(0,"Category_model") : $node->row());
+            $node= ($q->num_rows() > 0 ? $q->row(0,"Category_model") : $q->row());
+
+            if(isset($node->id)){
+                $node->entities= $this->entity_category->find_entities_by_category($node->id);
+            }
+
+            return $node;
         }
 
         /**
@@ -128,9 +135,15 @@ class Category_model extends CI_Model {
         public function find_by_slug($slug) {
             $this->db->where("slug", $slug);
             $this->db->where('status_row', ENABLED);
-            $node= $this->db->get($this->table);
+            $q= $this->db->get($this->table);
 
-            return ($node->num_rows() > 0 ? $node->row(0,"Category_model") : $node->row());
+            $node= ($q->num_rows() > 0 ? $q->row(0,"Category_model") : $q->row());
+
+            if(isset($node->id)){
+                $node->entities= $this->entity_category->find_entities_by_category($node->id);
+            }
+
+            return $node;
         }
 
         /**

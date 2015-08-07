@@ -12,6 +12,7 @@ class Tag_model extends CI_Model {
          */
         public function __construct() {
                 parent::__construct();
+                $this->load->model('Entity_tag_model','entity_tag');
         }
 
         /**
@@ -104,16 +105,45 @@ class Tag_model extends CI_Model {
         /**
          * find
          *
-         * Devuelve un objeto Etiqueta
+         * Devuelve un objeto etiqueta
          *
-         * @param void $id
+         * @param void $id id de la etiqueta
          * @return Object
          */
         public function find($id) {
             $this->db->where("id", $id);
-            $tag= $this->db->get($this->table);
+            $this->db->where('status_row', ENABLED);
+            $q= $this->db->get($this->table);
 
-            return ($tag->num_rows() > 0 ? $tag->row(0,"Tag_model") : $tag->row());
+            $node= ($q->num_rows() > 0 ? $q->row(0,"Tag_model") : $q->row());
+
+            if(isset($node->id)){
+                $node->entities= $this->entity_tag->find_entities_by_tag($node->id);
+            }
+
+            return $node;
+        }
+
+        /**
+         * find_by_slug
+         *
+         * Devuelve un objeto etiqueta
+         *
+         * @param void $slug slug de la etiqueta
+         * @return Object
+         */
+        public function find_by_slug($slug) {
+            $this->db->where("slug", $slug);
+            $this->db->where('status_row', ENABLED);
+            $q= $this->db->get($this->table);
+
+            $node= ($q->num_rows() > 0 ? $q->row(0,"Tag_model") : $q->row());
+
+            if(isset($node->id)){
+                $node->entities= $this->entity_tag->find_entities_by_tag($node->id);
+            }
+
+            return $node;
         }
 
         /**
@@ -142,6 +172,26 @@ class Tag_model extends CI_Model {
         public function find_parents() {
             $this->db->where("id_parent is null");
             $this->db->where('status_row', ENABLED);
+            $tags= $this->db->get($this->table);
+
+            return $tags;
+        }
+
+        /**
+         * find_trends
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene las etiquetas nodos más buscadas
+         *
+         * @return Object
+         */
+        public function find_trends($limit=null) {
+            $this->db->where('status_row', ENABLED);
+            $this->db->order_by('count_search', 'desc');
+
+            if((isset($limit) and is_numeric($limit))){
+                $this->db->limit($limit);
+            }
+
             $tags= $this->db->get($this->table);
 
             return $tags;

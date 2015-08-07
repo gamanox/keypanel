@@ -82,6 +82,7 @@ class Member_model extends Entity_model {
      *
      * Devuelve un objeto de resultado de bases de datos que contiene los objetos de perfiles vistos
      *
+     * @param Integer $id_member Id del miembro
      * @param Integer $limit    Por default null todos
      * @param Integer $offset   A partir de cual registro devolverá la consulta, por default null desde el comienzo
      * @return Object

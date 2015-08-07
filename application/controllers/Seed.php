@@ -16,7 +16,7 @@ class Seed extends CI_Controller {
             }
 
             // initiate faker
-            $this->faker = Faker\Factory::create();
+            $this->faker = Faker\Factory::create('es_ES');
             //$this->faker->seed(4321);
 
             // load any required models
@@ -27,6 +27,8 @@ class Seed extends CI_Controller {
             $this->load->model('Category_model','category');
             $this->load->model('Entity_category_model','entity_category');
             $this->load->model('Post_model','post');
+            $this->load->model('Tag_model','tag');
+             $this->load->model('Entity_tag_model','entity_tag');
         }
 
 	public function run($limit=50)
@@ -43,7 +45,7 @@ class Seed extends CI_Controller {
             $this->_seed_organigrama_categories($id_organization);
             $this->_seed_history();
             $this->_seed_news();
-
+            $this->_seed_tags();
 
         }
 
@@ -1003,6 +1005,43 @@ class Seed extends CI_Controller {
                 );
 
                 $this->post->save($post);
+            }
+
+            echo PHP_EOL;
+        }
+
+        private function _seed_tags(){
+            echo "seeding tags";
+            //history
+            for($k=0; $k<=50; $k++){
+                $tag = array(
+                    'id_parent' => NULL,
+                    'breadcrumb' => NULL,
+                    'name' => $this->faker->words(rand(1,3),true),
+                    'slug' => $this->faker->unique()->slug(rand(1,4),false),
+                    'count_search' => rand(0,10000),
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED),
+                );
+
+               $this->tag->save($tag);
+
+            }
+
+            $tags= $this->tag->find_parents();
+
+            foreach ($tags->result() as $tag) {
+                if(rand(1,0)){
+                    $tag = array(
+                        'id_parent' => $tag->id,
+                        'breadcrumb' => $tag->id,
+                        'name' => $this->faker->words(rand(1,3),true),
+                        'slug' => $this->faker->unique()->slug(rand(1,4),false),
+                        'count_search' => rand(0,10000),
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED),
+                    );
+
+                    $this->tag->save($tag);
+                }
             }
 
             echo PHP_EOL;
