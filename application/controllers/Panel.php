@@ -20,13 +20,18 @@ class Panel extends CI_Controller {
     }
 
     public function index(){
+        $this->load->model('Post_model','post');
+
         $param_header['title'] = 'KeyPanel';
         $this->load->view('includes/header', $param_header);
         $this->load->view('includes/menu-'. strtolower($this->session->type));
 
-        $param['user_info']    = $this->member->find_me();
+        $param['user_info'] = $this->member->find_me();
+        $param['updates']   = $this->member->updates(6);
+        $param['news']      = $this->post->find_all();
+
         $param['dynamic_view'] = 'panel/home';
-        $param['vars_to_load'] = array('user_info');
+        $param['vars_to_load'] = array('user_info','updates','news');
 
         $this->load->view('panel/template', $param);
 
@@ -43,7 +48,7 @@ class Panel extends CI_Controller {
         $this->load->view('includes/menu-'. strtolower($this->session->type));
 
         $param['user_info'] = $this->member->find_me();
-        $param['updates']   = NULL;
+        $param['updates']   = $this->member->updates(10);
 
         $param['dynamic_view'] = 'panel/updates';
         $param['vars_to_load'] = array('user_info','updates');
@@ -78,6 +83,7 @@ class Panel extends CI_Controller {
 
         $this->load->view('includes/footer');
     }
+
     public function help(){
         $param_header['title'] = 'keypanel';
         $this->load->view('includes/header', $param_header);
@@ -92,15 +98,22 @@ class Panel extends CI_Controller {
 
         $this->load->view('includes/footer');
     }
+
+    /**
+     * [news description]
+     * @return [type] [description]
+     */
     public function news(){
-        $param_header['title'] = 'keypanel';
+        $this->load->model('Post_model','post');
+
+        $param_header['title'] = lang('card-noticias-title') .' | KeyPanel';
         $this->load->view('includes/header', $param_header);
         $this->load->view('includes/menu-'. strtolower($this->session->type));
 
         $param['user_info'] = $this->member->find_me();
-
+        $param['news']      = $this->post->find_all();
         $param['dynamic_view'] = 'panel/news';
-        $param['vars_to_load'] = array('user_info');
+        $param['vars_to_load'] = array('news');
 
         $this->load->view('panel/template', $param);
 

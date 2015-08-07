@@ -251,12 +251,17 @@ form#login-card p {
 }
 
 #dashboard .card.small .card-title {
-  padding: 15px;
+  padding: 12px;
   font-size: 16px;
   margin: 0;
   background-color: #f9fafa;
   line-height: 18px;
   border-bottom: 1px solid #e1e7e9;
+}
+
+.card.big .card-title {
+  font-size: 16px;
+  line-height: 18px;
 }
 
 #dashboard .card.small ul.collection {
@@ -314,3 +319,5 @@ nav ul a {
 .copy { font-size: 12px; color: #ccc; }
 .card-header .card-title { padding: 12px; }
 .card-panel .card-content { padding: 20px; }
+.card.panel .card-title { font-size: 16px; }
+span.update { font-size: 10px; padding: 2px 5px; }

@@ -1,4 +1,4 @@
-(function($){
+$(function(){
     $(function(){
         $(".button-collapse").sideNav();
 
@@ -10,5 +10,6 @@
             }, 500);
         }
     });
-})(jQuery);
+});
+
 //# sourceMappingURL=init.js.map

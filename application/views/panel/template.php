@@ -63,9 +63,11 @@
                     if( isset( $dynamic_view) ) {
                         $view_param = array();
                         foreach ($vars_to_load as $var) {
-                            $view_param[$var] = $$var;
+                            if( isset($$var) )
+                                $view_param[$var] = $$var;
                         }
 
+                        // echo '<pre>'. print_r($news, true) .'</pre>';
                         // echo '<pre>'. print_r($view_param, true) .'</pre>';
                         // echo '<pre>'. print_r($user_info, true) .'</pre>';
 
@@ -79,7 +81,7 @@
             <div class="row">
                 <?php /* CARD - ORGANIGRAMAS PUBLICOS */ ?>
                 <div class="col s12 m12 l12">
-                    <div class="card small sector hoverable">
+                    <div class="card panel sector hoverable">
                         <div class="card-content">
                             <p class="card-title blue-grey-text text-darken-4"><?php echo lang('card-organigramas-publicos-title'); ?></p>
                             <p class="card-description blue-grey-text text-darken-1"><?php echo lang('card-organigramas-publicos-desc'); ?></p>
@@ -93,7 +95,7 @@
 
                 <?php /* CARD - ORGANIGRAMAS PRIVADOS */ ?>
                 <div class="col s12 m12 l12">
-                    <div class="card small sector hoverable">
+                    <div class="card panel sector hoverable">
                         <div class="card-content">
                             <p class="card-title blue-grey-text text-darken-4"><?php echo lang('card-organigramas-privados-title'); ?></p>
                             <p class="card-description blue-grey-text text-darken-1"><?php echo lang('card-organigramas-privados-desc'); ?></p>
