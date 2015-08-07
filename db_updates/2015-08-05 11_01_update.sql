@@ -1,6 +1,6 @@
 DROP TABLE `keypanel`.`organization`, `keypanel`.`organization_profiles`;
 
-ALTER TABLE `keypanel`.`entity_category` 
+ALTER TABLE `keypanel`.`entity_category`
 ENGINE = MyISAM , RENAME TO  `keypanel`.`entities_categories` ;
 
 drop table entities;
@@ -30,20 +30,21 @@ CREATE TABLE `entities` (
   KEY `id_contact` (`id_contact`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
-ALTER TABLE `keypanel`.`entities_categories` 
+ALTER TABLE `keypanel`.`entities_categories`
 ADD COLUMN `create_at` DATETIME NULL AFTER `id_entity`,
 ADD COLUMN `update_at` DATETIME NULL DEFAULT NULL AFTER `create_at`,
 ADD COLUMN `status_row` ENUM('DELETED','ENABLED') CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NULL DEFAULT 'ENABLED' COMMENT 'Indica el borrado lógico' AFTER `update_at`,
 ADD INDEX `status_row` (`status_row` ASC);
 
 
-ALTER TABLE `keypanel`.`entities_tags` 
+ALTER TABLE `keypanel`.`entities_tags`
 ADD COLUMN `create_at` DATETIME NULL AFTER `id_entity`,
 ADD COLUMN `update_at` DATETIME NULL DEFAULT NULL AFTER `create_at`,
 ADD COLUMN `status_row` ENUM('DELETED','ENABLED') CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NULL DEFAULT 'ENABLED' COMMENT 'Indica el borrado lógico' AFTER `update_at`,
 ADD INDEX `status_row` (`status_row` ASC);
 
 
-ALTER TABLE `keypanel`.`entities_address` 
+ALTER TABLE `keypanel`.`entities_address`
 CHANGE COLUMN `country` `country` CHAR(100) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL ;
 
+ALTER TABLE `entities_contacts` DROP `id_entity`;
