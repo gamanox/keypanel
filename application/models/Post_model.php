@@ -165,4 +165,19 @@ class Post_model extends CI_Model {
                 return $posts;
         }
 
+        /**
+         * find_all
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene a todos los objetos post
+         *
+         * @return Object
+         */
+        public function find_all() {
+                $this->db->where('status_row', ENABLED);
+                $this->db->order_by("create_at","desc");
+                $posts= $this->db->get($this->table);
+
+                return $posts;
+        }
+
 }

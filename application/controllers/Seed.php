@@ -988,12 +988,10 @@ class Seed extends CI_Controller {
 
         private function _seed_news(){
             echo "seeding news";
-            $superadmin= $this->member->find_all(SUPERADMIN)->row();
             //history
             for($k=0; $k<=20; $k++){
                 $title= trim($this->faker->realText(rand(10,20)));
                 $post = array(
-                    'id_entity' => $superadmin->id,
                     'content' => $this->faker->realText(rand(200,600)),
                     'title' => $title,
                     'status' => (rand(0, 1) ? PUBLISHED : UNPUBLISHED),
