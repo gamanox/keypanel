@@ -24,6 +24,7 @@ class Organization_model extends Entity_model {
          */
         public function find_children($id) {
             $this->db->where("id_parent", $id);
+            $this->db->where('status_row', ENABLED);
             $nodes= $this->db->get($this->table);
 
             return $nodes;
@@ -38,6 +39,7 @@ class Organization_model extends Entity_model {
          */
         public function find_parents() {
             $this->db->where("type",ORGANIZATION);
+            $this->db->where('status_row', ENABLED);
             $nodes= $this->db->get($this->table);
 
             return $nodes;

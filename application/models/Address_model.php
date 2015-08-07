@@ -144,7 +144,7 @@ class Address_model extends CI_Model {
         public function find($id) {
                 $this->db->where("id", $id);
                 $address= $this->db->get($this->table);
-                
+
                 return ($address->num_rows() > 0 ? $address->row(0,"Address_model") : $address->row());
         }
 
@@ -158,6 +158,7 @@ class Address_model extends CI_Model {
          */
         public function find_by_entity($id_entity) {
                 $this->db->where("id_entity", $id_entity);
+                $this->db->where('status_row', ENABLED);
                 $this->db->order_by('create_at','ASC');
                 $address= $this->db->get($this->table);
 

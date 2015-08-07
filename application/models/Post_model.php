@@ -158,6 +158,8 @@ class Post_model extends CI_Model {
          */
         public function find_by_entity($id_entity) {
                 $this->db->where("id_entity", $id_entity);
+                $this->db->where('status_row', ENABLED);
+                $this->db->order_by("create_at","desc");
                 $posts= $this->db->get($this->table);
 
                 return $posts;

@@ -26,6 +26,7 @@ class Seed extends CI_Controller {
             $this->load->model('History_model','history');
             $this->load->model('Category_model','category');
             $this->load->model('Entity_category_model','entity_category');
+            $this->load->model('Post_model','post');
         }
 
 	public function run($limit=50)
@@ -41,6 +42,8 @@ class Seed extends CI_Controller {
             $this->_seed_categories($id_organization);
             $this->_seed_organigrama_categories($id_organization);
             $this->_seed_history();
+            $this->_seed_news();
+
 
         }
 
@@ -980,6 +983,30 @@ class Seed extends CI_Controller {
 
                 $this->entity_category->save($data);
             }
+            echo PHP_EOL;
+        }
+
+        private function _seed_news(){
+            echo "seeding news";
+            $superadmin= $this->member->find_all(SUPERADMIN)->row();
+            //history
+            for($k=0; $k<=20; $k++){
+                $title= trim($this->faker->realText(rand(10,20)));
+                $post = array(
+                    'id_entity' => $superadmin->id,
+                    'content' => $this->faker->realText(rand(200,600)),
+                    'title' => $title,
+                    'status' => (rand(0, 1) ? PUBLISHED : UNPUBLISHED),
+                    'comment_status' => (rand(0, 1) ? ENABLED : DISABLED),
+                    'title' => $title,
+                    'slug' => $this->faker->slug,
+                    'comment_count' => rand(0, 50),
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                );
+
+                $this->post->save($post);
+            }
+
             echo PHP_EOL;
         }
 

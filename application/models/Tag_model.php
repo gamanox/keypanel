@@ -126,6 +126,7 @@ class Tag_model extends CI_Model {
          */
         public function find_children($id) {
             $this->db->where("id_parent", $id);
+            $this->db->where('status_row', ENABLED);
             $tags= $this->db->get($this->table);
 
             return $tags;
@@ -140,6 +141,7 @@ class Tag_model extends CI_Model {
          */
         public function find_parents() {
             $this->db->where("id_parent is null");
+            $this->db->where('status_row', ENABLED);
             $tags= $this->db->get($this->table);
 
             return $tags;
