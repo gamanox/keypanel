@@ -1,6 +1,6 @@
 <div id="updates" class="card small partial">
 	<div class="card-content no-padding">
-		<p class="card-title blue-grey-text text-darken-4 valign-wrapper"><i class="tiny material-icons valign">forum</i>&nbsp;&nbsp;<?php echo lang('card-actualizaciones-title'); ?><a href="<?php echo base_url('panel'); ?>" class="waves-effect waves-blue btn-flat close"><i class="tiny material-icons valign">close</i></a></p>
+		<p class="card-title blue-grey-text text-darken-4 valign-wrapper"><i class="tiny material-icons valign">notifications</i>&nbsp;&nbsp;<?php echo lang('card-actualizaciones-title'); ?><a href="<?php echo base_url('panel'); ?>" class="waves-effect waves-blue btn-flat close"><i class="tiny material-icons valign">close</i></a></p>
 
         <?php if( isset($updates) and $updates->num_rows() > 0 ) : ?>
         <ul class="collection nomargin">

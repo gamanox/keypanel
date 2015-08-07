@@ -70,7 +70,7 @@
 <div class="col s12 m7 l7">
     <div class="card small partial hoverable">
         <div class="card-header grey lighten-5">
-            <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">forum</i>&nbsp;<?php echo lang('card-actualizaciones-title'); ?></p>
+            <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">notifications</i>&nbsp;<?php echo lang('card-actualizaciones-title'); ?></p>
         </div>
         <div class="card-content no-padding">
             <ul class="collection nomargin">
