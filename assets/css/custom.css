@@ -316,6 +316,15 @@ nav ul a {
   font-size: 12px;
 }
 
+/*** Desktops & Laptops ***/
+@media (min-width: 980px) {
+  nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+    line-height: 59px;
+  }
+}
+
+nav .nav-wrapper a span { padding-left: 5px; display: inline-block; position: relative; top: -4px; }
+
 .copy { font-size: 12px; color: #ccc; }
 .card-header .card-title { padding: 12px; }
 .card-panel .card-content { padding: 20px; }

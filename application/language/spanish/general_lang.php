@@ -8,17 +8,27 @@
     $lang['last_name']                  = 'Apellidos';
     $lang['full_name']                  = 'Nombre completo';
     $lang['email']                      = 'Correo electrónico';
+
+    $lang['info-contact']               = 'Información de Contacto';
+    $lang['phone-personal']             = 'Teléfono';
+    $lang['phone-business']             = 'Teléfono (Oficina)';
+
     $lang['datos-acceso']               = 'Datos de Acceso';
     $lang['username']                   = 'Usuario';
     $lang['password']                   = 'Clave';
     $lang['new-password']               = 'Nueva clave';
     $lang['password_confirmation']      = 'Repite la clave';
 
-    $lang['column-info']                = 'Información General';
     $lang['column-actions']             = 'Acciones';
 
     $lang['MEMBER']                     = 'Miembro';
     $lang['PROFILE']                    = 'Perfil';
+
+    $lang['menu-myaccount']             = 'Mi cuenta';
+    $lang['menu-help']                  = 'Preguntas Frecuentes';
+    $lang['menu-news']                  = 'Noticias';
+    $lang['menu-members']               = 'Miembros';
+    $lang['menu-enterprises']           = 'Empresas';
 
     $lang['btn_terminos_y_condiciones'] = 'Términos y Condiciones';
     $lang['btn_forgot_password']        = '¿Olvidaste tu clave?';

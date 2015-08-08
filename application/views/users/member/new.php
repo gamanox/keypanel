@@ -30,6 +30,18 @@
                     </div>
 
                     <div class="clearfix"></div>
+                    <h6><?php echo lang('info-contact'); ?></h6>
+                    <div class="input-field col s12 m6">
+                        <input name="contact[phone_personal]" value="" id="phone_personal" type="text">
+                        <label for="phone_personal"><?php echo lang('phone-personal'); ?></label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input name="contact[phone_businesss]" value="" id="phone_business" type="text">
+                        <label for="phone_business"><?php echo lang('phone-business'); ?></label>
+                    </div>
+
+
+                    <div class="clearfix"></div>
                     <h6><?php echo lang('datos-acceso'); ?></h6>
                     <div class="input-field col s12 m4">
                         <input name="member[username]" value="<?php echo set_value('member[username]'); ?>" id="username" type="text">
