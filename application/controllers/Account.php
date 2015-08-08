@@ -33,7 +33,7 @@ class Account extends CI_Controller {
         if( $this->session->isloggedin ){
 
             if( $this->session->type == SUPERADMIN )
-                $this->lang->load('administration');
+                $this->lang->load('member');
 
             $param_header['title'] = lang('my-account-title');
             $this->load->view('includes/header', $param_header);
@@ -84,7 +84,7 @@ class Account extends CI_Controller {
                 switch ($member_session_data['type']) {
                     case 'SUPERADMIN':
                         // Es superadmin, lo mandamos a administracion
-                        $response['redirect_url'] = base_url('administration');
+                        $response['redirect_url'] = base_url('admin/member');
                         break;
                     default:
                         // Es miembro, redirigimos a pantalla de su cuenta

@@ -77,7 +77,7 @@ class Member extends Base {
      * @return void
      */
     public function show_list(){
-        if( !$this->auth->is_auth('Auth-Members', READ) ){
+        if( !$this->auth->is_auth($this->router->class, READ) ){
             redirect('account');
         }
 
@@ -110,7 +110,7 @@ class Member extends Base {
      * @return void
      */
     public function add(){
-        if( !$this->auth->is_auth('Auth-Members', CREATE) ){
+        if( !$this->auth->is_auth( $this->router->class, CREATE) ){
             redirect('account');
         }
 
@@ -200,7 +200,7 @@ class Member extends Base {
      * @return void
      */
     public function edit( $id_member = NULL ){
-        if( !$this->auth->is_auth('Auth-Members', CREATE) ){
+        if( !$this->auth->is_auth( $this->router->class, UPDATE) ){
             redirect('account');
         }
 
@@ -229,7 +229,7 @@ class Member extends Base {
      * @return void
      */
     public function update(){
-        if( !$this->auth->is_auth('Auth-Members', CREATE) ){
+        if( !$this->auth->is_auth( $this->router->class, UPDATE) ){
             redirect('account');
         }
 

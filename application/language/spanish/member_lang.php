@@ -19,12 +19,6 @@
     $lang['btn_update_member']    = 'Actualizar datos';
 
     /**
-     * Menu
-     */
-    $lang['menu_members']     = 'Miembros';
-    $lang['menu_enterprises'] = 'Empresas';
-
-    /**
      * Errores
      */
     $lang['first_name-empty']                = 'Introduce un nombre';

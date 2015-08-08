@@ -60,3 +60,6 @@ $route['organigrama/(:any).html'] = 'organigrama/explorar/$1';
 
 // Routing para profiles
 $route['organigrama/perfil-(:num)'] = "perfil/find_by_id/$1";
+
+// General info
+$route['help'] = "faq/help";
