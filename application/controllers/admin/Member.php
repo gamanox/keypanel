@@ -4,7 +4,8 @@
  * @package keypanel
  * @version 1.0
  */
-class Administration extends CI_Controller {
+require_once APPPATH.'controllers/admin/Base.php';
+class Member extends Base {
 
     /**
      * $charset_pass
@@ -61,7 +62,7 @@ class Administration extends CI_Controller {
      * @return void
      */
     public function index(){
-        redirect('administration/members');
+        redirect('admin/member/show_list');
     }
 
     /**
@@ -75,7 +76,7 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function members(){
+    public function show_list(){
         if( !$this->auth->is_auth('Auth-Members', READ) ){
             redirect('account');
         }
@@ -108,7 +109,7 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function add_member(){
+    public function add(){
         if( !$this->auth->is_auth('Auth-Members', CREATE) ){
             redirect('account');
         }
@@ -198,7 +199,7 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function edit_member( $id_member = NULL ){
+    public function edit( $id_member = NULL ){
         if( !$this->auth->is_auth('Auth-Members', CREATE) ){
             redirect('account');
         }
@@ -227,7 +228,7 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function update_member(){
+    public function update(){
         if( !$this->auth->is_auth('Auth-Members', CREATE) ){
             redirect('account');
         }
@@ -274,7 +275,7 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function delete_member( $id_member = NULL ){
+    public function delete( $id_member = NULL ){
         if( !$this->auth->is_auth('Auth-Members', CREATE) ){
             redirect('account');
         }
