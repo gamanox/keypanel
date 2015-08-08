@@ -276,29 +276,41 @@ form#login-card p {
   clear: both;
 }
 
-.nopadding {
-  padding: 0;
+.nopadding, .no-padding {
+  padding: 0 !important;
 }
 
-.nomargin {
-  margin: 0;
+.nomargin, .no-margin {
+  margin: 0 !important;
 }
 
-.p-t-5 {
-  padding-top: 5px;
-}
+.p-t-0 { padding-top: 0px; }
+.p-t-5 { padding-top: 5px; }
+.p-t-10 { padding-top: 10px; }
+.p-t-20 { padding-top: 20px; }
+.p-t-30 { padding-top: 30px; }
+.p-t-40 { padding-top: 40px; }
 
-.p-b-5 {
-  padding-bottom: 5px;
-}
+.p-b-0 { padding-bottom: 0px; }
+.p-b-5 { padding-bottom: 5px; }
+.p-b-10 { padding-bottom: 10px; }
+.p-b-20 { padding-bottom: 20px; }
+.p-b-30 { padding-bottom: 30px; }
+.p-b-40 { padding-bottom: 40px; }
 
-.p-l-5 {
-  padding-left: 5px;
-}
+.p-l-0 { padding-left: 0px; }
+.p-l-5 { padding-left: 5px; }
+.p-l-10 { padding-left: 10px; }
+.p-l-20 { padding-left: 20px; }
+.p-l-30 { padding-left: 30px; }
+.p-l-40 { padding-left: 40px; }
 
-.p-r-5 {
-  padding-right: 5px;
-}
+.p-r-0 { padding-right: 0px; }
+.p-r-5 { padding-right: 5px; }
+.p-r-10 { padding-right: 10px; }
+.p-r-20 { padding-right: 20px; }
+.p-r-30 { padding-right: 30px; }
+.p-r-40 { padding-right: 40px; }
 
 .nav-secundary {
   height: 45px;
@@ -330,3 +342,5 @@ nav .nav-wrapper a span { padding-left: 5px; display: inline-block; position: re
 .card-panel .card-content { padding: 20px; }
 .card.panel .card-title { font-size: 16px; }
 span.update { font-size: 10px; padding: 2px 5px; }
+
+hr { border: 0 none; color: #e1e7e9; background-color: #e1e7e9; height: 1px; }
