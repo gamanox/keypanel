@@ -67,4 +67,17 @@ class Errores extends CI_Controller {
         $param_header['title'] = lang('payment-required-title');
         $this->load->view('includes/header');
     }
+
+    /**
+     * [function_name description]
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright
+     *
+     * @return [type] [description]
+     */
+    public function show_404(){
+        echo 'ups, esta pagina no existe';
+    }
 }
