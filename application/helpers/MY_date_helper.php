@@ -93,6 +93,24 @@ if ( ! function_exists('my_date_diff'))
 	}
 }
 
+/**
+ * date_to_humans
+ *
+ * Devuelve la fecha con el formato que se le especifique
+ *
+ * @access  public
+ * @param date $date una fecha
+ * @param date $format formato de fecha requerido
+ * @return  String  Fecha con el formato especificado
+ */
+
+if ( ! function_exists('date_to_humans'))
+{
+    function date_to_humans( $create_at, $format = 'Y/m/d' ){
+        return date($format, strtotime($create_at));
+    }
+}
+
 
 /* End of file MY_date_helper.php */
 /* Location: ./application/helpers/MY_date_helper.php */
