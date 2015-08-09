@@ -94,6 +94,10 @@
         <div class="card-header">
             <p class="card-title blue-grey-text text-darken-4 valign-wrapper"><i class="tiny material-icons valign">local_offer</i>&nbsp;<?php echo lang('card-tendencias-title'); ?></p>
         </div>
-        <div class="card-content"></div>
+        <div class="card-content">
+            <?php foreach ($trends->result() as $term): ?>
+            <span class="blue white-text trend"><?php echo $term->name; ?></span>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>

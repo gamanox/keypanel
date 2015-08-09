@@ -49,23 +49,23 @@ class Organigrama extends CI_Controller {
             redirect('panel');
         }
 
+        $param_header['title'] = 'KeyPanel';
+        $this->load->view('includes/header', $param_header);
+
+        $param_menu['breadcrumb'] = array();
+        $this->load->view('includes/menu-extended-'. strtolower($this->session->type));
+
         // Buscamos la categoria enviada
         $info_categoria = $this->category->find_by_slug( $slug );
         if( isset($info_categoria) ){
-            $param_header['title'] = 'KeyPanel';
-            $this->load->view('includes/header', $param_header);
-
-            $param_menu['breadcrumb'] = array();
-            $this->load->view('includes/menu-extended-'. strtolower($this->session->type));
-
             $param_view['sub_categorias'] = $this->category->find_children( $info_categoria->id );
             $this->load->view('panel/categories', $param_view);
-
-            $this->load->view('includes/footer');
         }
         else {
             // No se encontro la categoria, mandar vista de error
         }
+
+        $this->load->view('includes/footer');
     }
 }
 /* End of file Organigrama.php */
