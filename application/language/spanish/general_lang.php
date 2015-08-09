@@ -53,3 +53,12 @@
     $lang['card-configuracion-title']   = 'Configuración';
 
     $lang['desea_realizar_esta_accion'] = '¿Desea realizar esta acción?';
+
+    //permisos
+    $lang['error_sin_permisos']             = 'No tienes permisos para realizar esta operación';
+
+    //mensajes
+    $lang['msg_operacion_exitosa']          = 'Operación realizada con éxito.';
+    $lang['msg_operacion_fallida']          = 'Ocurrio un error al realizar la operación.';
+    $lang['msg_registros_afectados']        = 'Registros afectados (%s).';
+    $lang['msg_proceso_fallido']            = 'Ocurrio un error al procesar la información.';

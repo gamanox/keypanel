@@ -35,9 +35,9 @@
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
     <a class="btn-floating btn-large red"><i class="large material-icons">add</i></a>
     <ul>
-        <?php if (isset($parent) and $parent->type==ORGANIZATION): ?>
+        <?php if (isset($parent) and in_array($parent->type, array(ORGANIZATION,AREA))): ?>
             <li>
-            <li><a href="<?php echo base_url('admin/organization/profile_add/'.$parent->id); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('org_profile_add'); ?>"><i class="material-icons">person_add</i></a></li>
+                <li><a href="<?php echo base_url('admin/organization/profile_add/'.$parent->id); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('org_profile_add'); ?>"><i class="material-icons">person_add</i></a></li>
                 <li><a href="<?php echo base_url('admin/organization/area_add/'.$parent->id); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('org_area_add'); ?>"><i class="material-icons">folder</i></a></li>
             </li>
         <?php else: ?>
@@ -70,7 +70,7 @@ function trash(id, obj) {
         if (entities.length > 0) {
             $.ajax({
                 type: 'POST',
-                url: '<?php echo base_url('admin/organization/delete'); ?>',
+                url: '<?php echo base_url('admin/organigrama/delete'); ?>',
                 data: {
                     entities: entities
                 },
