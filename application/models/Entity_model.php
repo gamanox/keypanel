@@ -39,7 +39,7 @@ class Entity_model extends CI_model {
         /**
          * @var String
          */
-        public $name;
+        public $first_name;
 
         /**
          * @var String
@@ -177,6 +177,7 @@ class Entity_model extends CI_model {
                 if(isset($entity->id)){
                         $entity->addresses= $this->address->find_by_entity($entity->id);
                         $entity->contact= $this->contact->find($entity->id_contact);
+
                 }
 
                 return $entity;
