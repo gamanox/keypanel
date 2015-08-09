@@ -1,5 +1,5 @@
 
-<div class="container error">
+<div class="container" id="error">
   <div class="col m12 page-404">
     <div class="number">404</div>
     <div class="details">
