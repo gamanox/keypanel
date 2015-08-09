@@ -78,6 +78,6 @@ class Errores extends CI_Controller {
      * @return [type] [description]
      */
     public function show_404(){
-        echo 'ups, esta pagina no existe';
+        $this->load->view('errors/404');
     }
 }

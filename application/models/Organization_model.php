@@ -15,6 +15,39 @@ class Organization_model extends Entity_model {
         }
 
         /**
+         * @var String
+         */
+        public $name;
+
+        /**
+         * find
+         *
+         * Devuelve un objeto organization
+         *
+         * @param Integer $id
+         * @return Object
+         */
+        public function find($id) {
+            $this->db->select("u.*, u.first_name as name");
+            $this->db->where("id", $id);
+            $this->db->where_in('type', array(ORGANIZATION, AREA, PROFILE));
+            $q= $this->db->get($this->table." u");
+            $entity= ($q->num_rows() > 0 ? $q->row(0,"Organization_model") : $q->row());
+
+            if(isset($entity->id)){
+                    $entity->addresses= $this->address->find_by_entity($entity->id);
+                    $entity->contact= $this->contact->find($entity->id_contact);
+
+                    if($entity->id_parent==1){
+                        $entity->id_parent=null;
+                    }
+
+            }
+
+            return $entity;
+        }
+
+        /**
          * find_children
          *
          * Devuelve un objeto de resultado de bases de datos que contiene objetos nodos hijos de un nodo padre que componen el organigrama
@@ -23,9 +56,10 @@ class Organization_model extends Entity_model {
          * @return Object
          */
         public function find_children($id) {
+            $this->db->select("u.*, u.first_name as name");
             $this->db->where("id_parent", $id);
             $this->db->where('status_row', ENABLED);
-            $nodes= $this->db->get($this->table);
+            $nodes= $this->db->get($this->table. " u");
 
             return $nodes;
         }
@@ -38,9 +72,10 @@ class Organization_model extends Entity_model {
          * @return Object
          */
         public function find_parents() {
+            $this->db->select("u.*, u.first_name as name");
             $this->db->where("type",ORGANIZATION);
             $this->db->where('status_row', ENABLED);
-            $nodes= $this->db->get($this->table);
+            $nodes= $this->db->get($this->table. " u");
 
             return $nodes;
         }

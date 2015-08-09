@@ -23,12 +23,15 @@
 
     $lang['MEMBER']                     = 'Miembro';
     $lang['PROFILE']                    = 'Perfil';
+    $lang['ORGANIZATION']               = 'Organigrama';
+    $lang['AREA']                       = 'Area';
 
     $lang['menu-myaccount']             = 'Mi cuenta';
     $lang['menu-help']                  = 'Preguntas Frecuentes';
     $lang['menu-news']                  = 'Noticias';
     $lang['menu-members']               = 'Miembros';
     $lang['menu-enterprises']           = 'Empresas';
+    $lang['menu-organization']          = 'Organigramas';
 
     $lang['btn_terminos_y_condiciones'] = 'Términos y Condiciones';
     $lang['btn_forgot_password']        = '¿Olvidaste tu clave?';
@@ -39,6 +42,7 @@
     $lang['btn_entrar']                 = 'Entrar';
     $lang['btn_ver_mas']                = 'Ver más';
     $lang['btn_mas_noticias']           = 'Más noticias';
+    $lang['btn_atras']                  = 'Atrás';
 
     $lang['read_more']                  = 'Leer más';
     $lang['dashboard']                  = 'Dashboard';
@@ -47,3 +51,5 @@
 
     $lang['label-member-since']         = '%s desde';
     $lang['card-configuracion-title']   = 'Configuración';
+
+    $lang['desea_realizar_esta_accion'] = '¿Desea realizar esta acción?';

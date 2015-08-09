@@ -1,1 +1,0 @@
-ALTER TABLE `keypanel`.`entities` DROP INDEX `password_UNIQUE` ;
