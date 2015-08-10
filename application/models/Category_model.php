@@ -163,6 +163,54 @@ class Category_model extends CI_Model {
         }
 
         /**
+        * count_organization_from_categories
+        *
+        * Devuelve el numero de organigramas y perfiles total de categorias especificadas
+        * @author Luis E. Salazar <luis.830424@gmail.com>
+        * @access public
+        * @param array $categories object de categorias
+        * @return array array("count_organizations"=>$orgs_sum,"count_profiles"=>$profiles_sum);
+        */
+        function count_organizations_from_categories($categories) {
+            $orgs_contados= array();
+            $cats_cves= array();
+            $orgs_sum=0;
+            $profiles_sum=0;
+
+            foreach ($categories as $category) {
+                $cats_cves[]= $category->id;
+            }
+
+            $this->db->select("e.id, breadcrumb");
+            $this->db->from('entities_categories ec');
+            $this->db->join('entities e', 'ec.id_entity=e.id');
+            $this->db->where('e.type', ORGANIZATION);
+            $this->db->where_in('ec.id_category', $cats_cves);
+            $this->db->where('e.status_row', ENABLED);
+            $this->db->where('ec.status_row', ENABLED);
+            $orgs= $this->db->get();
+
+
+            foreach ($orgs->result() as $org) {
+                if(!in_array($org->id, $orgs_contados)){
+                    $orgs_sum++;
+
+                    $this->db->select("count(e.id) count_profiles");
+                    $this->db->from("entities e");
+                    $this->db->like("breadcrumb",$org->breadcrumb."|".$org->id."|",'right');
+                    $this->db->where('e.type', PROFILE);
+                    $profiles_sum+= $this->db->get()->row('count_profiles');
+                }
+
+                $orgs_contados[]= $org->id;
+            }
+
+
+
+            return array("count_organizations"=>$orgs_sum,"count_profiles"=>$profiles_sum);
+        }
+
+        /**
          * find_parents
          *
          * Devuelve un objeto de resultado de bases de datos que contiene categorias nodos padres que no tienen un nodo padre asignado
