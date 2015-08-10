@@ -157,7 +157,76 @@ class Category_model extends CI_Model {
         public function find_children($id) {
             $this->db->where("id_parent", $id);
             $this->db->where('status_row', ENABLED);
-            $categories= $this->db->get($this->table);
+            $categories = $this->db->get($this->table);
+
+            if( $categories->num_rows() > 0 ){
+                $this->load->model('Profile_model','profile');
+                $categories_tree = $this->tree();
+
+                $categories = $categories->result();
+                foreach ($categories as $key => $category) {
+                    // Buscamos todas las categorias debajo de la categoria dada
+                    $all_categories = $this->category_tree($category->id, $categories_tree, array());
+
+                    $organizations    = array();
+                    $id_organizations = array();
+                    $children         = array();
+                    if( count($all_categories) > 0 ){
+                        // Buscamos todos los niveles que pueda tener
+                        foreach ($all_categories as $sub_cat) {
+                            $organizations_category = $this->entity_category->find_entities_by_category( $sub_cat );
+                            if( $organizations_category->num_rows() ){
+                                foreach ($organizations_category->result() as $organigrama) {
+                                    $organizations[$organigrama->id] = $organigrama;
+
+                                    if( !in_array($organigrama->id, $id_organizations) )
+                                        $id_organizations[] = $organigrama->id;
+                                }
+                            }
+                        }
+
+                        // hijos directos de la categoria
+                        if( key_exists($category->id, $categories_tree['parents']) ){
+                            foreach ($categories_tree['parents'][$category->id] as $cat) {
+                                $children[$cat] = $categories_tree['items'][$cat];
+                            }
+                        }
+                    }
+                    else {
+                        // No tiene subcategorias, buscamos las organizaciones directo
+                        // Buscamos todos los niveles que pueda tener
+                        $organizations_category = $this->entity_category->find_entities_by_category( $category->id );
+                        if( $organizations_category->num_rows() ){
+                            foreach ($organizations_category->result() as $organigrama) {
+                                $organizations[$organigrama->id] = $organigrama;
+
+                                if( !in_array($organigrama->id, $id_organizations) )
+                                    $id_organizations[] = $organigrama->id;
+                            }
+                        }
+                    }
+
+                    $categories[$key]->children            = $children;
+                    $categories[$key]->subcategories       = $all_categories;
+
+                    $categories[$key]->total_organizations = count($organizations);
+                    $categories[$key]->organizations       = $organizations;
+
+                    // Buscamos todos los perfiles
+                    $profiles = array();
+                    foreach ($id_organizations as $organization) {
+                        $breadcrumb   = '1|'. $organization .'|';
+                        $profiles_org = $this->profile->find_all_by_breadcrumb( $breadcrumb );
+
+                        foreach ($profiles_org->result() as $profile) {
+                            $profiles[$profile->id] = $profile;
+                        }
+                    }
+
+                    $categories[$key]->total_profiles = count($profiles);
+                    $categories[$key]->profiles = $profiles;
+                }
+            }
 
             return $categories;
         }
@@ -224,5 +293,60 @@ class Category_model extends CI_Model {
 
             return $categories;
         }
+
+    /**
+     * [function_name description]
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright
+     *
+     * @return [type] [description]
+     */
+    public function tree(){
+        $this->db->where('status_row', ENABLED);
+        $query      = $this->db->get('categories');
+        $categories = array();
+
+        // Builds the array lists with data from the categories table
+        foreach ($query->result() as $key => $items) {
+            $categories['items'][$items->id]            = $items;
+            if( isset($items->id_parent) )
+                $categories['parents'][$items->id_parent][] = $items->id;
+        }
+
+        return $categories;
+    }
+
+
+    /**
+     * [function_name description]
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright
+     *
+     * @return [type] [description]
+     */
+    public function category_tree($parent, $array, $all_categories){
+        if ( isset( $array['parents'][$parent] ) ) {
+            foreach ($array['parents'][$parent] as $itemId) {
+
+                if(!isset($array['parents'][$itemId])) {
+                    if( !in_array($itemId, $all_categories) )
+                        $all_categories[] = $itemId;
+                }
+
+                if(isset($array['parents'][$itemId])) {
+                    if( !in_array($itemId, $all_categories) )
+                        $all_categories[] = $itemId;
+
+                    $all_categories = $this->category_tree($itemId, $array, $all_categories);
+                }
+            }
+        }
+
+        return $all_categories;
+    }
 
 }
