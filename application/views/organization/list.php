@@ -22,7 +22,7 @@
                     <td><?php echo lang($node->type); ?></td>
                     <td><?php echo date_to_humans($node->create_at, 'd/m/Y'); ?></td>
                     <td>
-                        <a class="blue-text darken-1" href="<?php echo base_url('admin/organization/edit/'. $node->id); ?>"><i class="tiny material-icons">edit</i></a>
+                        <a class="blue-text darken-1" href="<?php echo base_url('admin/organigrama/edit/'. $node->id); ?>"><i class="tiny material-icons">edit</i></a>
                         <a class="blue-text darken-1" href="javascript:trash(<?php echo $node->id; ?>, this);"><i class="tiny material-icons">delete</i></a>
                     </td>
                 </tr>
@@ -37,12 +37,12 @@
     <ul>
         <?php if (isset($parent) and in_array($parent->type, array(ORGANIZATION,AREA))): ?>
             <li>
-                <li><a href="<?php echo base_url('admin/organization/profile_add/'.$parent->id); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('org_profile_add'); ?>"><i class="material-icons">person_add</i></a></li>
-                <li><a href="<?php echo base_url('admin/organization/area_add/'.$parent->id); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('org_area_add'); ?>"><i class="material-icons">folder</i></a></li>
+                <li><a href="<?php echo base_url('admin/organigrama/profile_add/'.$parent->id); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('org_profile_add'); ?>"><i class="material-icons">person_add</i></a></li>
+                <li><a href="<?php echo base_url('admin/organigrama/area_add/'.$parent->id); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('org_area_add'); ?>"><i class="material-icons">folder</i></a></li>
             </li>
         <?php else: ?>
             <li>
-                <li><a class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('org_add'); ?>"><i class="material-icons">device_hub</i></a></li>
+                <li><a href="<?php echo base_url('admin/organigrama/add'); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('org_add'); ?>"><i class="material-icons">device_hub</i></a></li>
             </li>
         <?php endif; ?>
     </ul>
