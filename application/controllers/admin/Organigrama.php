@@ -171,25 +171,24 @@ class Organigrama extends Base {
     }
 
     /**
-     * trash
+     * delete
      *
-     * Elimina logicamente a una entidad enviada y sus descendientes
+     * Petición por ajax que elimina logicamente a una o varias entidades enviadas y sus descendientes
      * @author Luis E. Salazar <luis.830424@gmail.com>
      * @access public
-     * @param type var varDesc
-     * @return type var returnDesc
+     * @return array $response
      */
     function delete() {
 	$response["status"]=0;
 	if(!$this->input->is_ajax_request()){
 	    show_404();
-	}elseif(!$this->permiso->is_auth('P-sectores', D)){
+	}elseif (!$this->auth->is_auth($this->router->class, DELETE)) {
 	    $response['msg']= lang('error_sin_permisos');
 	}else{
 
 	    //variables post
-	    $sectores=$this->input->get_post('sectores');
-	    $row_affected= $this->sector->delete($sectores);
+	    $entities_ids=$this->input->post('entities');
+	    $row_affected= $this->organization->delete($entities_ids);
 
 
 	    if ($row_affected){

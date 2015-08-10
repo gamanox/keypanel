@@ -149,15 +149,24 @@ class Entity_model extends CI_model {
          * @param Integer $id
          * @return Integer Devuelve la cantidad de registros afectados
          */
-        public function delete($id ) {
-                $id = (is_array($id) ? $id : array($id));
-                if(count($id)){
-                    $this->db->where_in("id", $id);
-                    $this->db->limit(count($id));
-                    $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+        public function delete($id) {
+                $ids = (is_array($id) ? $id : array($id));
+                $affected_rows= 0;
+                if(count($ids)){
+                    foreach ($ids as $id_entity) {
+                        $entity= $this->find($id_entity);
+
+                        if(isset($entity->id)){
+                            $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'right');
+                            $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+
+                            $affected_rows+= ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+                        }
+                    }
+
                 }
 
-                return ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+                return $affected_rows;
         }
 
         /**
