@@ -27,4 +27,25 @@ class Profile_model extends Entity_model {
             return parent::find($id);
         }
 
+    /**
+     * find_all_by_breadcrumb
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright KeyPanel - 2015
+     *
+     * @return object
+     */
+    public function find_all_by_breadcrumb( $breadcrumb, $position = 'after' ){
+        $this->db->select('*')
+            ->from('entities')
+            ->where('type','PROFILE')
+            ->like('breadcrumb', $breadcrumb, $position)
+            ->where('status_row', 'ENABLED');
+
+        $profiles = $this->db->get();
+
+        return $profiles;
+    }
+
 }

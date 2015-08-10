@@ -58,6 +58,8 @@ class Organigrama extends CI_Controller {
         // Buscamos la categoria enviada
         $info_categoria = $this->category->find_by_slug( $slug );
         if( isset($info_categoria) ){
+            $param_view['categoria']      = $info_categoria;
+            $param_view['organizations']  = $this->entity_category->find_entities_by_category( $info_categoria->id );
             $param_view['sub_categorias'] = $this->category->find_children( $info_categoria->id );
             $this->load->view('panel/categories', $param_view);
         }
