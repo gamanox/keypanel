@@ -39,7 +39,7 @@ class Utils {
     }
 
     public function profiler() {
-        if (ENVIRONMENT == 'development' and !$this->ci->input->is_ajax_request() and !$this->ci->input->is_cli_request())
+        if (ENVIRONMENT == 'development' and !$this->ci->input->is_ajax_request() and !$this->ci->input->is_cli_request() and ( $this->ci->router->class == 'organigrama' and !in_array($this->ci->router->method, array('getTreeJSON')) ))
             $this->ci->output->enable_profiler(TRUE);
     }
 }

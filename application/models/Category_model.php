@@ -267,17 +267,18 @@ class Category_model extends CI_Model {
                         // hijos directos de la categoria
                         if( key_exists($category->id, $categories_tree['parents']) ){
                             foreach ($categories_tree['parents'][$category->id] as $cat) {
-                                $children[$cat] = array(
+                                $children[] = (Object) array(
                                         'name'  => $categories_tree['items'][$cat]->name,
                                         'value' => 10,
-                                        'link'  => base_url('organigrama/explorar/'. $categories_tree['items'][$cat]->slug .'.html')
+                                        // 'link'  => base_url('organigrama/explorar/'. $categories_tree['items'][$cat]->slug .'.html')
                                     );
                             }
                         }
                     }
 
-                    $categories[$key]->link     = base_url('organigrama/explorar/'. $category->slug .'.html');
+                    // $categories[$key]->link     = base_url('organigrama/explorar/'. $category->slug .'.html');
                     $categories[$key]->children = $children;
+                    unset($categories[$key]->id);
                     unset($categories[$key]->slug);
                 }
             }

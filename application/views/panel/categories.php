@@ -104,7 +104,7 @@
         console.log(JSON.parse(root.responseText););
     });*/
 
-    d3.json('<?php echo base_url("assets/js/flare.json"); ?>', function(root) {
+    d3.json('<?php echo base_url("organigrama/getTreeJSON?id_category=". $categoria->id); ?>', function(root) {
       initialize(root);
       accumulate(root);
       layout(root);
