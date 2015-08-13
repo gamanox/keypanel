@@ -100,10 +100,9 @@
         .attr("y", 6 - margin.top)
         .attr("dy", ".75em");
 
-    var treejson;
-    $.getJSON( '<?php echo base_url("organigrama/getTreeJSON"); ?>', { id_category: <?php echo $categoria->id; ?> }, function(root){
-        treejson = root;
-    });
+    /*d3.xhr('<?php echo base_url("organigrama/getTreeJSON?id_category=". $categoria->id); ?>', function(root) {
+        console.log(JSON.parse(root.responseText););
+    });*/
 
     d3.json('<?php echo base_url("assets/js/flare.json"); ?>', function(root) {
       initialize(root);

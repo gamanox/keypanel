@@ -246,7 +246,7 @@ class Category_model extends CI_Model {
         }
 
         public function find_children_json($id) {
-            $this->db->select('id, name, slug, 0 as value');
+            $this->db->select('id, name, slug, 10 as value');
             $this->db->where("id_parent", $id);
             $this->db->where('status_row', ENABLED);
             $categories = $this->db->get($this->table);
@@ -269,7 +269,7 @@ class Category_model extends CI_Model {
                             foreach ($categories_tree['parents'][$category->id] as $cat) {
                                 $children[$cat] = array(
                                         'name'  => $categories_tree['items'][$cat]->name,
-                                        'value' => 0,
+                                        'value' => 10,
                                         'link'  => base_url('organigrama/explorar/'. $categories_tree['items'][$cat]->slug .'.html')
                                     );
                             }
