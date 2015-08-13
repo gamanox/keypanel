@@ -103,6 +103,20 @@ class Category_model extends CI_Model {
         }
 
         /**
+         * find_all
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene nodos categorias
+         *
+         * @return Object
+         */
+        public function find_all() {
+            $this->db->where('status_row', ENABLED);
+            $categories= $this->db->get($this->table);
+
+            return $categories;
+        }
+
+        /**
          * find
          *
          * Devuelve un objeto categoria

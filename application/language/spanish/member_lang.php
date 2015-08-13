@@ -2,6 +2,29 @@
     /**
      * Administration Lang
      */
+    $lang['info-general']               = 'Información General';
+    $lang['first_name']                 = 'Nombre';
+    $lang['last_name']                  = 'Apellidos';
+    $lang['full_name']                  = 'Nombre completo';
+    $lang['email']                      = 'Correo electrónico';
+    $lang['description']                = 'Descripción';
+    $lang['facebook']                   = 'Facebook';
+    $lang['twitter']                    = 'Twitter';
+    $lang['gplus']                      = 'Google plus';
+    $lang['linkedin']                   = 'LinkedIn';
+
+    $lang['info-contact']               = 'Información de Contacto';
+    $lang['phone-personal']             = 'Teléfono';
+    $lang['phone-business']             = 'Teléfono (Oficina)';
+
+    $lang['datos-acceso']               = 'Datos de Acceso';
+    $lang['username']                   = 'Usuario';
+    $lang['password']                   = 'Clave';
+    $lang['new-password']               = 'Nueva clave';
+    $lang['password_confirmation']      = 'Repite la clave';
+
+    $lang['info-address']               = 'Información de Ubicación';
+
     $lang['dashboard_title']       = 'Dashboard | KeyPanel';
     $lang['members_title']         = 'Miembros | KeyPanel';
     $lang['add_member_title']      = 'Agregar Miembro | KeyPanel';

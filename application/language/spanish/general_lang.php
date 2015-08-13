@@ -56,6 +56,7 @@
 
     $lang['label-member-since']         = '%s desde';
     $lang['card-configuracion-title']   = 'Configuración';
+    $lang['select'] = '-- Seleccione';
 
     $lang['desea_realizar_esta_accion'] = '¿Desea realizar esta acción?';
 

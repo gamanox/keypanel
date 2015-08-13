@@ -23,7 +23,7 @@
                     <td><?php echo date_to_humans($node->create_at, 'd/m/Y'); ?></td>
                     <td>
                         <a class="blue-text darken-1" href="<?php echo base_url('admin/organigrama/edit/'. $node->id); ?>"><i class="tiny material-icons">edit</i></a>
-                        <a class="blue-text darken-1" href="javascript:trash(<?php echo $node->id; ?>, this);"><i class="tiny material-icons">delete</i></a>
+                        <a style="cursor: pointer;" class="blue-text darken-1" onclick="javascript:trash(<?php echo $node->id; ?>, this);"><i class="tiny material-icons">delete</i></a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -55,7 +55,7 @@ function trash(id, obj) {
         var old_obj  = obj.html();
         var entities = [];
 
-        if(id!="undefined"){
+        if(id != undefined){
             entities.push(id);
         }
 

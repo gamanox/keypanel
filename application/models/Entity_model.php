@@ -156,12 +156,18 @@ class Entity_model extends CI_model {
                     foreach ($ids as $id_entity) {
                         $entity= $this->find($id_entity);
 
+                        //elimino a los nodos hijos por su breadcrumb
                         if(isset($entity->id)){
                             $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'right');
                             $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
 
                             $affected_rows+= ((isset($success) and $success) ? $this->db->affected_rows() : 0);
                         }
+
+                        //elimino al nodo raiz
+                        $this->db->where('id', $id_entity);
+                        $this->db->limit(1);
+                        $affected_rows+= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
                     }
 
                 }
