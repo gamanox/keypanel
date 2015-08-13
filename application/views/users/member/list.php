@@ -45,7 +45,7 @@
     <a class="btn-floating btn-large red"><i class="large material-icons">add</i></a>
     <ul>
         <li>
-            <a href="<?php echo base_url('administration/add_member'); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('btn_add_member'); ?>"><i class="tiny material-icons left">person_add</i></a>
+            <a href="<?php echo base_url('admin/member/add'); ?>" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="<?php echo lang('btn_add_member'); ?>"><i class="tiny material-icons left">person_add</i></a>
         </li>
     </ul>
 </div>

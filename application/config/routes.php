@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller']   = 'main';
-$route['404_override']         = '';
+$route['404_override']         = 'Errores/show_404';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['organigramas_publicos'] = 'organigrama/explorar/publico';
@@ -60,3 +60,7 @@ $route['organigrama/(:any).html'] = 'organigrama/explorar/$1';
 
 // Routing para profiles
 $route['organigrama/perfil-(:num)'] = "perfil/find_by_id/$1";
+// $route['organigrama/perfil-(:num)'] = "perfil/find_by_id/$1";
+
+// General info
+$route['help'] = "faq/help";

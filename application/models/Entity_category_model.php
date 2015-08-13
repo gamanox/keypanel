@@ -46,7 +46,7 @@ class Entity_category_model extends CI_Model {
             $this->db->where("ec.id_category", $id);
             $this->db->where('e.status_row', ENABLED);
             $this->db->where('ec.status_row', ENABLED);
-            $this->db->join("entities e","e.id=ec.id_entity");
+            $this->db->join("entities e","e.id = ec.id_entity");
             $nodes= $this->db->get($this->table." ec");
 
             return $nodes;

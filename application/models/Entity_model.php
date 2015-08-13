@@ -39,7 +39,7 @@ class Entity_model extends CI_model {
         /**
          * @var String
          */
-        public $name;
+        public $first_name;
 
         /**
          * @var String
@@ -149,15 +149,30 @@ class Entity_model extends CI_model {
          * @param Integer $id
          * @return Integer Devuelve la cantidad de registros afectados
          */
-        public function delete($id ) {
-                $id = (is_array($id) ? $id : array($id));
-                if(count($id)){
-                    $this->db->where_in("id", $id);
-                    $this->db->limit(count($id));
-                    $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+        public function delete($id) {
+                $ids = (is_array($id) ? $id : array($id));
+                $affected_rows= 0;
+                if(count($ids)){
+                    foreach ($ids as $id_entity) {
+                        $entity= $this->find($id_entity);
+
+                        //elimino a los nodos hijos por su breadcrumb
+                        if(isset($entity->id)){
+                            $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'right');
+                            $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+
+                            $affected_rows+= ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+                        }
+
+                        //elimino al nodo raiz
+                        $this->db->where('id', $id_entity);
+                        $this->db->limit(1);
+                        $affected_rows+= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+                    }
+
                 }
 
-                return ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+                return $affected_rows;
         }
 
         /**
@@ -177,6 +192,7 @@ class Entity_model extends CI_model {
                 if(isset($entity->id)){
                         $entity->addresses= $this->address->find_by_entity($entity->id);
                         $entity->contact= $this->contact->find($entity->id_contact);
+
                 }
 
                 return $entity;
@@ -189,7 +205,7 @@ class Entity_model extends CI_model {
          *
          * @param Mixed $user_type String|Array
          * @param String $status_row    String|Array
-         * @param String $order_by  Order by column1 asc|desc
+         * @param String $order_by  Ordenar por <b>column1 asc|desc</b>
          *
          * @return Object
          */
@@ -257,6 +273,35 @@ class Entity_model extends CI_model {
          */
         public function is_unique_username($username) {
             return $this->is_unique($username, "email");
+        }
+
+        /**
+         * updates
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene a los objetos entities del sistema que se han creado o actualizado
+         * ordenados por la fecha mas reciente
+         *
+         * @return Object
+         */
+        public function updates($limit=null, $offset=null) {
+                $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name");
+                $this->db->select("if(create_at > update_at, create_at, update_at)updates, if(create_at > update_at, 'CREATED', 'UPDATED')action", false);
+                $this->db->where_in("status_row", ENABLED);
+                $this->db->where_in("type", array(ORGANIZATION, PROFILE));
+                $this->db->order_by("updates","desc");
+
+                if((isset($limit) and is_numeric($limit))){
+                    $this->db->limit($limit);
+                }
+
+                if((isset($offset) and is_numeric($offset))){
+                    $this->db->offset($offset);
+                }
+
+                $entities= $this->db->get($this->table." u");
+
+
+                return $entities;
         }
 
 }

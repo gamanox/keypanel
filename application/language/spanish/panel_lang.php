@@ -10,9 +10,12 @@
     $lang['card-organigramas-privados-title'] = 'Privados';
     $lang['card-organigramas-privados-desc']  = 'Información relevante sobre organismos e instituciones privadas y otras entidades de interés, sus autoridades y actores clave.';
 
-    $lang['card-historial-title']       = 'Historial';
-    $lang['card-noticias-title']        = 'Noticias';
-    $lang['card-actualizaciones-title'] = 'Actualizaciones';
-    $lang['card-tendencias-title']      = 'Tendencias';
-    $lang['card-ayuda-title']      = 'Ayuda';
-    $lang['card-actualizaciones-title']      = 'Actualizaciones';
+    $lang['card-historial-title']             = 'Historial';
+    $lang['card-noticias-title']              = 'Noticias';
+    $lang['card-actualizaciones-title']       = 'Actualizaciones';
+    $lang['card-tendencias-title']            = 'Tendencias';
+    $lang['card-ayuda-title']                 = 'Ayuda';
+    $lang['card-actualizaciones-title']       = 'Actualizaciones';
+
+    $lang['UPDATED']                          = 'Actualizado';
+    $lang['CREATED']                          = 'Nuevo';

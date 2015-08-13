@@ -87,6 +87,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 define("DELETED", "DELETED");
 define("ENABLED", "ENABLED");
+define("DISABLED", "DISABLED");
 
 define("SUPERADMIN", "SUPERADMIN");
 define("ADMIN", "ADMIN");
@@ -100,3 +101,6 @@ define('CREATE', 'c');
 define('READ', 'r');
 define('UPDATE', 'u');
 define('DELETE', 'd');
+
+define("PUBLISHED", "PUBLISHED");
+define("UNPUBLISHED", "UNPUBLISHED");

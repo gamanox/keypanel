@@ -21,22 +21,22 @@
                 </ul>
             </div>
         </nav>
-        
+
         <div class="row">
             <div class="col sm12 m8 l8">
                 <div class="card">
                     <div class="card-image">
-                        <span class="card-title">¿Qué es Key panel?</span>
+                        <span class="card-title"><?php echo lang('main_que_es_keypanel'); ?></span>
                     </div>
                 </div>
             </div>
-            
+
             <form id="login-card" class="col sm12 m4 l4">
                 <div class="card">
                     <div class="card-content">
                         <h6 class="blue-grey-text text-darken-4"><?php echo lang('micrositio_form_title'); ?></h6>
                         <a id="forgot-pass" href="#"><p class="blue-grey-text text-lighten-3"><?php echo lang('btn_forgot_password'); ?></p></a>
-                        
+
                         <div class="row">
                             <div class="input-field col s12 m12 l12">
                                 <input name="member[username]" id="email" type="text" class="validate">
@@ -49,25 +49,25 @@
                         </div>
 
                         <div class="row">
-                            <button type="button" onclick="javascript:login();" name="action" class="col s12 m12 l12 btn-large blue waves-effect waves-light">Ingresar</button>
+                            <button name="action" class="col s12 m12 l12 btn-large blue waves-effect waves-light"><?php echo lang('main_ingresar'); ?></button>
                         </div>
                     </div>
                 </div>
             </form>
-        
+
             <div class="col sm12 m4 l4">
                 <div class="card small feature">
                     <div class="card-content">
                         <div class="row">
-                            <h6 class="s12 m12 l12 blue-grey-text text-darken-4">Nuestro Servicio</h6>
+                            <h6 class="s12 m12 l12 blue-grey-text text-darken-4"><?php echo lang('main_nuestro_servicio'); ?></h6>
                         </div>
 
                         <div class="row">
-                            <p class="s12 m12 l12 blue-grey-text text-lighten-3">Conoce más de KeyPanel aquí.</p>
+                            <p class="s12 m12 l12 blue-grey-text text-lighten-3"><?php echo lang('main_nuestro_servicio_desc'); ?></p>
                         </div>
                     </div>
                     <div class="card-action">
-                        <div class="row"><a id="knowmore" href="#" class="btn-large blue waves-effect waves-light col s12 m12 l12 text-white">CARACTERÍSTICAS</a></div>
+                        <div class="row"><a id="knowmore" href="#" class="btn-large blue waves-effect waves-light col s12 m12 l12 text-white"><?php echo lang('main_caracteristicas'); ?></a></div>
                     </div>
                 </div>
             </div>
@@ -76,37 +76,44 @@
                 <div class="card small feature">
                     <div class="card-content">
                         <div class="row">
-                            <h6 class="col s12 m12 l12 blue-grey-text text-darken-4">Estadísticas</h6>
+                            <h6 class="col s12 m12 l12 blue-grey-text text-darken-4"><?php echo lang('main_estadisticas'); ?></h6>
                         </div>
                         <div class="row">
-                            <p class="col s12 m12 l12 blue-grey-text text-lighten-3">Más de 1,500 perfiles y 200 organigramas de los principales stakeholders públicos.</p>
+                            <p class="col s12 m12 l12 blue-grey-text text-lighten-3"><?php echo lang('main_estadisticas_desc'); ?></p>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col sm12 m4 l4">
                 <div class="card small feature">
                     <div class="card-content">
                         <div class="row">
-                            <h6 class="col s12 m12 l12 blue-grey-text text-darken-4">Solicita una prueba hoy</h6>
+                            <h6 class="col s12 m12 l12 blue-grey-text text-darken-4"><?php echo lang('main_solicita_una_prueba'); ?></h6>
                         </div>
                         <div class="row">
-                            <p class="col s12 m12 l12 blue-grey-text text-lighten-3">Prueba todo lo que KeyPanel puede hacer.</p>
+                            <p class="col s12 m12 l12 blue-grey-text text-lighten-3"><?php echo lang('main_solicita_una_desc'); ?></p>
                         </div>
                     </div>
                     <div class="card-action">
-                        <div class="row"><a id="knowmore" href="#" class="btn-large blue waves-effect waves-light col s12 m12 l12 text-white">SOLICITA TU PRUEBA</a></div>
+                        <div class="row"><a id="knowmore" href="#" class="btn-large blue waves-effect waves-light col s12 m12 l12 text-white"><?php echo lang('main_solicita_tu_prueba'); ?></a></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="<?php echo base_url('assets/js/materialize.min.js'); ?>"></script>
 
     <script type="text/javascript">
+        $(document).ready(function(){
+            $("#login-card").on("submit", function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                login();
+            });
+        });
         function login(){
             var str = $('#login-card').serialize();
             $.ajax({
@@ -117,7 +124,6 @@
                 beforeSend:function(){},
                 complete:function(){},
                 success:function(response) {
-                    console.log(response);
                     if( response.status )
                         location.href = response.redirect_url
                 }

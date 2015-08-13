@@ -158,6 +158,23 @@ class Post_model extends CI_Model {
          */
         public function find_by_entity($id_entity) {
                 $this->db->where("id_entity", $id_entity);
+                $this->db->where('status_row', ENABLED);
+                $this->db->order_by("create_at","desc");
+                $posts= $this->db->get($this->table);
+
+                return $posts;
+        }
+
+        /**
+         * find_all
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene a todos los objetos post
+         *
+         * @return Object
+         */
+        public function find_all() {
+                $this->db->where('status_row', ENABLED);
+                $this->db->order_by("create_at","desc");
                 $posts= $this->db->get($this->table);
 
                 return $posts;

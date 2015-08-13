@@ -82,6 +82,7 @@ class Member_model extends Entity_model {
      *
      * Devuelve un objeto de resultado de bases de datos que contiene los objetos de perfiles vistos
      *
+     * @param Integer $id_member Id del miembro
      * @param Integer $limit    Por default null todos
      * @param Integer $offset   A partir de cual registro devolverá la consulta, por default null desde el comienzo
      * @return Object
@@ -90,7 +91,7 @@ class Member_model extends Entity_model {
         $id_member= (is_null($id_member) ? $this->session->id : $id_member);
         $this->db->where("id_member", $id_member);
         $this->db->where('status_row', ENABLED);
-        $this->db->order_by("create_at");
+        $this->db->order_by("create_at",'desc');
 
         if((isset($limit) and is_numeric($limit))){
             $this->db->limit($limit);

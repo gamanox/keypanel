@@ -16,7 +16,7 @@ class Seed extends CI_Controller {
             }
 
             // initiate faker
-            $this->faker = Faker\Factory::create();
+            $this->faker = Faker\Factory::create('es_ES');
             //$this->faker->seed(4321);
 
             // load any required models
@@ -26,6 +26,9 @@ class Seed extends CI_Controller {
             $this->load->model('History_model','history');
             $this->load->model('Category_model','category');
             $this->load->model('Entity_category_model','entity_category');
+            $this->load->model('Post_model','post');
+            $this->load->model('Tag_model','tag');
+            $this->load->model('Entity_tag_model','entity_tag');
         }
 
 	public function run($limit=50)
@@ -41,6 +44,9 @@ class Seed extends CI_Controller {
             $this->_seed_categories($id_organization);
             $this->_seed_organigrama_categories($id_organization);
             $this->_seed_history();
+            $this->_seed_news();
+            $this->_seed_tags();
+            $this->_seed_entities_tags();
 
         }
 
@@ -980,6 +986,85 @@ class Seed extends CI_Controller {
 
                 $this->entity_category->save($data);
             }
+            echo PHP_EOL;
+        }
+
+        private function _seed_news(){
+            echo "seeding news";
+            //history
+            for($k=0; $k<=20; $k++){
+                $title= trim($this->faker->realText(rand(10,20)));
+                $post = array(
+                    'content' => $this->faker->realText(rand(200,600)),
+                    'title' => $title,
+                    'status' => (rand(0, 1) ? PUBLISHED : UNPUBLISHED),
+                    'comment_status' => (rand(0, 1) ? ENABLED : DISABLED),
+                    'title' => $title,
+                    'slug' => $this->faker->slug,
+                    'comment_count' => rand(0, 50),
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                );
+
+                $this->post->save($post);
+            }
+
+            echo PHP_EOL;
+        }
+
+        private function _seed_tags(){
+            echo "seeding tags";
+            //history
+            for($k=0; $k<=50; $k++){
+                $tag = array(
+                    'id_parent' => NULL,
+                    'breadcrumb' => NULL,
+                    'name' => $this->faker->words(rand(1,3),true),
+                    'slug' => $this->faker->unique()->slug(rand(1,4),false),
+                    'count_search' => rand(0,10000),
+                    'status_row' => (rand(0, 1) ? ENABLED : DELETED),
+                );
+
+               $this->tag->save($tag);
+
+            }
+
+            $tags= $this->tag->find_parents();
+
+            foreach ($tags->result() as $tag) {
+                if(rand(1,0)){
+                    $tag = array(
+                        'id_parent' => $tag->id,
+                        'breadcrumb' => $tag->id,
+                        'name' => $this->faker->words(rand(1,3),true),
+                        'slug' => $this->faker->unique()->slug(rand(1,4),false),
+                        'count_search' => rand(0,10000),
+                        'status_row' => (rand(0, 1) ? ENABLED : DELETED),
+                    );
+
+                    $this->tag->save($tag);
+                }
+            }
+
+            echo PHP_EOL;
+        }
+
+        private function _seed_entities_tags(){
+            echo "seeding entities - tags";
+            $tags= $this->db->get('tags')->result();
+            foreach ($tags as $tag) {
+                foreach ($this->member->find_all(PROFILE)->result() as $profile) {
+                    if(rand(1,6)>5){
+                        $data = array(
+                            'id_entity' => $profile->id,
+                            'id_tag' => $tag->id,
+                            'status_row' => (rand(0, 1) ? ENABLED : DELETED)
+                        );
+
+                        $this->entity_tag->save($data);
+                    }
+                }
+            }
+
             echo PHP_EOL;
         }
 

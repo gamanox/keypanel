@@ -4,7 +4,8 @@
  * @package keypanel
  * @version 1.0
  */
-class Administration extends CI_Controller {
+require_once APPPATH.'controllers/admin/Base.php';
+class Member extends Base {
 
     /**
      * $charset_pass
@@ -61,7 +62,7 @@ class Administration extends CI_Controller {
      * @return void
      */
     public function index(){
-        redirect('administration/members');
+        redirect('admin/member/show_list');
     }
 
     /**
@@ -75,8 +76,8 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function members(){
-        if( !$this->auth->is_auth('Auth-Members', READ) ){
+    public function show_list(){
+        if( !$this->auth->is_auth($this->router->class, READ) ){
             redirect('account');
         }
 
@@ -108,18 +109,26 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function add_member(){
-        if( !$this->auth->is_auth('Auth-Members', CREATE) ){
+    public function add(){
+        if( !$this->auth->is_auth( $this->router->class, CREATE) ){
             redirect('account');
         }
 
+        $this->load->library('form_validation');
         $param_view = array();
+        $errors     = array();
 
         if( $_POST ){
-            $this->load->library('form_validation');
-
             $member         = $this->input->post('member');
             $member['type'] = MEMBER;
+
+            $validate_empty_fields = array('first_name', 'last_name');
+            foreach ($validate_empty_fields as $field) {
+                if( !$this->form_validation->required( trim($member[$field]) ) ){
+                    $errors[] = lang($field .'-empty');
+                }
+            }
+
 
             // Validamos correo electronico
             $is_unique_email = $this->form_validation->is_unique( trim($member['email']), 'entities.email');
@@ -127,36 +136,55 @@ class Administration extends CI_Controller {
 
             if( $is_unique_email and $is_valid_email ){
                 $member['email'] = trim( $member['email'] );
+            }
+            else {
+                // El correo ya existe, mandamos error
+                $errors[] = ( !$is_valid_email ? lang('email-not-valid') : lang('email-not-unique'));
+            }
 
-                // Generamos un usuario y contraseña
-                $username = $this->randString();
-                $username_exists = $this->form_validation->is_unique($username, 'entities.username');
+            // Validamos el nombre de usuario
+            $username = $member['username'];
+            if( $username != '' )
+                $username_unique = $this->form_validation->is_unique($username, 'entities.username');
+            else
+                $username_unique = false;
 
-                while (!$username_exists) {
-                    //Mientras el usuario ya exista en la base de datos
-                    $username = $this->randString();
-                    $username_exists = $this->form_validation->is_unique($username, 'entities.username');
-                }
-
+            if( $username_unique ){
                 $member['username'] = $username;
-                $member['password'] = md5( $this->randString(8, $this->charset_pass) );
+            }
+            else {
+                // El nombre de usuario ya existe en nuestra base de datos
+                $errors[] = ( $username != '' ? lang('username-not-unique') : lang('username-empty'));
+            }
 
+            // Verificamos que la clave y la confirmacion de la clave sean iguales
+            $password              = $member['password'];
+            $password_confirmation = $this->input->post('password_confirmation');
+            if( isset($password) and $password != '' and $password == $password_confirmation ){
+                $member['password'] = md5( $password );
+            }
+            else {
+                if( $password == '' )
+                    $errors[] = lang('password-empty');
+                else
+                    $errors[] = lang('password-confirmation-not-match');
+            }
+
+            if( count($errors) == 0 ){
                 $success = $this->entity->save( $member );
                 if( isset($success) and $success ){
                     redirect('administration/members');
                 }
             }
-            else {
-                // El correo ya existe, mandamos error
-                $param_view['errors'] = ( !$is_valid_email ? lang('email-not-valid') : lang('email-not-unique'));
-            }
+
+            // echo '<pre>'. print_r($errors, true) .'</pre>';
+            $param_view['errors'] = $errors;
         }
 
         $param_header['title'] = lang('members_title');
         $this->load->view('includes/header', $param_header);
 
-        $this->load->view('includes/menu-'. strtolower(SUPERADMIN));
-
+        $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN));
         $this->load->view('users/member/new', $param_view);
 
         $this->load->view('includes/footer');
@@ -171,8 +199,8 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function edit_member( $id_member = NULL ){
-        if( !$this->auth->is_auth('Auth-Members', CREATE) ){
+    public function edit( $id_member = NULL ){
+        if( !$this->auth->is_auth( $this->router->class, UPDATE) ){
             redirect('account');
         }
 
@@ -183,7 +211,7 @@ class Administration extends CI_Controller {
         $param_header['title'] = lang('members_title');
         $this->load->view('includes/header', $param_header);
 
-        $this->load->view('includes/menu-'. strtolower(SUPERADMIN));
+        $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN));
 
         $param_view['member'] = $this->entity->find( $id_member );
         $this->load->view('users/member/edit', $param_view);
@@ -200,8 +228,8 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function update_member(){
-        if( !$this->auth->is_auth('Auth-Members', CREATE) ){
+    public function update(){
+        if( !$this->auth->is_auth( $this->router->class, UPDATE) ){
             redirect('account');
         }
 
@@ -213,6 +241,8 @@ class Administration extends CI_Controller {
             if( $signature == $validation_signature ){
                 $member_data       = $this->input->post('member');
                 $member_data['id'] = $this->input->post('id');
+
+                // Validar datos
 
                 $success = $this->entity->update( $member_data );
                 if( $success ){
@@ -245,7 +275,7 @@ class Administration extends CI_Controller {
      *
      * @return void
      */
-    public function delete_member( $id_member = NULL ){
+    public function delete( $id_member = NULL ){
         if( !$this->auth->is_auth('Auth-Members', CREATE) ){
             redirect('account');
         }

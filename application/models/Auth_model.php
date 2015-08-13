@@ -78,7 +78,7 @@ class Auth_model extends CI_Model {
         /**
          * is_auth
          *
-         * Devuelve *1 o 0* que define si esta o no autorizado para ejecutar la acción solicitada
+         * Devuelve <b>True o False</b> que define si esta o no autorizado para ejecutar la acción solicitada
          *
          * @param String $auth
          * @param String $mode
