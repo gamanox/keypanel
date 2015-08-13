@@ -12,5 +12,7 @@
 
     <link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.dataTables.min.css'); ?>" media="all">
     <link href="favicon.png" rel="icon" type="image/png">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </head>
 <body id="dashboard" class="grey lighten-4">

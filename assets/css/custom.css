@@ -345,3 +345,11 @@ span.update { font-size: 10px; padding: 2px 5px; }
 
 hr { border: 0 none; color: #e1e7e9; background-color: #e1e7e9; height: 1px; }
 .trend { padding: 5px; display: inline-block; margin: 0 5px 5px 0; }
+.tree { padding: 15px 10px; min-height: 150px; }
+.tree .the-title { font-size: 15px; margin: 0; color: #FFF; font-weight: 300; line-height: 1.2; }
+.grey.tree .the-title { color: #757575; }
+
+.info { bottom: 0; position: absolute; right: 10px; }
+.tree span { color: #FFF; font-weight: 300; }
+.grey.tree span { color: #757575; }
+.niveles, .perfiles { font-size: 30px; font-weight: 500 !important; }

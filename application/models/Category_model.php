@@ -228,14 +228,14 @@ class Category_model extends CI_Model {
 
                     // Buscamos todos los perfiles
                     $profiles = array();
-                    foreach ($id_organizations as $organization) {
-                        $breadcrumb   = '1|'. $organization .'|';
-                        $profiles_org = $this->profile->find_all_by_breadcrumb( $breadcrumb );
+                    // foreach ($id_organizations as $organization) {
+                    //     $breadcrumb   = '1|'. $organization .'|';
+                    //     $profiles_org = $this->profile->find_all_by_breadcrumb( $breadcrumb );
 
-                        foreach ($profiles_org->result() as $profile) {
-                            $profiles[$profile->id] = $profile;
-                        }
-                    }
+                    //     foreach ($profiles_org->result() as $profile) {
+                    //         $profiles[$profile->id] = $profile;
+                    //     }
+                    // }
 
                     $categories[$key]->total_profiles = count($profiles);
                     $categories[$key]->profiles = $profiles;
