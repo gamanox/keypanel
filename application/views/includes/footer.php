@@ -1,4 +1,4 @@
-    <footer class="page-footer transparent">
+<footer class="page-footer transparent">
         <div class="container">
             <div class="row">
                 <h5 class="center-align copy">Copyright KeyPanel &copy; <?php echo date('Y'); ?></h5>

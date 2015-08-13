@@ -30,7 +30,7 @@ class Organization_model extends Entity_model {
         public function find($id) {
             $this->db->select("u.*, u.first_name as name");
             $this->db->where("id", $id);
-            $this->db->where_in('type', array(ORGANIZATION, AREA, PROFILE));
+            $this->db->where_in('type', array(ORGANIZATION));
             $q= $this->db->get($this->table." u");
             $entity= ($q->num_rows() > 0 ? $q->row(0,"Organization_model") : $q->row());
 
@@ -41,6 +41,8 @@ class Organization_model extends Entity_model {
                     if($entity->id_parent==1){
                         $entity->id_parent=null;
                     }
+
+                    $entity->categories= $this->entity_category->find_categories_by_entity($entity->id);
 
             }
 

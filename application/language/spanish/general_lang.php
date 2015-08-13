@@ -8,6 +8,11 @@
     $lang['last_name']                  = 'Apellidos';
     $lang['full_name']                  = 'Nombre completo';
     $lang['email']                      = 'Correo electrónico';
+    $lang['description']                = 'Descripción';
+    $lang['facebook']                   = 'Facebook';
+    $lang['twitter']                    = 'Twitter';
+    $lang['gplus']                      = 'Google plus';
+    $lang['linkedin']                   = 'LinkedIn';
 
     $lang['info-contact']               = 'Información de Contacto';
     $lang['phone-personal']             = 'Teléfono';
@@ -51,6 +56,7 @@
 
     $lang['label-member-since']         = '%s desde';
     $lang['card-configuracion-title']   = 'Configuración';
+    $lang['select'] = '-- Seleccione';
 
     $lang['desea_realizar_esta_accion'] = '¿Desea realizar esta acción?';
 

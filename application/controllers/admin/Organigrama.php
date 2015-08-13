@@ -20,6 +20,8 @@ class Organigrama extends Base {
     {
         parent::__construct();
         $this->load->model('Organization_model','organization');
+        $this->load->model('Category_model','category');
+        $this->load->model('Entity_category_model','entity_category');
 //        $this->load->model('Usuario_model','entity');
     }
 
@@ -82,92 +84,122 @@ class Organigrama extends Base {
         $this->load->view('includes/footer');
     }
 
-
-    public function show($ID){
-        if(!$this->permiso->is_auth('P-posts', R)){
+    /**
+     * add
+     *
+     * Carga la vista html para crear un organigrama
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access public
+     * @return void
+     */
+    function add() {
+        if (!$this->auth->is_auth($this->router->class, CREATE)) {
             redirect("errores/no_authorized");
         }
 
-        if ( $this->session->type == 'superadmin' ){
-            redirect('dashboard');
-        }
+        $this->lang->load('panel');
 
-        $info_entity = $this->entity->find_me();
-        $colonia_cve  = $info_entity->colonia_cve;
-        $post         = $this->post->find( $ID );
+        $param_header['title'] = lang('org_add');
+        $this->load->view('includes/header', $param_header);
 
-        if( count($post) > 0 ){
-            // Validamos si pertenece a la misma colonia
-            if( $post->cve_colonia != $colonia_cve ){
-                redirect('blog');
-            }
+        $param_menu['back_btn']= base_url("admin/organigrama/explore");
 
-            $param_header['the_title'] = lang('menu_foro');
-            $this->load->view('includes/header', $param_header);
 
-            $this->load->view('includes/menu_'. $this->session->type);
-            $footer_scripts = array(
-                    'datatables/jquery.dataTables.js','number/jquery.counterup.min.js','circle-progress/jquery.circliful.js',
-                    'footable/js/footable.js?v=2-0-1','footable/js/footable.sort.js?v=2-0-1','footable/js/footable.filter.js?v=2-0-1',
-                    'footable/js/footable.paginate.js?v=2-0-1','footable/js/footable.paginate.js?v=2-0-1'
-                );
+        $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN), $param_menu);
 
-            $param['breadcrumb'] = array(
-                    lang('menu_dashboard') => base_url(),
-                    lang('menu_foro')      => base_url('blog'),
-                );
-
-            $param['post']     = $post;
-            $param['comments'] = $this->comments->find_by_post_id( $ID );
-
-            $this->load->view('blog/single', $param);
-
-            $param_footer['scripts'] = $footer_scripts;
-            $this->load->view('includes/footer', $param_footer);
-        }
-        else {
-            redirect('dashboard');
-        }
+        $param['categories']= $this->category->find_all();
+        $this->load->view('organization/new', $param);
+        $this->load->view('includes/footer');
     }
 
     /**
      * create
      *
-     * Carga
+     * Crea un organigrama
      * @author Luis E. Salazar <luis.830424@gmail.com>
-     * @access access
-     * @param type var varDesc
-     * @return type var returnDesc
+     * @access public
+     * @return void
      */
-    public function create(){
-        if(!$this->input->is_ajax_request()){
+    function create() {
+        $response["status"]=0;
+        $response["msg"]= lang('msg_operacion_fallida');
+	if(!$this->input->is_ajax_request()){
+	    show_404();
+	}elseif (!$this->auth->is_auth($this->router->class, CREATE)) {
+	    $response['msg']= lang('error_sin_permisos');
+	}else{
+            $organigrama= $this->input->post('organization');
+            $contact= $this->input->post('contact');
+            $address= $this->input->post('address');
+            $categories= $this->input->post('categories');
+
+            $categories= (is_array($categories)?$categories: array($categories));
+
+            $id_contact= $this->contact->save($contact);
+            $organigrama['id_contact']= $id_contact;
+            $organigrama['breadcrumb']= $this->session->id;
+            $organigrama['type']= ORGANIZATION;
+
+            $id_organization= $this->organization->save($organigrama);
+            $address['id_entity']=$id_organization;
+            $this->address->save($address);
+
+            foreach ($categories as $id_cat) {
+                $organization_category= array(
+                    "id_category"=> $id_cat,
+                    "id_entity"=> $id_organization
+                );
+
+                $this->entity_category->save($organization_category);
+            }
+
+            if ($id_organization){
+                $response["status"] = 1;
+                $response["msg"]    = lang('msg_operacion_exitosa');
+            }
+            else {
+                $response["msg"] = lang('msg_operacion_fallida');
+            }
+        }
+
+	//cocinado!!
+	$json = json_encode($response);
+	echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
+    }
+
+    /**
+     * edit
+     *
+     * Carga la vista html para editar un organigrama
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access public
+     * @return void
+     */
+    function edit($id_organization) {
+        if (!$this->auth->is_auth($this->router->class, UPDATE)) {
+            redirect("errores/no_authorized");
+        }
+
+        $organization= $this->organization->find($id_organization);
+
+        if(!isset($organization->id)){
             show_404();
         }
-        else {
-            $data = array('status' => false);
 
-            $info_entity = $this->entity->find_me();
-            $colonia_cve  = $info_entity->colonia_cve;
+        $this->lang->load('panel');
 
-            $the_post                 = $this->input->post('post');
-            $the_post['post_content'] = $this->input->post('post_content');
-            $the_post['post_date']    = date('Y-m-d H:i:s');
-            $the_post['cve_colonia']  = $colonia_cve;
-            $the_post['cve_user']     = $this->session->cve;
+        $param_header['title'] = lang('org_add');
+        $this->load->view('includes/header', $param_header);
 
-            if( $this->session->type == NORMAL ){
-                $the_post['post_status'] = 'draft';
-            }
+        $param_menu['back_btn']= base_url("admin/organigrama/explore");
 
-            $succedd = $this->post->save($the_post);
-            if( $succedd ){
-                $data['status'] = true;
-            }
 
-            //Regresamos el status del evento
-            $json = json_encode($data);
-            echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
-        }
+        $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN), $param_menu);
+
+        $param['organization']= $organization;
+        $param['categories']= $this->category->find_all();
+        $this->load->view('organization/edit', $param);
+        $this->load->view('includes/footer');
     }
 
     /**
@@ -203,76 +235,4 @@ class Organigrama extends Base {
 	echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
     }
 
-    /**
-     * [publish]
-     * @return json
-     */
-    public function publish(){
-        if(!$this->input->is_ajax_request()){
-            show_404();
-        }
-        else {
-            $data = array('status' => false);
-
-            $cve_post     = $this->input->post('cve_post');
-            $info_post    = $this->post->find( $cve_post );
-            $info_entity = $this->entity->find_me();
-
-            if( count($info_post) > 0 and $info_post->cve_colonia == $info_entity->colonia_cve ){
-                $update_post = array('ID' => $cve_post, 'post_status' => 'publish');
-                $succedd = $this->post->update( $update_post );
-                if( $succedd ){
-                    $data['status'] = true;
-                }
-            }
-
-            //Regresamos el status del evento
-            $json = json_encode($data);
-            echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
-        }
-    }
-
-    /**
-     * [comment]
-     * @return void
-     */
-    public function comment(){
-        if(!$this->input->is_ajax_request()){
-            show_404();
-        }
-        else {
-            $data = array('status' => false);
-
-            $the_post = $this->input->post('post');
-
-            $info_post    = $this->post->find( $the_post['ID'] );
-            $info_entity = $this->entity->find_me();
-
-            if( count($info_post) > 0 and $info_post->cve_colonia == $info_entity->colonia_cve ){
-                $comment = array(
-                        'id_post'   => $the_post['ID'],
-                        'cve_user'  => $this->session->cve,
-                        'content'   => $this->input->post('post_content'),
-                        'approved'  => 1,
-                        'create_at' => date('Y-m-d H:i:s')
-                    );
-
-                $succedd = $this->comments->save($comment);
-                if( $succedd ){
-                    $data['status'] = true;
-
-                    $post_update = array(
-                            'ID'            => $info_post->ID,
-                            'comment_count' => $info_post->comment_count + 1
-                        );
-
-                    $this->post->update($post_update);
-                }
-            }
-
-            //Regresamos el status del evento
-            $json = json_encode($data);
-            echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
-        }
-    }
 }
