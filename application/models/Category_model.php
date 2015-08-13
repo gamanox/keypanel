@@ -231,6 +231,43 @@ class Category_model extends CI_Model {
             return $categories;
         }
 
+        public function find_children_json($id) {
+            $this->db->select('id, name, 0 as value');
+            $this->db->where("id_parent", $id);
+            $this->db->where('status_row', ENABLED);
+            $categories = $this->db->get($this->table);
+
+            if( $categories->num_rows() > 0 ){
+                $this->load->model('Profile_model','profile');
+                $categories_tree = $this->tree();
+
+                $categories = $categories->result();
+                foreach ($categories as $key => $category) {
+                    // Buscamos todas las categorias debajo de la categoria dada
+                    $all_categories = $this->category_tree($category->id, $categories_tree, array());
+
+                    $organizations    = array();
+                    $id_organizations = array();
+                    $children         = array();
+                    if( count($all_categories) > 0 ){
+                        // hijos directos de la categoria
+                        if( key_exists($category->id, $categories_tree['parents']) ){
+                            foreach ($categories_tree['parents'][$category->id] as $cat) {
+                                $children[$cat] = array(
+                                        'name'  => $categories_tree['items'][$cat]->name,
+                                        'value' => 0
+                                    );
+                            }
+                        }
+                    }
+
+                    $categories[$key]->children            = $children;
+                }
+            }
+
+            return $categories;
+        }
+
         /**
         * count_organization_from_categories
         *

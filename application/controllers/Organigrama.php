@@ -79,12 +79,18 @@ class Organigrama extends CI_Controller {
      *
      * @return [type] [description]
      */
-    public function getTreeJson(){
+    public function getTreeJSON(){
         if( $this->input->is_ajax_request() ){
             $response = array();
 
+            $id_category    = $this->input->get_post('id_category');
+            $info_categoria = $this->category->find($id_category);
+            if( isset($info_categoria) and count($info_categoria) > 0 ){
+                $response = array('name' => $info_categoria->name, 'children' => $this->category->find_children_json($info_categoria->id) );
+            }
+
             //Regresamos el status del evento
-            $json = json_encode($response);
+            $json = json_encode($response, JSON_UNESCAPED_UNICODE);
             echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
         }
     }

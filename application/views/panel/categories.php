@@ -57,7 +57,7 @@
     </div>
 </div>
 <script src="<?php echo base_url('assets/js/d3.min.js'); ?>"  type="text/javascript"></script>
-<script>
+<script type="text/javascript">
     var margin = {top: 20, right: 0, bottom: 0, left: 0},
         width = 960,
         height = 500 - margin.top - margin.bottom,
@@ -100,7 +100,12 @@
         .attr("y", 6 - margin.top)
         .attr("dy", ".75em");
 
-    d3.json("<?php echo base_url('assets/js/flare.json'); ?>", function(root) {
+    var treejson;
+    $.getJSON( '<?php echo base_url("organigrama/getTreeJSON"); ?>', { id_category: <?php echo $categoria->id; ?> }, function(root){
+        treejson = root;
+    });
+
+    d3.json('<?php echo base_url("assets/js/flare.json"); ?>', function(root) {
       initialize(root);
       accumulate(root);
       layout(root);
