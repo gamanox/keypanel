@@ -69,6 +69,38 @@ class Organigrama extends CI_Controller {
 
         $this->load->view('includes/footer');
     }
+
+    /**
+     * [function_name description]
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright
+     *
+     * @return [type] [description]
+     */
+    public function getTreeJson(){
+        if( $this->input->is_ajax_request() ){
+            $response = array();
+
+            //Regresamos el status del evento
+            $json = json_encode($response);
+            echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
+        }
+    }
+
+    /**
+     * [function_name description]
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright
+     *
+     * @return [type] [description]
+     */
+    public function nivel( $slug = NULL ){
+
+    }
 }
 /* End of file Organigrama.php */
 /* Location: ./application/controllers/Organigrama.php */
