@@ -78,6 +78,16 @@ class Category_model extends CI_Model {
          * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($category ) {
+            //actualizo el breadcrumb de los nodos hijos
+            if(isset($category['breadcrumb'])){
+                $old_category= $this->category->find($category['id']);
+                $old_breadcrumb= $old_category->breadcrumb."|".$old_category->id;
+                $new_breadcrumb= $category['breadcrumb']."|".$category['id'];
+
+                $this->db->query("update ".$this->table." set breadcrumb= replace(breadcrumb,'".$old_breadcrumb."','".$new_breadcrumb."') where breadcrumb like '".$old_breadcrumb."%'", false);
+            }
+
+            //actualizo al nodo raiz
             $category['update_at']= date('Y-m-d H:i:s');
             $success= $this->db->update($this->table, $category, array("id" => $category['id']));
             return ($success ? 1 : 0);
@@ -92,14 +102,29 @@ class Category_model extends CI_Model {
          * @return Integer Devuelve la cantidad de registros afectados
          */
         public function delete($id ) {
-            $id = (is_array($id) ? $id : array($id));
-            if(count($id)){
-                $this->db->where_in("id", $id);
-                $this->db->limit(count($id));
-                $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+           $ids = (is_array($id) ? $id : array($id));
+            $affected_rows= 0;
+            if(count($ids)){
+                foreach ($ids as $id_entity) {
+                    $entity= $this->find($id_entity);
+
+                    //elimino a los nodos hijos por su breadcrumb
+                    if(isset($entity->id)){
+                        $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'right');
+                        $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+
+                        $affected_rows+= ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+                    }
+
+                    //elimino al nodo raiz
+                    $this->db->where('id', $id_entity);
+                    $this->db->limit(1);
+                    $affected_rows+= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+                }
+
             }
 
-            return ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+            return $affected_rows;
         }
 
         /**
@@ -169,6 +194,22 @@ class Category_model extends CI_Model {
          * @return Object
          */
         public function find_children($id) {
+            $this->db->where("id_parent", $id);
+            $this->db->where('status_row', ENABLED);
+            $categories= $this->db->get($this->table);
+
+            return $categories;
+        }
+
+        /**
+         * find_children_tree
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene nodos categorias hijos que tienen como antecesor a una categoria nodo padre
+         *
+         * @param Integer $id
+         * @return Object
+         */
+        public function find_children_tree($id) {
             $this->db->where("id_parent", $id);
             $this->db->where('status_row', ENABLED);
             $categories = $this->db->get($this->table);
@@ -245,43 +286,42 @@ class Category_model extends CI_Model {
             return $categories;
         }
 
-        public function find_children_json($id) {
-            $this->db->select('id, name, slug, 10 as value');
+        public function find_children_json( $id ) {
+            $this->db->select('id, name, slug, 0 as value');
             $this->db->where("id_parent", $id);
             $this->db->where('status_row', ENABLED);
             $categories = $this->db->get($this->table);
 
-            if( $categories->num_rows() > 0 ){
-                $this->load->model('Profile_model','profile');
+            if( $categories->num_rows() > 0){
                 $categories_tree = $this->tree();
 
-                $categories = $categories->result();
-                foreach ($categories as $key => $category) {
-                    // Buscamos todas las categorias debajo de la categoria dada
-                    $all_categories = $this->category_tree($category->id, $categories_tree, array());
-
-                    $organizations    = array();
-                    $id_organizations = array();
-                    $children         = array();
-                    if( count($all_categories) > 0 ){
-                        // hijos directos de la categoria
-                        if( key_exists($category->id, $categories_tree['parents']) ){
-                            foreach ($categories_tree['parents'][$category->id] as $cat) {
-                                $children[] = (Object) array(
-                                        'name'  => $categories_tree['items'][$cat]->name,
-                                        'value' => 10,
-                                        // 'link'  => base_url('organigrama/explorar/'. $categories_tree['items'][$cat]->slug .'.html')
-                                    );
-                            }
-                        }
+                $temp = array();
+                foreach($categories->result() as $category){
+                    // $all_categories  = $this->category_tree( $category->id, $categories_tree, array());
+                    $children = $this->category_tree($category->id, $categories_tree, array());
+                    if(count($children) > 0){
+                        $node = array(
+                                'name'     => $category->name,
+                                'value'    => count($children),
+                                'children' => $children,
+                                'slug'     => $category->slug
+                            );
+                    }
+                    else {
+                        $node = array(
+                                'name'     => $category->name,
+                                'slug'     => $category->slug
+                            );
                     }
 
-                    // $categories[$key]->link     = base_url('organigrama/explorar/'. $category->slug .'.html');
-                    $categories[$key]->children = $children;
-                    unset($categories[$key]->id);
-                    unset($categories[$key]->slug);
+                    $temp[] = $node;
                 }
+
+                $categories = $temp;
             }
+            else
+                $categories = array();
+
 
             return $categories;
         }
@@ -365,14 +405,13 @@ class Category_model extends CI_Model {
 
         // Builds the array lists with data from the categories table
         foreach ($query->result() as $key => $items) {
-            $categories['items'][$items->id]            = $items;
+            $categories['items'][$items->id] = $items;
             if( isset($items->id_parent) )
                 $categories['parents'][$items->id_parent][] = $items->id;
         }
 
         return $categories;
     }
-
 
     /**
      * [function_name description]
@@ -388,15 +427,51 @@ class Category_model extends CI_Model {
             foreach ($array['parents'][$parent] as $itemId) {
 
                 if(!isset($array['parents'][$itemId])) {
-                    if( !in_array($itemId, $all_categories) )
-                        $all_categories[] = $itemId;
+                    if( !in_array($itemId, $all_categories) ){
+                        $children = $this->category_tree($itemId, $array, array());
+                        if( count($children) > 0){
+                            $node = array(
+                                    'name'     => $array['items'][$itemId]->name,
+                                    'value'    => count($children),
+                                    'children' => $children,
+                                    'slug'     => $array['items'][$itemId]->slug
+                                );
+                        }
+                        else {
+                            $node = array(
+                                    'name'     => $array['items'][$itemId]->name,
+                                    'slug'     => $array['items'][$itemId]->slug,
+                                    'value'    => 1
+                                );
+                        }
+
+                        $all_categories[] = $node;
+                    }
                 }
 
                 if(isset($array['parents'][$itemId])) {
-                    if( !in_array($itemId, $all_categories) )
-                        $all_categories[] = $itemId;
+                    if( !in_array($itemId, $all_categories) ){
+                        $children = $this->category_tree($itemId, $array, array());
+                        if( count($children) > 0){
+                            $node = array(
+                                    'name'     => $array['items'][$itemId]->name,
+                                    'value'    => count($children),
+                                    'children' => $children,
+                                    'slug'     => $array['items'][$itemId]->slug
+                                );
+                        }
+                        else {
+                            $node = array(
+                                    'name'     => $array['items'][$itemId]->name,
+                                    'slug'     => $array['items'][$itemId]->slug,
+                                    'value'    => 1
+                                );
+                        }
 
-                    $all_categories = $this->category_tree($itemId, $array, $all_categories);
+                        $all_categories[] = $node;
+                    }
+
+                    // $all_categories = $this->category_tree($itemId, $array, $all_categories);
                 }
             }
         }

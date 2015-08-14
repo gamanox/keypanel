@@ -37,6 +37,7 @@
     $lang['menu-members']               = 'Miembros';
     $lang['menu-enterprises']           = 'Empresas';
     $lang['menu-organization']          = 'Organigramas';
+    $lang['menu-categories']          = 'Categorias';
 
     $lang['btn_terminos_y_condiciones'] = 'Términos y Condiciones';
     $lang['btn_forgot_password']        = '¿Olvidaste tu clave?';
