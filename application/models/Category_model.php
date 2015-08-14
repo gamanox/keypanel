@@ -78,6 +78,16 @@ class Category_model extends CI_Model {
          * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($category ) {
+            //actualizo el breadcrumb de los nodos hijos
+            if(isset($category['breadcrumb'])){
+                $old_category= $this->category->find($category['id']);
+                $old_breadcrumb= $old_category->breadcrumb."|".$old_category->id;
+                $new_breadcrumb= $category['breadcrumb']."|".$category['id'];
+
+                $this->db->query("update ".$this->table." set breadcrumb= replace(breadcrumb,'".$old_breadcrumb."','".$new_breadcrumb."') where breadcrumb like '".$old_breadcrumb."%'", false);
+            }
+
+            //actualizo al nodo raiz
             $category['update_at']= date('Y-m-d H:i:s');
             $success= $this->db->update($this->table, $category, array("id" => $category['id']));
             return ($success ? 1 : 0);
@@ -92,14 +102,29 @@ class Category_model extends CI_Model {
          * @return Integer Devuelve la cantidad de registros afectados
          */
         public function delete($id ) {
-            $id = (is_array($id) ? $id : array($id));
-            if(count($id)){
-                $this->db->where_in("id", $id);
-                $this->db->limit(count($id));
-                $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+           $ids = (is_array($id) ? $id : array($id));
+            $affected_rows= 0;
+            if(count($ids)){
+                foreach ($ids as $id_entity) {
+                    $entity= $this->find($id_entity);
+
+                    //elimino a los nodos hijos por su breadcrumb
+                    if(isset($entity->id)){
+                        $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'right');
+                        $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+
+                        $affected_rows+= ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+                    }
+
+                    //elimino al nodo raiz
+                    $this->db->where('id', $id_entity);
+                    $this->db->limit(1);
+                    $affected_rows+= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+                }
+
             }
 
-            return ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+            return $affected_rows;
         }
 
         /**
@@ -169,6 +194,22 @@ class Category_model extends CI_Model {
          * @return Object
          */
         public function find_children($id) {
+            $this->db->where("id_parent", $id);
+            $this->db->where('status_row', ENABLED);
+            $categories= $this->db->get($this->table);
+
+            return $categories;
+        }
+
+        /**
+         * find_children_tree
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene nodos categorias hijos que tienen como antecesor a una categoria nodo padre
+         *
+         * @param Integer $id
+         * @return Object
+         */
+        public function find_children_tree($id) {
             $this->db->where("id_parent", $id);
             $this->db->where('status_row', ENABLED);
             $categories = $this->db->get($this->table);

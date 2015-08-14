@@ -42,6 +42,7 @@
     $lang['org_category_add']     = 'Asociar categoría';
     $lang['org_categories'] = 'Asociar categorías';
     $lang['org_select_categories'] = 'Categorias';
+    $lang['org_list']= 'Organigramas';
 
     //requeridos
     $lang['org_email_required']= 'Correo electrónico inválido';
