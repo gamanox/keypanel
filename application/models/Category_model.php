@@ -245,43 +245,32 @@ class Category_model extends CI_Model {
             return $categories;
         }
 
-        public function find_children_json($id) {
-            $this->db->select('id, name, slug, 10 as value');
+        public function find_children_json( $id ) {
+            $this->db->select('id, name, slug, 0 as value');
             $this->db->where("id_parent", $id);
             $this->db->where('status_row', ENABLED);
             $categories = $this->db->get($this->table);
 
-            if( $categories->num_rows() > 0 ){
-                $this->load->model('Profile_model','profile');
+            if( $categories->num_rows() > 0){
                 $categories_tree = $this->tree();
 
-                $categories = $categories->result();
-                foreach ($categories as $key => $category) {
-                    // Buscamos todas las categorias debajo de la categoria dada
-                    $all_categories = $this->category_tree($category->id, $categories_tree, array());
-
-                    $organizations    = array();
-                    $id_organizations = array();
-                    $children         = array();
-                    if( count($all_categories) > 0 ){
-                        // hijos directos de la categoria
-                        if( key_exists($category->id, $categories_tree['parents']) ){
-                            foreach ($categories_tree['parents'][$category->id] as $cat) {
-                                $children[] = (Object) array(
-                                        'name'  => $categories_tree['items'][$cat]->name,
-                                        'value' => 10,
-                                        // 'link'  => base_url('organigrama/explorar/'. $categories_tree['items'][$cat]->slug .'.html')
-                                    );
-                            }
-                        }
-                    }
-
-                    // $categories[$key]->link     = base_url('organigrama/explorar/'. $category->slug .'.html');
-                    $categories[$key]->children = $children;
-                    unset($categories[$key]->id);
-                    unset($categories[$key]->slug);
+                $temp = array();
+                foreach($categories->result() as $category){
+                    // $all_categories  = $this->category_tree( $category->id, $categories_tree, array());
+                    $children = $this->category_tree($category->id, $categories_tree, array());
+                    $temp[$category->id] = (Object) array(
+                            'name'     => $category->name,
+                            'value'    => count($children),
+                            'children' => $children,
+                            'url'      => 'organigrama/nivel/'. $category->slug
+                        );
                 }
+
+                $categories = $temp;
             }
+            else
+                $categories = array();
+
 
             return $categories;
         }
@@ -365,7 +354,7 @@ class Category_model extends CI_Model {
 
         // Builds the array lists with data from the categories table
         foreach ($query->result() as $key => $items) {
-            $categories['items'][$items->id]            = $items;
+            $categories['items'][$items->id] = $items;
             if( isset($items->id_parent) )
                 $categories['parents'][$items->id_parent][] = $items->id;
         }
@@ -388,15 +377,29 @@ class Category_model extends CI_Model {
             foreach ($array['parents'][$parent] as $itemId) {
 
                 if(!isset($array['parents'][$itemId])) {
-                    if( !in_array($itemId, $all_categories) )
-                        $all_categories[] = $itemId;
+                    if( !in_array($itemId, $all_categories) ){
+                        $children = $this->category_tree($itemId, $array, array());
+                        $all_categories[$itemId] = (Object) array(
+                                'name'     => $array['items'][$itemId]->name,
+                                'value'    => count($children),
+                                'children' => $children,
+                                'url'      => 'organigrama/nivel/'. $array['items'][$itemId]->slug
+                            );
+                    }
                 }
 
                 if(isset($array['parents'][$itemId])) {
-                    if( !in_array($itemId, $all_categories) )
-                        $all_categories[] = $itemId;
+                    if( !in_array($itemId, $all_categories) ){
+                        $children = $this->category_tree($itemId, $array, array());
+                        $all_categories[$itemId] = (Object) array(
+                                'name'     => $array['items'][$itemId]->name,
+                                'value'    => count($children),
+                                'children' => $children,
+                                'url'      => 'organigrama/nivel/'. $array['items'][$itemId]->slug
+                            );
+                    }
 
-                    $all_categories = $this->category_tree($itemId, $array, $all_categories);
+                    // $all_categories = $this->category_tree($itemId, $array, $all_categories);
                 }
             }
         }
