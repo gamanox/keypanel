@@ -53,6 +53,7 @@ class Organigrama extends Base {
         if( is_null($id) ){
             //buscamos los organigramas
             $param['nodes']= $this->organization->find_parents();
+            $param['title']= lang('org_list');
         }else{
             //buscamos el organigrama enviado
             $param['parent']= $this->organization->find( $id );
@@ -62,6 +63,8 @@ class Organigrama extends Base {
             }
             //buscamos los nodos hijos del nodo padre
             $param['nodes']= $this->organization->find_children($id);
+
+            $param['title']= $param['parent']->name;
 
         }
 
