@@ -80,26 +80,31 @@ class Organigrama extends CI_Controller {
      * @return [type] [description]
      */
     public function getTreeJSON(){
-        // if( $this->input->is_ajax_request() ){
-            $this->output->enable_profiler(FALSE);
-            $response = array();
+        $this->output->enable_profiler(FALSE);
+        $response = array();
 
-            $id_category    = $this->input->get_post('id_category');
-            $info_categoria = $this->category->find($id_category);
-            if( isset($info_categoria) and count($info_categoria) > 0 ){
-                $children = $this->category->find_children_json($info_categoria->id);
-                $response = array(
-                        'name'     => $info_categoria->name,
-                        'children' => $children
-                    );
-            }
+        $id_category    = $this->input->get_post('id_category');
+        $info_categoria = $this->category->find($id_category);
+        if( isset($info_categoria) and count($info_categoria) > 0 ){
+            $children = $this->category->find_children_json($info_categoria->id);
+            $response = array(
+                    'name'     => $info_categoria->name,
+                    'children' => $children
+                );
+        }
 
-            // echo '<pre>'. print_r($response, true) .'</pre>';
+        //Regresamos el status del evento
+        $json = json_encode($response, JSON_UNESCAPED_UNICODE);
+        // echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
 
-            //Regresamos el status del evento
-            $json = json_encode($response, JSON_UNESCAPED_UNICODE);
-            echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
-        // }
+        @ob_end_clean();
+        header('Content-Type: "application/json"');
+        header('Content-Disposition: attachment; filename="data.json"');
+        header("Content-Transfer-Encoding: binary");
+        header('Expires: 0');
+        header('Pragma: no-cache');
+        header("Content-Length: ". strlen($json));
+        exit($json);
     }
 
     /**
@@ -150,20 +155,55 @@ class Organigrama extends CI_Controller {
 
             $response = array();
             if( $entidades->num_rows() > 0){
-                $root = array();
+                $navigation = array();
                 foreach ($entidades->result() as $entidad) {
-                    $root[] = array('id' => $entidad->id, 'label' => $entidad->first_name, 'type' => "folder");
+                    $navigation[0][] = (Object) array('id' => $entidad->id, 'label' => $entidad->first_name, 'type' => "folder");
                 }
 
-                // foreach ($root as $entidad) {
-                //     $temp = $this->organization->find_children_json($response);
-                // }
+                $navigation = $this->getTREE( $navigation );
             }
 
+            // echo '<pre>'. print_r($navigation, true) .'</pre>';
+
             //Regresamos el status del evento
-            $json = json_encode($root, JSON_UNESCAPED_UNICODE);
+            $json = json_encode($navigation, JSON_UNESCAPED_UNICODE);
             echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
         }
+        else {
+            show_404();
+        }
+    }
+
+    /**
+     * getTREE
+     *
+     * @access private
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright
+     *
+     * @return [type] [description]
+     */
+    private function getTREE( $navigation, $parent = 0 ){
+        foreach ($navigation[$parent] as $entidad) {
+            // Buscamos si tiene hijos
+            $children = $this->organization->find_children($entidad->id);
+            if( $children->num_rows() > 0 ){
+                foreach ($children->result() as $node) {
+                    $navigation[$entidad->id][] = (Object) array(
+                            'id'    => $node->id,
+                            'label' => $node->name,
+                            'type'  => ($node->type == AREA ? 'folder' : 'direct_link')
+                        );
+                }
+
+                $children = $this->organization->find_children($entidad->id);
+                if( $children->num_rows() > 0 ){
+                    $navigation = $this->getTREE( $navigation, $entidad->id );
+                }
+            }
+        }
+
+        return $navigation;
     }
 }
 /* End of file Organigrama.php */
