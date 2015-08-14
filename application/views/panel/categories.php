@@ -101,8 +101,8 @@
         .attr("dy", ".75em");
 
     d3.json('<?php echo base_url("organigrama/getTreeJSON?id_category=". $categoria->id); ?>', function(error, root) {
+    // d3.json('<?php echo base_url("assets/js/flare.json"); ?>', function(error, root) {
         if (error) throw error;
-
         // root = JSON.stringify(root);
         // root = JSON.parse(root);
 
@@ -123,10 +123,15 @@
         // We also take a snapshot of the original children (_children) to avoid
         // the children being overwritten when when layout is computed.
         function accumulate(d) {
-            return d.children
+            return (d._children = d.children)
                 ? d.value = d.children.reduce(function(p, v) { return p + accumulate(v); }, 0)
-                : d.value + d.count;
+                : d.value;
         }
+        // function accumulate(d) {
+        //     return d.children
+        //         ? d.value = d.children.reduce(function(p, v) { return p + accumulate(v); }, 0)
+        //         : d.value + d.count;
+        // }
 
         // Compute the treemap layout recursively such that each group of siblings
         // uses the same size (1×1) rather than the dimensions of the parent cell.

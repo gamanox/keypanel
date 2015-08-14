@@ -67,6 +67,23 @@ class Organization_model extends Entity_model {
         }
 
         /**
+         * find_children
+         *
+         * Devuelve un objeto de resultado de bases de datos que contiene objetos nodos hijos de un nodo padre que componen el organigrama
+         *
+         * @param Integer $id
+         * @return Object
+         */
+        public function find_children_json($id) {
+            $this->db->select("u.*, u.first_name as name");
+            $this->db->where("id_parent", $id);
+            $this->db->where('status_row', ENABLED);
+            $nodes= $this->db->get($this->table. " u");
+
+            return $nodes;
+        }
+
+        /**
          * find_parents
          *
          * Devuelve un objeto de resultado de bases de datos que contiene objetos nodos organization

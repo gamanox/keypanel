@@ -56,7 +56,8 @@ $route['translate_uri_dashes'] = FALSE;
 $route['organigramas_publicos'] = 'organigrama/explorar/publico';
 $route['organigramas_privados'] = 'organigrama/explorar/otros';
 
-$route['organigrama/(:any).html'] = 'organigrama/explorar/$1';
+$route['organigrama/(:any).html']       = 'organigrama/explorar/$1';
+$route['organigrama/nivel/(:any).html'] = 'organigrama/nivel/$1';
 
 // Routing para profiles
 $route['organigrama/perfil-(:num)'] = "perfil/find_by_id/$1";
