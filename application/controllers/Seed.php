@@ -11,9 +11,9 @@ class Seed extends CI_Controller {
 //            }
 
             // can only be run in the development environment
-            if (ENVIRONMENT !== 'development') {
-                exit('Wowsers! You don\'t want to do that!');
-            }
+            // if (ENVIRONMENT !== 'development') {
+            //     exit('Wowsers! You don\'t want to do that!');
+            // }
 
             // initiate faker
             $this->faker = Faker\Factory::create('es_ES');
