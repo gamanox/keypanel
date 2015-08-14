@@ -59,8 +59,8 @@ class Organigrama extends CI_Controller {
         $info_categoria = $this->category->find_by_slug( $slug );
         if( isset($info_categoria) ){
             $param_view['categoria']      = $info_categoria;
-            $param_view['organizations']  = $this->entity_category->find_entities_by_category( $info_categoria->id );
-            $param_view['sub_categorias'] = $this->category->find_children( $info_categoria->id );
+            // $param_view['organizations']  = $this->entity_category->find_entities_by_category( $info_categoria->id );
+            // $param_view['sub_categorias'] = $this->category->find_children( $info_categoria->id );
             $this->load->view('panel/categories', $param_view);
         }
         else {
@@ -79,14 +79,28 @@ class Organigrama extends CI_Controller {
      *
      * @return [type] [description]
      */
-    public function getTreeJson(){
-        if( $this->input->is_ajax_request() ){
+    public function getTreeJSON(){
+        // if( $this->input->is_ajax_request() ){
+            $this->output->enable_profiler(FALSE);
             $response = array();
 
+            $id_category    = $this->input->get_post('id_category');
+            $info_categoria = $this->category->find($id_category);
+            if( isset($info_categoria) and count($info_categoria) > 0 ){
+                $children = $this->category->find_children_json($info_categoria->id);
+                $response = (Object) array(
+                        'name'     => $info_categoria->name,
+                        'children' => $children,
+                        'value'    => count($children)
+                    );
+            }
+
+            // echo '<pre>'. print_r($response, true) .'</pre>';
+
             //Regresamos el status del evento
-            $json = json_encode($response);
+            $json = json_encode($response, JSON_UNESCAPED_UNICODE);
             echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
-        }
+        // }
     }
 
     /**
