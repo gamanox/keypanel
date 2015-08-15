@@ -81,4 +81,17 @@ class Organization_model extends Entity_model {
 
         return $nodes;
     }
+
+    public function find_parents_by_category( $category ) {
+        $this->db->select("u.*, u.first_name as name");
+        $this->db->from($this->table. " u");
+        $this->db->join('entities_categories ec','ec.id_entity = u.id');
+        $this->db->where("type",ORGANIZATION);
+        $this->db->where('u.status_row', ENABLED);
+        $this->db->where('ec.id_category', $category);
+        $this->db->group_by('u.id');
+        $nodes= $this->db->get();
+
+        return $nodes;
+    }
 }

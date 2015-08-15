@@ -93,9 +93,11 @@ class Organigrama extends CI_Controller {
                 );
         }
 
+        // echo '<pre>'. print_r($response, true) .'</pre>';
+        // die();
+
         //Regresamos el status del evento
         $json = json_encode($response, JSON_UNESCAPED_UNICODE);
-        // echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
 
         @ob_end_clean();
         header('Content-Type: "application/json"');

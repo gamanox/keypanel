@@ -1,13 +1,25 @@
 <style type="text/css">
     #chart {
-      width: 960px;
-      height: 500px;
-      background: #ddd;
+      background: #F5F5F5;
     }
 
-    text {
+    text, h6.title {
       pointer-events: none;
-      color: rgba(255,255,255,1) !important;
+      color: rgba(255,255,255,1);
+    }
+
+    text#info-title {
+        fill: #FFF;
+        stroke: #fff;
+        font-size: 1.5em;
+        font-weight: 300;
+    }
+
+    text#info-niveles, text#info-perfiles {
+        fill: #FFF;
+        stroke: #fff;
+        font-size: 2em;
+        font-weight: 300;
     }
 
     .grandparent text {
@@ -25,6 +37,7 @@
     rect.parent,
     .grandparent rect {
       stroke-width: 2px;
+      stroke: #F5F5F5;
     }
 
     .grandparent rect {
@@ -48,18 +61,19 @@
     .children:hover rect.child {
       fill: #7db8fa;
     }
+
+
 </style>
-<div class="container main-content">
-    <div class="row">
-        <h4><?php echo $categoria->name; ?></h4>
-        <?php //echo var_dump($sub_categorias); ?>
+<div class="row">
+    <div class="container main-content">
+        <?php /*<h4><?php echo $categoria->name; ?></h4>*/?>
         <p id="chart"></p>
     </div>
 </div>
 <script src="<?php echo base_url('assets/js/d3.min.js'); ?>"  type="text/javascript"></script>
 <script type="text/javascript">
     var margin = {top: 20, right: 0, bottom: 0, left: 0},
-        width = 960,
+        width = $('.main-content').width(),
         height = 500 - margin.top - margin.bottom,
         formatNumber = d3.format(",d"),
         transitioning;
@@ -101,11 +115,7 @@
         .attr("dy", ".75em");
 
     d3.json('<?php echo base_url("organigrama/getTreeJSON?id_category=". $categoria->id); ?>', function(error, root) {
-        console.log(root);
-    // d3.json('<?php echo base_url("assets/js/flare.json"); ?>', function(error, root) {
         if (error) throw error;
-        // root = JSON.stringify(root);
-        // root = JSON.parse(root);
 
         initialize(root);
         accumulate(root);
@@ -179,12 +189,26 @@
                 .attr("class", "parent")
                 .call(rect)
                 .append("title")
-                .text(function(d) { return formatNumber(d.value); });
+                .text(function(d) { return d.name; });
+                // .text(function(d) { return formatNumber(d.value); });
 
             g.append("text")
                 .attr("dy", ".75em")
-                .text(function(d) { return d.name; })
+                .attr('id','info-title')
+                .text(function(d) { return d.name +' - '+ d.type; })
                 .call(text);
+
+            g.append("text")
+                .attr("dy", ".75em")
+                .attr('id','info-niveles')
+                .text(function(d) { return d.niveles +' Niveles'; })
+                .call(niveles);
+
+            g.append("text")
+                .attr("dy", ".75em")
+                .attr('id','info-perfiles')
+                .text(function(d) { return d.profiles +' Perfiles'; })
+                .call(perfiles);
 
             function transition(d) {
                 if (transitioning || !d) return;
@@ -208,8 +232,15 @@
                 g2.selectAll("text").style("fill-opacity", 0);
 
                 // Transition to the new view.
-                t1.selectAll("text").call(text).style("fill-opacity", 0);
-                t2.selectAll("text").call(text).style("fill-opacity", 1);
+                t1.selectAll("text#info-title").call(text).style("fill-opacity", 0);
+                t2.selectAll("text#info-title").call(text).style("fill-opacity", 1);
+
+                t1.selectAll("text#info-niveles").call(niveles).style("fill-opacity", 0);
+                t2.selectAll("text#info-niveles").call(niveles).style("fill-opacity", 1);
+
+                t1.selectAll("text#info-perfiles").call(perfiles).style("fill-opacity", 0);
+                t2.selectAll("text#info-perfiles").call(perfiles).style("fill-opacity", 1);
+
                 t1.selectAll("rect").call(rect);
                 t2.selectAll("rect").call(rect);
 
@@ -224,8 +255,18 @@
         }
 
         function text(text) {
-            text.attr("x", function(d) { return x(d.x) + 6; })
-                .attr("y", function(d) { return y(d.y) + 6; });
+            text.attr("x", function(d) { return x(d.x) + 10; })
+                .attr("y", function(d) { return y(d.y) + 10; });
+        }
+
+        function niveles(text) {
+            text.attr("x", function(d) { return x(d.dx + d.x) - 144; })
+                .attr("y", function(d) { console.log(d); return y(d.dy + d.y) - 80; });
+        }
+
+        function perfiles(text) {
+            text.attr("x", function(d) { return x(d.dx + d.x) - 180; })
+                .attr("y", function(d) { return y(d.dy + d.y) - 50; });
         }
 
         function rect(rect) {
