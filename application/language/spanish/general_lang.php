@@ -31,10 +31,11 @@
     $lang['ORGANIZATION']               = 'Organigrama';
     $lang['AREA']                       = 'Area';
 
-    $lang['d3_nivel']    = 'Nivel';
-    $lang['d3_niveles']  = 'Niveles';
-    $lang['d3_perfil']   = 'Perfil';
-    $lang['d3_perfiles'] = 'Perfiles';
+    $lang['d3_nivel']           = 'Nivel';
+    $lang['d3_niveles']         = 'Niveles';
+    $lang['d3_perfil']          = 'Perfil';
+    $lang['d3_perfiles']        = 'Perfiles';
+    $lang['d3_ver_organigrama'] = 'Ver organigrama';
 
     $lang['menu-myaccount']             = 'Mi cuenta';
     $lang['menu-help']                  = 'Preguntas Frecuentes';

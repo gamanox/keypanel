@@ -14,7 +14,7 @@
     <link href="favicon.png" rel="icon" type="image/png">
 
     <link rel="stylesheet" href="<?php echo base_url('assets/js/dropZone/downloads/css/dropzone.css');?>" />
-    
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </head>
 <body id="dashboard" class="grey lighten-4">

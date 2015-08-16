@@ -4,7 +4,6 @@
     }
 
     text, h6.title {
-      pointer-events: none;
       color: rgba(255,255,255,1);
     }
 
@@ -15,11 +14,17 @@
         font-weight: 300;
     }
 
-    text#info-niveles, text#info-perfiles {
+    text#info-niveles, text#info-perfiles, text#info-link {
         fill: #FFF;
         stroke: #fff;
-        font-size: 2em;
         font-weight: 300;
+    }
+
+    text#info-niveles, text#info-perfiles { font-size: 1.4em }
+    text#info-link { font-size: 1em; }
+
+    .hidden {
+        display: none;
     }
 
     .grandparent text {
@@ -49,26 +54,35 @@
     }
 
     .children rect.parent,
-    .grandparent rect {
+    .grandparent rect,
+    .depth rect.parent {
       cursor: pointer;
     }
 
-    .children rect.parent {
+    .children rect.parent, .depth rect.parent {
       fill: #7db8fa;
-      fill-opacity: .5;
+      fill-opacity: .8;
     }
 
-    .children:hover rect.child {
+    .children:hover rect.child, .depth:hover rect.child {
       fill: #7db8fa;
     }
-
-
 </style>
 <div class="row">
     <div class="container main-content">
         <?php /*<h4><?php echo $categoria->name; ?></h4>*/?>
         <p id="chart"></p>
     </div>
+     <svg width="140" height="30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g transform="translate(0,20)" style="shape-rendering: crispedges;"><g class="depth"><g>
+  <a xlink:href="https://developer.mozilla.org/en-US/docs/SVG" target="_blank">
+    <rect height="30" width="120" y="0" x="0" rx="15"></rect>
+    <text fill="white" text-anchor="middle" y="21" x="60">SVG on MDN</text>
+  </a>
+  </g></g></g>
+</g>
+</svg>
+
 </div>
 <script src="<?php echo base_url('assets/js/d3.min.js'); ?>"  type="text/javascript"></script>
 <script type="text/javascript">
@@ -95,11 +109,11 @@
     var svg = d3.select("#chart").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.bottom + margin.top)
-        .style("margin-left", -margin.left + "px")
-        .style("margin.right", -margin.right + "px")
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        .style("shape-rendering", "crispEdges");
+        .attr(':xmlns','http://www.w3.org/2000/svg')
+        .attr(':xmlns:xlink','http://www.w3.org/1999/xlink')
+        .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .style("shape-rendering", "crispEdges");
 
     var grandparent = svg.append("g")
         .attr("class", "grandparent");
@@ -123,9 +137,9 @@
         display(root);
 
         function initialize(root) {
-            root.x = root.y = 0;
-            root.dx = width;
-            root.dy = height;
+            root.x     = root.y = 0;
+            root.dx    = width;
+            root.dy    = height;
             root.depth = 0;
         }
 
@@ -174,7 +188,11 @@
 
             var g = g1.selectAll("g")
                 .data(d._children)
-                .enter().append("g");
+                .enter().append("g")
+                .on("click", function(d) {
+                    if( d.type == 'organigrama' )
+                        window.location = base +"/"+ d.slug +".html";
+                });
 
             g.filter(function(d) { return d._children; })
                 .classed("children", true)
@@ -191,33 +209,33 @@
                 .call(rect)
                 .append("title")
                 .text(function(d) { return d.name; });
-                // .text(function(d) { return formatNumber(d.value); });
 
             g.append("text")
                 .attr("dy", ".75em")
                 .attr('id','info-title')
-                .text(function(d) { return d.name +' - '+ d.type; })
+                .text(function(d) { return d.name; })
                 .call(text);
+
             g.append("a")
+                .attr(':xlink:href', function(d) { return base +"/"+ d.slug +".html"; })
+                .attr('target','_top')
+                .append("text")
                 .attr("dy", ".75em")
-                .attr('class','link')
-                .attr('xlink:href', function(d) { return base+"/"+d.slug+".html"; }).append("text")
-                .attr("dy", ".75em")
-                .attr('id','info-title')
-                .text("ver organigrama")
-                .call(link);
-                
-                // .call(link);
+                .attr('id','info-link')
+                .text("<?php echo lang('d3_ver_organigrama'); ?>")
+                .call(hyperlink);
 
             g.append("text")
                 .attr("dy", ".75em")
                 .attr('id','info-niveles')
+                .attr('text-anchor','end')
                 .text(function(d) { return d.niveles + (d.niveles > 1 ? ' <?php echo lang("d3_niveles"); ?>' : ' <?php echo lang("d3_nivel"); ?>'); })
                 .call(niveles);
 
             g.append("text")
                 .attr("dy", ".75em")
                 .attr('id','info-perfiles')
+                .attr('text-anchor','end')
                 .text(function(d) { return d.profiles + (d.profiles > 1 ? ' <?php echo lang("d3_perfiles"); ?>' : ' <?php echo lang("d3_perfil"); ?>'); })
                 .call(perfiles);
 
@@ -246,6 +264,9 @@
                 t1.selectAll("text#info-title").call(text).style("fill-opacity", 0);
                 t2.selectAll("text#info-title").call(text).style("fill-opacity", 1);
 
+                t1.selectAll("text#info-link").call(hyperlink).style("fill-opacity", 0);
+                t2.selectAll("text#info-link").call(hyperlink).style("fill-opacity", 1);
+
                 t1.selectAll("text#info-niveles").call(niveles).style("fill-opacity", 0);
                 t2.selectAll("text#info-niveles").call(niveles).style("fill-opacity", 1);
 
@@ -270,18 +291,21 @@
                 .attr("y", function(d) { return y(d.y) + 10; });
         }
 
-        function niveles(text) {
-            text.attr("x", function(d) { return x(d.dx + d.x) - 144; })
-                .attr("y", function(d) { return y(d.dy + d.y) - 80; });
+        function hyperlink(text) {
+            text.attr('class', function(d) { return (d.type == 'organigrama' ? 'visible' : 'hidden'); })
+                .attr("x", function(d) { return x(d.x) + 10; })
+                .attr("y", function(d) { return y(d.y) + 40; });
         }
-        function link(text) {
-             text.attr("x", function(d) { return x(d.x) + 10; })
-                .attr("y", function(d) { return y(d.y) + 30; });
+
+        function niveles(text) {
+            text.attr('class', function(d) { return ( typeof d.niveles === 'undefined' ? 'hidden' : 'visible' ); })
+                .attr("x", function(d) { return x(d.dx + d.x) - 20; })
+                .attr("y", function(d) { return y(d.dy + d.y) - 60; });
         }
 
         function perfiles(text) {
-            text.attr("x", function(d) { return x(d.dx + d.x) - 180; })
-                .attr("y", function(d) { return y(d.dy + d.y) - 50; });
+            text.attr("x", function(d) { return x(d.dx + d.x) - 20; })
+                .attr("y", function(d) { return y(d.dy + d.y) - 35; });
         }
 
         function rect(rect) {
