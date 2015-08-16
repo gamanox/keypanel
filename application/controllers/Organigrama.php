@@ -57,10 +57,8 @@ class Organigrama extends CI_Controller {
 
         // Buscamos la categoria enviada
         $info_categoria = $this->category->find_by_slug( $slug );
-        if( isset($info_categoria) ){
+        if( isset($info_categoria)){
             $param_view['categoria']      = $info_categoria;
-            // $param_view['organizations']  = $this->entity_category->find_entities_by_category( $info_categoria->id );
-            // $param_view['sub_categorias'] = $this->category->find_children( $info_categoria->id );
             $this->load->view('panel/categories', $param_view);
         }
         else {
@@ -71,7 +69,8 @@ class Organigrama extends CI_Controller {
     }
 
     /**
-     * [function_name description]
+     * getTreeJSON
+     * Esta funcion arma el json requerido para la vista de boxes de las categorias
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -110,7 +109,8 @@ class Organigrama extends CI_Controller {
     }
 
     /**
-     * [function_name description]
+     * nivel
+     * Esta funcion manda a la vista del finder
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -142,7 +142,8 @@ class Organigrama extends CI_Controller {
     }
 
     /**
-     * [function_name description]
+     * find_nodes
+     * Esta funcion se encarga de armar el json requerido para la vista del finder
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -178,6 +179,7 @@ class Organigrama extends CI_Controller {
 
     /**
      * getTREE
+     * Funcion recursiva para armar el arbol de un organigrama
      *
      * @access private
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -193,7 +195,7 @@ class Organigrama extends CI_Controller {
                 foreach ($children->result() as $node) {
                     $navigation[$entidad->id][] = (Object) array(
                             'id'    => $node->id,
-                            'label' => $node->name,
+                            'label' => $node->name .($node->type == PROFILE ? ' '. $node->last_name : ''),
                             'type'  => ($node->type == AREA ? 'folder' : 'direct_link')
                         );
                 }

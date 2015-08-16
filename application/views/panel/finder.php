@@ -3,7 +3,6 @@
     .column-view-container { width: 100%; }
 </style>
 <div class="container main-content">
-    hello
     <div id="columns"></div>
 </div>
 <script src="<?php echo base_url('assets/js/hcolumns.js'); ?>"></script>

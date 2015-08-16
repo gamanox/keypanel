@@ -122,7 +122,7 @@
         }
 
         function display(d) {
-            var base = "<?php echo base_url('organigrama/nivel');?>";
+            var base = "<?php echo base_url('organigrama/id-');?>";
             grandparent
                 .datum(d.parent)
                 .on("click", transition)
@@ -138,7 +138,7 @@
                 .enter().append("g")
                 .on("click", function(d) {
                     if( d.type == 'organigrama' )
-                        window.location = base +"/"+ d.slug +".html";
+                        window.location = base + d.slug;
                 });
 
             g.filter(function(d) { return d._children; })
