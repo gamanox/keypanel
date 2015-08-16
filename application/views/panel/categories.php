@@ -261,7 +261,7 @@
 
         function niveles(text) {
             text.attr("x", function(d) { return x(d.dx + d.x) - 144; })
-                .attr("y", function(d) { console.log(d); return y(d.dy + d.y) - 80; });
+                .attr("y", function(d) { return y(d.dy + d.y) - 80; });
         }
 
         function perfiles(text) {
