@@ -1,7 +1,28 @@
 <div class="container main-content">
     <div class="row">
         <form action="#" method="post" id="frmAddOrganization">
-            <div class="col m8 s12">
+            <div class="col s12 m12">
+                <div id="alertBox" class="card-panel red" style="display: none;">
+                    <span id="profile_msg" class="white-text"></span>
+                </div>
+            </div>
+
+            <div class="col m3 s12">
+                <div class="card panel partial">
+                    <div class="card-header grey lighten-5">
+                        <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">account_box</i>&nbsp;&nbsp;<?php echo lang('org_logo'); ?></p>
+                    </div>
+                    <div class="card-content">
+                        <div class="dropzone dz-clickable center-align columns" id="my-dropzone" style="min-height: 120px;">
+                            <div class="dz-message">
+                                <span><?php echo lang('org_upload_logo'); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col m6 s12">
                 <div class="card panel no-padding">
                     <div class="card-header grey lighten-5">
                         <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">device_hub</i>&nbsp;&nbsp;<?php echo lang('org_add'); ?></p>
@@ -12,11 +33,11 @@
                         <h6><?php echo lang('org_info-general'); ?></h6>
                         <div class="input-field col s12 m6">
                             <input class="validate" name="organization[first_name]" id="first_name" type="text">
-                            <label class="col s12 m6" for="first_name" data-error="<?php echo lang('org_first_name_required'); ?>"><?php echo lang('org_first_name'); ?></label>
+                            <label class="col s12 m6 no-padding" for="first_name" data-error="<?php echo lang('org_first_name_required'); ?>"><?php echo lang('org_first_name'); ?></label>
                         </div>
                         <div class="input-field col s12 m6">
                             <input class="validate" name="organization[email]" id="email" type="email">
-                            <label class="col s12 m6" for="email" data-error="<?php echo lang('org_email_required'); ?>"><?php echo lang('org_email'); ?></label>
+                            <label class="col s12 m12 no-padding" for="email" data-error="<?php echo lang('org_email_required'); ?>"><?php echo lang('org_email'); ?></label>
                         </div>
                         <div class="input-field col s12 m12">
                             <textarea name="contact[description]" id="description" class="materialize-textarea validate"></textarea>
@@ -60,23 +81,23 @@
                             <input name="address[city]" id="city" type="text">
                             <label for="city"><?php echo lang('org_city'); ?></label>
                         </div>
-                        <div class="input-field col s12 m3">
+                        <div class="input-field col s12 m6">
                             <input name="address[neighborhood]" id="neighborhood" type="text">
                             <label for="neighborhood"><?php echo lang('org_neighborhood'); ?></label>
                         </div>
-                        <div class="input-field col s12 m3">
+                        <div class="input-field col s12 m6">
                             <input name="address[street]" id="street" type="text">
                             <label for="street"><?php echo lang('org_street'); ?></label>
                         </div>
-                        <div class="input-field col s12 m2">
+                        <div class="input-field col s12 m4">
                             <input name="address[zip_code]" id="zip_code" type="text">
                             <label for="zip_code"><?php echo lang('org_zip_code'); ?></label>
                         </div>
-                        <div class="input-field col s12 m2">
+                        <div class="input-field col s12 m4">
                             <input name="address[num_ext]" id="num_ext" type="text">
                             <label for="num_ext"><?php echo lang('org_num_ext'); ?></label>
                         </div>
-                        <div class="input-field col s12 m2">
+                        <div class="input-field col s12 m4">
                             <input name="address[num_int]" id="num_int" type="text">
                             <label for="num_int"><?php echo lang('org_num_int'); ?></label>
                         </div>
@@ -88,7 +109,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col m4 s12">
+            <div class="col m3 s12">
                 <div class="card panel partial">
                     <div class="card-header grey lighten-5">
                         <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">folder</i>&nbsp;&nbsp;<?php echo lang('org_categories'); ?></p>
@@ -114,9 +135,13 @@
                     </div>
                 </div>
             </div>
+            <div id="profile">
+                <?php /*aqui se pondra el hidden de la imagen del perfil*/?>
+            </div>
         </form>
     </div>
 </div>
+<script type="text/javascript" src="<?php echo base_url('assets/js/dropZone/lib/dropzone.js');?>"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#frmAddOrganization").on("submit", function(e){
@@ -134,7 +159,89 @@
         });
 
          $('select').material_select();
+
     });
+
+    $(function(){
+        var dz = new Dropzone("#my-dropzone", {
+            url: "<?php echo base_url('admin/organigrama/upload_profile'); ?>",
+            uploadMultiple: false,
+            maxFiles: 1,
+            maxFilesize: 1,
+            acceptedFiles: "image/jpg,image/jpeg",
+            init: function() {
+                this.on("addedfile", function(file) {
+                    $("#alertBox").hide();
+                });
+
+                this.on("error", function(file, response) {
+                    $("#alertBox #profile_msg").html(response);
+                        $("#alertBox").show();
+
+                    // Create the remove button
+                        var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-block btn-danger'>Quitar</button>");
+
+                        // Capture the Dropzone instance as closure.
+                        var _this = this;
+
+                        // Listen to the click event
+                        removeButton.addEventListener("click", function(e) {
+                            $("#alertBox").hide();
+                            // Make sure the button click doesn't submit the form:
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Remove the file preview.
+                            _this.removeFile(file);
+                            // If you want to the delete the file on the server as well,
+                            // you can do the AJAX request here.
+                        });
+
+                        // Add the button to the file preview element.
+                        file.previewElement.appendChild(removeButton);
+                });
+
+                this.on("success", function(file, response) {
+                    response= JSON.parse(response);
+
+                    if(!response.status){
+                        $("#alertBox #profile_msg").html(response.msg);
+                        $("#alertBox").show();
+                    }else{
+                        $("#profile").append(
+                            '<input id="avatar-'+response.file_name+'" type="hidden" name="organization[avatar]" value="'+response.file_name+'">'
+                        );
+
+                        // Create the remove button
+                        var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-block btn-danger'>Quitar</button>");
+
+                        // Capture the Dropzone instance as closure.
+                        var _this = this;
+
+                        // Listen to the click event
+                        removeButton.addEventListener("click", function(e) {
+                            $("#alertBox").hide();
+                            // Make sure the button click doesn't submit the form:
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Remove the file preview.
+                            _this.removeFile(file);
+                            // If you want to the delete the file on the server as well,
+                            // you can do the AJAX request here.
+
+                            remove_image(response.file_name);
+                        });
+
+                        // Add the button to the file preview element.
+                        file.previewElement.appendChild(removeButton);
+                    }
+                });
+            }
+       });
+    });
+
+    Dropzone.autoDiscover = false;
 
     function create(){
         if($("#first_name").val()===""){
@@ -176,9 +283,25 @@
 
         if($.isNumeric(val) && val > 0 && !exists){
             $("#organigrama-categories").append('<span class="blue white-text category trend">'+text
-                    +'<a class="white-text" href="#" onclick="javascript:$(this).parent().remove();">'
-                    +'<i class="tiny material-icons">cancel</i></a></span>'
-                    +'<input type="hidden" name="categories[]" value="'+val+'">');
+                    +'<a class="white-text" href="#!" onclick="javascript:$(this).parent().remove();">'
+                    +'<i class="tiny material-icons">cancel</i></a>'
+                    +'<input type="hidden" name="categories[]" value="'+val+'"></span>');
         }
+    }
+
+    function remove_image(img){
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url('admin/base/remove_profile'); ?>',
+            data: {
+                file: img
+            },
+            dataType: 'jsonp',
+            success: function(response){
+                if(response.status){
+                    $("#profile-"+img).remove();
+                }
+            }
+        });
     }
 </script>
