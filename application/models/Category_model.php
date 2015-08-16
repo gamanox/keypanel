@@ -323,7 +323,7 @@ class Category_model extends CI_Model {
                     $node['children'] = $children;
                 }
                 else {
-                    $node['value']    = 0;
+                    $node['value']    = 1;
                     $node['children'] = array();
                 }
 
@@ -344,7 +344,7 @@ class Category_model extends CI_Model {
                                 'type'  => 'organigrama',
                                 'name'  => $organigrama->name,
                                 'slug'  => $organigrama->id,
-                                'value' => 0
+                                'value' => 1
                             );
 
                         // Buscamos los perfiles que tenga debajo
@@ -488,7 +488,7 @@ class Category_model extends CI_Model {
                             $node['children'] = $children;
                         }
                         else {
-                            $node['value']    = 0;
+                            $node['value']    = 1;
                             $node['children'] = array();
                         }
 
@@ -514,7 +514,7 @@ class Category_model extends CI_Model {
                                         'type'  => 'organigrama',
                                         'name'  => $organigrama->name,
                                         'slug'  => $organigrama->id,
-                                        'value' => 0
+                                        'value' => 1
                                     );
 
                                 // Buscamos los perfiles que tenga debajo
@@ -550,7 +550,7 @@ class Category_model extends CI_Model {
                             $node['children'] = $children;
                         }
                         else {
-                            $node['value']    = 0;
+                            $node['value']    = 1;
                             $node['children'] = array();
                         }
 
@@ -576,7 +576,7 @@ class Category_model extends CI_Model {
                                         'type'  => 'organigrama',
                                         'name'  => $organigrama->name,
                                         'slug'  => $organigrama->id,
-                                        'value' => 0
+                                        'value' => 1
                                     );
 
                                 // Buscamos los perfiles que tenga debajo

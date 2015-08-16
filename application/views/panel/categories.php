@@ -48,7 +48,6 @@
         .range([0, height]);
 
     function wordWrap(d, i){
-        console.log(d);
         var words  = d.data.key.split(' ');
         var line   = new Array();
         var length = 0;
@@ -233,7 +232,7 @@
                 .call(text);
 
             g.append("a")
-                .attr(':xlink:href', function(d) { return base +"/"+ d.slug +".html"; })
+                .attr(':xlink:href', function(d) { return base + d.slug; })
                 .attr('target','_top')
                 .attr('class','link')
                 .append("text")
