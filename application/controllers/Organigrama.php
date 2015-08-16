@@ -129,9 +129,9 @@ class Organigrama extends CI_Controller {
         $param_menu['breadcrumb'] = array();
         $this->load->view('includes/menu-extended-'. strtolower($this->session->type));
 
-        $info_categoria = $this->category->find_by_slug( $slug );
-        if( isset($info_categoria) ){
-            $param_view['categoria']      = $info_categoria;
+        $info_organigrama = $this->organization->find( $slug );
+        if( isset($info_organigrama) ){
+            $param_view['organigrama'] = $info_organigrama;
             $this->load->view('panel/finder', $param_view);
         }
         else {
@@ -152,8 +152,8 @@ class Organigrama extends CI_Controller {
      */
     public function find_nodes( ){
         if( $this->input->is_ajax_request() ){
-            $id_category = $this->input->get_post('id_categoria');
-            $entidades   = $this->entity_category->find_entities_by_category( $id_category );
+            $id_organigrama = $this->input->get_post('id_organigrama');
+            $entidades      = $this->organization->find_children( $id_organigrama );
 
             $response = array();
             if( $entidades->num_rows() > 0){

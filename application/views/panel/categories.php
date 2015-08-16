@@ -1,88 +1,35 @@
 <style type="text/css">
-    #chart {
-      background: #F5F5F5;
-    }
-
-    text, h6.title {
-      color: rgba(255,255,255,1);
-    }
-
-    text#info-title {
-        fill: #FFF;
-        stroke: #fff;
-        font-size: 1.5em;
-        font-weight: 300;
-    }
-
-    text#info-niveles, text#info-perfiles, text#info-link {
-        fill: #FFF;
-        stroke: #fff;
-        font-weight: 300;
-    }
-
+    #chart { background: #F5F5F5; }
+    text, h6.title { color: rgba(255,255,255,1); }
+    text#info-title { fill: #FFF; stroke: #fff; font-size: 1.5em; font-weight: 300; }
+    text#info-niveles, text#info-perfiles, text#info-link { fill: #FFF; stroke: #fff; font-weight: 300; }
     text#info-niveles, text#info-perfiles { font-size: 1.4em }
     text#info-link { font-size: 1em; }
 
-    .hidden {
-        display: none;
-    }
+    a.link { cursor: pointer; }
+    .hidden { display: none; }
+    .grandparent text { font-weight: bold; }
 
-    .grandparent text {
-      font-weight: bold;
-    }
-
-    rect {
-      fill: none;
-      stroke: #fff;
-    }
-    rect title {
-        color: #fff;
-    }
+    rect { fill: none; stroke: #fff; }
+    rect title { color: #fff; }
 
     rect.parent,
-    .grandparent rect {
-      stroke-width: 2px;
-      stroke: #F5F5F5;
-    }
+    .grandparent rect { stroke-width: 2px; stroke: #F5F5F5; }
 
-    .grandparent rect {
-      fill: #7db8fa;
-    }
-
-    .grandparent:hover rect {
-      fill: #7db8fa;
-    }
+    .grandparent rect { fill: #7db8fa; }
+    .grandparent:hover rect { fill: #7db8fa; }
 
     .children rect.parent,
     .grandparent rect,
-    .depth rect.parent {
-      cursor: pointer;
-    }
-
-    .children rect.parent, .depth rect.parent {
-      fill: #7db8fa;
-      fill-opacity: .8;
-    }
-
-    .children:hover rect.child, .depth:hover rect.child {
-      fill: #7db8fa;
-    }
+    .depth rect.parent { cursor: pointer; }
+    .children rect.parent, .depth rect.parent { fill: #7db8fa; fill-opacity: .8; }
+    .children:hover rect.child, .depth:hover rect.child { fill: #7db8fa; }
 </style>
 <div class="row">
     <div class="container main-content">
         <?php /*<h4><?php echo $categoria->name; ?></h4>*/?>
         <p id="chart"></p>
     </div>
-     <svg width="140" height="30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g transform="translate(0,20)" style="shape-rendering: crispedges;"><g class="depth"><g>
-  <a xlink:href="https://developer.mozilla.org/en-US/docs/SVG" target="_blank">
-    <rect height="30" width="120" y="0" x="0" rx="15"></rect>
-    <text fill="white" text-anchor="middle" y="21" x="60">SVG on MDN</text>
-  </a>
-  </g></g></g>
-</g>
-</svg>
-
 </div>
 <script src="<?php echo base_url('assets/js/d3.min.js'); ?>"  type="text/javascript"></script>
 <script type="text/javascript">
@@ -219,6 +166,7 @@
             g.append("a")
                 .attr(':xlink:href', function(d) { return base +"/"+ d.slug +".html"; })
                 .attr('target','_top')
+                .attr('class','link')
                 .append("text")
                 .attr("dy", ".75em")
                 .attr('id','info-link')
