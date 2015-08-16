@@ -10,6 +10,7 @@
     $lang['cat_create_at'] = 'Creado el';
 
     $lang['cat_list']= 'Categorías';
+    $lang['cat_parent_list'] = 'Categoría padre';
     $lang['cat_add'] = 'Agregar categoría';
     $lang['cat_create'] = 'Crear';
     $lang['cat_edit'] = 'Editar';

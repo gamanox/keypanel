@@ -22,7 +22,7 @@ class Organigrama extends Base {
         $this->load->model('Organization_model','organization');
         $this->load->model('Category_model','category');
         $this->load->model('Entity_category_model','entity_category');
-//        $this->load->model('Usuario_model','entity');
+        $this->load->model('Entity_model','entity');
     }
 
     /**
@@ -80,10 +80,7 @@ class Organigrama extends Base {
 
         $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN), $param_menu);
 
-        $param['dynamic_view']= 'organization/list';
-        $param['vars_to_load']= array("nodes",'parent');
-
-        $this->load->view('panel/template', $param);
+        $this->load->view('organization/list', $param);
         $this->load->view('includes/footer');
     }
 
@@ -191,7 +188,7 @@ class Organigrama extends Base {
 
         $this->lang->load('panel');
 
-        $param_header['title'] = lang('org_add');
+        $param_header['title'] = lang('org_edit');
         $this->load->view('includes/header', $param_header);
 
         $param_menu['back_btn']= base_url("admin/organigrama/explore");
@@ -203,6 +200,79 @@ class Organigrama extends Base {
         $param['categories']= $this->category->find_all();
         $this->load->view('organization/edit', $param);
         $this->load->view('includes/footer');
+    }
+
+    /**
+     * save
+     *
+     * Guarda un organigrama
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access public
+     * @return void
+     */
+    function save() {
+        $response["status"]=0;
+        $response["msg"]= lang('msg_operacion_fallida');
+	if(!$this->input->is_ajax_request()){
+	    show_404();
+	}elseif (!$this->auth->is_auth($this->router->class, CREATE)) {
+	    $response['msg']= lang('error_sin_permisos');
+	}else{
+//            dd($this->input->post());
+            $organigrama= $this->input->post('organization');
+            $contact= $this->input->post('contact');
+            $address= $this->input->post('address');
+            $categories= $this->input->post('categories');
+
+            $categories= (is_array($categories)?$categories: array($categories));
+
+            $success=0;
+            //actualizamos el organigrama
+            $success+= $this->organization->update($organigrama);
+            //actualizamos contacto
+            $success+= $this->contact->update($contact);
+            //actualizamos direccion
+            $success+= $this->address->update($address);
+
+            $categories_exists= $this->entity_category->find_categories_by_entity($organigrama['id']);
+
+            foreach ($categories_exists->result() as $category) {
+                //si esta en las categorias enviadas, la ponemos en enabled por si estaba eliminada
+                if(in_array($category->id, $categories)){
+                    $success+= $this->entity_category->update(array("id"=>$category->id_relation,"status_row"=>ENABLED));
+                }else{
+                    //si no esta en las enviadas, la eliminamos
+                    $success+= $this->entity_category->delete($category->id_relation);
+                }
+
+                //quitamos de las enviadas la categoria en la iteracion actual
+                unset($categories[ array_search($category->id, $categories)]);
+            }
+
+            //si aun qdaron categorias de las enviadas, entonces son nuevas, ay que agregarlas
+            if(count($categories) > 0){
+                foreach ($categories as $id_cat) {
+                    $organization_category= array(
+                        "id_category"=> $id_cat,
+                        "id_entity"=> $organigrama['id']
+                    );
+
+                    $success+= $this->entity_category->save($organization_category);
+                }
+            }
+
+            if ($success){
+                $response["status"] = 1;
+                $response["msg"]    = lang('msg_operacion_exitosa');
+            }
+            else {
+                $response["msg"] = lang('msg_operacion_fallida');
+            }
+        }
+
+	//cocinado!!
+	$json = json_encode($response);
+	echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
     }
 
     /**

@@ -90,10 +90,7 @@ class Member extends Base {
 
         // Cargamos la lista de miembros
         $param['members']      = $this->member->find_all( MEMBER );
-        $param['dynamic_view'] = 'users/member/list';
-        $param['vars_to_load'] = array('members');
-
-        $this->load->view('panel/template', $param);
+        $this->load->view('users/member/list', $param);
 
         $this->load->view('includes/footer');
     }

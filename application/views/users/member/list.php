@@ -1,6 +1,6 @@
 <?php $this->load->view('includes/common-functions'); ?>
 
-<div class="s12 m12 l12">
+<div class="s12 m12">
     <div class="card-panel nopadding">
         <div class="card-header grey lighten-5">
             <p class="card-title grey-text nomargin valign-wrapper"><i class="material-icons valign">view_list</i>&nbsp;<?php echo lang('members_card_title'); ?></p>

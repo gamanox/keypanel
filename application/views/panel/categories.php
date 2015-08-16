@@ -161,6 +161,7 @@
         }
 
         function display(d) {
+            var base = "<?php echo base_url('organigrama/nivel');?>";
             grandparent
                 .datum(d.parent)
                 .on("click", transition)
@@ -197,6 +198,16 @@
                 .attr('id','info-title')
                 .text(function(d) { return d.name +' - '+ d.type; })
                 .call(text);
+            g.append("a")
+                .attr("dy", ".75em")
+                .attr('class','link')
+                .attr('xlink:href', function(d) { return base+"/"+d.slug+".html"; }).append("text")
+                .attr("dy", ".75em")
+                .attr('id','info-title')
+                .text("ver organigrama")
+                .call(link);
+                
+                // .call(link);
 
             g.append("text")
                 .attr("dy", ".75em")
@@ -262,6 +273,10 @@
         function niveles(text) {
             text.attr("x", function(d) { return x(d.dx + d.x) - 144; })
                 .attr("y", function(d) { return y(d.dy + d.y) - 80; });
+        }
+        function link(text) {
+             text.attr("x", function(d) { return x(d.x) + 10; })
+                .attr("y", function(d) { return y(d.y) + 30; });
         }
 
         function perfiles(text) {
