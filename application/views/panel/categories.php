@@ -8,7 +8,7 @@
 
     a.link { cursor: pointer; }
     .hidden { display: none; }
-    .grandparent text { font-weight: bold; }
+    .grandparent text { font-weight: 300; font-size: 1.2em; }
 
     rect { fill: none; stroke: #fff; }
     rect title { color: #fff; }
@@ -16,8 +16,8 @@
     rect.parent,
     .grandparent rect { stroke-width: 2px; stroke: #F5F5F5; }
 
-    .grandparent rect { fill: #7db8fa; }
-    .grandparent:hover rect { fill: #7db8fa; }
+    /*.grandparent rect { fill: #7db8fa; }
+    .grandparent:hover rect { fill: #7db8fa; }*/
 
     .children rect.parent,
     .grandparent rect,
@@ -33,7 +33,7 @@
 </div>
 <script src="<?php echo base_url('assets/js/d3.min.js'); ?>"  type="text/javascript"></script>
 <script type="text/javascript">
-    var margin = {top: 20, right: 0, bottom: 0, left: 0},
+    var margin = {top: 40, right: 0, bottom: 0, left: 0},
         width = $('.main-content').width(),
         height = 500 - margin.top - margin.bottom,
         formatNumber = d3.format(",d"),
@@ -46,6 +46,67 @@
     var y = d3.scale.linear()
         .domain([0, height])
         .range([0, height]);
+
+    function wordWrap(d, i){
+        console.log(d);
+        var words  = d.data.key.split(' ');
+        var line   = new Array();
+        var length = 0;
+        var text   = "";
+        var width  = d.dx;
+        var height = d.dy;
+        var word;
+        do {
+            word = words.shift();
+            line.push(word);
+            if (words.length)
+                this.firstChild.data = line.join(' ') + " " + words[0];
+            else
+                this.firstChild.data = line.join(' ');
+
+            length = this.getBBox().width;
+            if (length < width && words.length) {
+                ;
+            }
+            else {
+                text = line.join(' ');
+                this.firstChild.data = text;
+                if (this.getBBox().width > width) {
+                    text = d3.select(this).select(function() {return this.lastChild;}).text();
+                    text = text + "...";
+                    d3.select(this).select(function() {return this.lastChild;}).text(text);
+                    d3.select(this).classed("wordwrapped", true);
+                    break;
+                }
+                else
+                    ;
+
+                if (text != '') {
+                    d3.select(this).append("svg:tspan")
+                        .attr("x", 0)
+                        .attr("dx", "0.15em")
+                        .attr("dy", "0.9em")
+                        .text(text);
+                }
+                else
+                    ;
+
+                if(this.getBBox().height > height && words.length) {
+                    text = d3.select(this).select(function() {return this.lastChild;}).text();
+                        text = text + "...";
+                        d3.select(this).select(function() {return this.lastChild;}).text(text);
+                            d3.select(this).classed("wordwrapped", true);
+                            break;
+                        }
+                else
+                    ;
+
+                line = new Array();
+            }
+        } while (words.length);
+
+        this.firstChild.data = '';
+    }
 
     var treemap = d3.layout.treemap()
         .children(function(d, depth) { return depth ? null : d._children; })
@@ -66,13 +127,13 @@
         .attr("class", "grandparent");
 
     grandparent.append("rect")
-        .attr("y", -margin.top)
+        .attr("y", -margin.top )
         .attr("width", width)
         .attr("height", margin.top);
 
     grandparent.append("text")
         .attr("x", 6)
-        .attr("y", 6 - margin.top)
+        .attr("y", 13 - margin.top)
         .attr("dy", ".75em");
 
     d3.json('<?php echo base_url("organigrama/getTreeJSON?id_category=". $categoria->id); ?>', function(error, root) {
@@ -161,6 +222,14 @@
                 .attr("dy", ".75em")
                 .attr('id','info-title')
                 .text(function(d) { return d.name; })
+                .style("font-size", function(d) {
+                    console.log( d.name +': '+ this.getComputedTextLength() +' '+ d.dx +' '+ d.x /*Math.min(10 * (d.x), (2 * (d.x) - 8) / this.getComputedTextLength())*/ ); /*return Math.min(2 * (d.dx - d.x), (2 * (d.dx - d.x) - 8) / this.getComputedTextLength() * 1) + "px";*/
+                    if( this.getComputedTextLength() > d.dx){
+                        return Math.min(2 * d.dx, (2 * d.dx - 8) / this.getComputedTextLength() * 10) + "px";
+                    }
+                    else
+                        return '1.5em';
+                })
                 .call(text);
 
             g.append("a")
@@ -236,7 +305,8 @@
 
         function text(text) {
             text.attr("x", function(d) { return x(d.x) + 10; })
-                .attr("y", function(d) { return y(d.y) + 10; });
+                .attr("y", function(d) { return y(d.y) + 10; })
+                .attr("width", function(d) { return x(d.x + d.dx) - x(d.x) - 10; });
         }
 
         function hyperlink(text) {
@@ -265,7 +335,7 @@
 
         function name(d) {
             return d.parent
-                ? name(d.parent) + "." + d.name
+                ? name(d.parent) + ' > ' + d.name
                 : d.name;
         }
     });
