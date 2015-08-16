@@ -8,24 +8,24 @@ require_once APPPATH.'models/Entity_model.php';
 class Profile_model extends Entity_model {
 
 
-        /**
-         * @var String
-         */
-        public $last_name;
+    /**
+     * @var String
+     */
+    public $last_name;
 
 
-        /**
-         * find
-         *
-         * Devuelve un objeto perfil
-         *
-         * @param Integer $id
-         * @return Object
-         */
-        public function find($id) {
-            // TODO implement here
-            return parent::find($id);
-        }
+    /**
+     * find
+     *
+     * Devuelve un objeto perfil
+     *
+     * @param Integer $id
+     * @return Object
+     */
+    public function find($id) {
+        // TODO implement here
+        return parent::find($id);
+    }
 
     /**
      * find_all_by_breadcrumb
