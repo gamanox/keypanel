@@ -212,13 +212,13 @@
             g.append("text")
                 .attr("dy", ".75em")
                 .attr('id','info-niveles')
-                .text(function(d) { return d.niveles +' Niveles'; })
+                .text(function(d) { return d.niveles + (d.niveles > 1 ? ' <?php echo lang("d3_niveles"); ?>' : ' <?php echo lang("d3_nivel"); ?>'); })
                 .call(niveles);
 
             g.append("text")
                 .attr("dy", ".75em")
                 .attr('id','info-perfiles')
-                .text(function(d) { return d.profiles +' Perfiles'; })
+                .text(function(d) { return d.profiles + (d.profiles > 1 ? ' <?php echo lang("d3_perfiles"); ?>' : ' <?php echo lang("d3_perfil"); ?>'); })
                 .call(perfiles);
 
             function transition(d) {
