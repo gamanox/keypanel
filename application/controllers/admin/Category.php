@@ -66,8 +66,6 @@ class Category extends Base {
 
         }
 
-        $this->lang->load('panel');
-
         $param_header['title'] = lang('org_title');
         $this->load->view('includes/header', $param_header);
 
@@ -78,10 +76,7 @@ class Category extends Base {
 
         $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN), $param_menu);
 
-        $param['dynamic_view']= 'categories/list';
-        $param['vars_to_load']= array("nodes",'parent');
-
-        $this->load->view('panel/template', $param);
+        $this->load->view('categories/list', $param);
         $this->load->view('includes/footer');
     }
 

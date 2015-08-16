@@ -42,7 +42,7 @@ class Entity_category_model extends CI_Model {
          * @return Object
          */
         public function find_entities_by_category($id) {
-            $this->db->select("e.*");
+            $this->db->select("ec.id id_relation, e.*");
             $this->db->where("ec.id_category", $id);
             $this->db->where('e.status_row', ENABLED);
             $this->db->where('ec.status_row', ENABLED);
@@ -61,7 +61,7 @@ class Entity_category_model extends CI_Model {
          * @return Object
          */
         public function find_categories_by_entity($id) {
-            $this->db->select("c.*");
+            $this->db->select("ec.id id_relation, c.*");
             $this->db->where("ec.id_entity", $id);
             $this->db->where('c.status_row', ENABLED);
             $this->db->where('ec.status_row', ENABLED);
@@ -74,7 +74,7 @@ class Entity_category_model extends CI_Model {
         /**
          * save
          *
-         * Guarda una relación entity category
+         * Crea una relación entity category
          *
          * @param Array $entity_category
          * @return Integer Devuelve el <b>id</b> del insert que se creó si hubo éxito, caso contrario devuelve <b>0</b>
@@ -83,6 +83,20 @@ class Entity_category_model extends CI_Model {
             $entity_category['create_at']= date('Y-m-d H:i:s');
             $success= $this->db->insert($this->table, $entity_category);
             return ($success ? $this->db->insert_id() : 0);
+        }
+
+        /**
+         * update
+         *
+         * Guarda una relación entity category
+         *
+         * @param Array $entity_category
+         * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
+         */
+        public function update($entity_category ) {
+            $entity_category['update_at']= date('Y-m-d H:i:s');
+            $success= $this->db->update($this->table, $entity_category, array("id" => $entity_category['id']));
+            return ($success ? 1 : 0);
         }
 
         /**

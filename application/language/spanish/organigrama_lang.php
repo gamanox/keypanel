@@ -5,6 +5,8 @@
      */
      //general
     $lang['org_info-general']= 'Información General';
+    $lang['org_logo']= 'Foto de perfil';
+    $lang['org_upload_logo']= 'Subir logo';
     $lang['org_first_name']= 'Nombre';
     $lang['org_email']= 'Correo electrónico';
     $lang['org_description']= 'Descripción';
