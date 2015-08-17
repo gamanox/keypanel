@@ -96,7 +96,8 @@ class Organigrama extends CI_Controller {
         // die();
 
         //Regresamos el status del evento
-        $json = json_encode($response, JSON_UNESCAPED_UNICODE);
+        //JSON_UNESCAPED_UNICODE = 256 constante definida en php > 5.4
+        $json = json_encode($response, 256);
 
         @ob_end_clean();
         header('Content-Type: "application/json"');
@@ -113,13 +114,14 @@ class Organigrama extends CI_Controller {
      * Esta funcion manda a la vista del finder
      *
      * @access public
+     * @param int $id Id del organigrama
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
      * @copyright
      *
      * @return [type] [description]
      */
-    public function nivel( $slug = NULL ){
-        if( !isset($slug) ){
+    public function nivel( $id = NULL ){
+        if( !isset($id) ){
             redirect('panel');
         }
 
@@ -129,7 +131,7 @@ class Organigrama extends CI_Controller {
         $param_menu['breadcrumb'] = array();
         $this->load->view('includes/menu-extended-'. strtolower($this->session->type));
 
-        $info_organigrama = $this->organization->find( $slug );
+        $info_organigrama = $this->organization->find( $id );
         if( isset($info_organigrama) ){
             $param_view['organigrama'] = $info_organigrama;
             $this->load->view('panel/finder', $param_view);
@@ -169,7 +171,8 @@ class Organigrama extends CI_Controller {
             // echo '<pre>'. print_r($navigation, true) .'</pre>';
 
             //Regresamos el status del evento
-            $json = json_encode($navigation, JSON_UNESCAPED_UNICODE);
+            //JSON_UNESCAPED_UNICODE = 256 constante definida en php > 5.4
+            $json = json_encode($navigation, 256);
             echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
         }
         else {

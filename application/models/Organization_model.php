@@ -12,6 +12,7 @@ class Organization_model extends Entity_model {
      */
     public function __construct() {
             parent::__construct();
+            $this->load->model("Entity_tag_model","entity_tag");
     }
 
     /**
