@@ -21,18 +21,8 @@
                                 </div>
                                 <div class="dz-preview dz-processing dz-image-preview dz-success">
                                     <div class="dz-details">
-                                        <div class="dz-filename">
-                                            <span data-dz-name="">luis.jpg</span>
-                                        </div>
-                                        <div data-dz-size="" class="dz-size"><strong>12.6</strong> KB</div>
                                         <img src="<?php echo base_url('assets/images/profiles/'.$organization->avatar); ?>" />
                                     </div>
-                                    <div class="dz-progress">
-                                        <span data-dz-uploadprogress="" class="dz-upload" style="width: 100%;"></span>
-                                    </div>
-                                    <div class="dz-success-mark"><span>✔</span></div>
-                                    <div class="dz-error-mark"><span>✘</span></div>
-                                    <div class="dz-error-message"><span data-dz-errormessage=""></span></div>
                                     <button type="button" class="btn btn-sm btn-block btn-danger" onclick="javascript:remove_image('<?php echo $organization->avatar;?>');">Quitar</button>
                                 </div>
                             </div>
@@ -66,7 +56,7 @@
                             <label class="col s12 m12 no-padding" for="email" data-error="<?php echo lang('org_email_required'); ?>"><?php echo lang('org_email'); ?></label>
                         </div>
                         <div class="input-field col s12 m12">
-                            <textarea name="contact[description]" value="<?php echo $organization->contact->description; ?>" id="description" class="materialize-textarea validate"></textarea>
+                            <textarea name="contact[description]" id="description" class="materialize-textarea validate"><?php echo $organization->contact->description; ?></textarea>
                             <label for="description"><?php echo lang('org_description'); ?></label>
                         </div>
 
@@ -130,11 +120,12 @@
 
 
                         <div class="clearfix"></div>
-                        <a href="javascript:;" onclick="javascript:$('#frmEditOrganization').submit();" class="btn blue waves-effect waves-light s12 m3 l3 text-white"><i class="tiny material-icons">done</i><?php echo lang('org_btn_save_organization'); ?></a>
+                        <a href="javascript:;" onclick="javascript:$('#frmEditOrganization').submit();" class="btn blue waves-effect waves-light s12 m3 l3 text-white"><i class="tiny material-icons">done_all</i><?php echo lang('org_btn_save_organization'); ?></a>
 
                     </div>
                 </div>
             </div>
+
             <div class="col m3 s12">
                 <div class="card panel partial">
                     <div class="card-header grey lighten-5">
@@ -163,15 +154,52 @@
                         </select>
                         <div class="clearfix">&nbsp;</div>
                         <button class="btn btn-small blue waves-effect waves-light right" type="button" onclick="javascript:category_add()">
-                            <i class="tiny material-icons">done</i>
+                            <i class="tiny material-icons">add</i>
                         </button>
 
                         <div class="clearfix">&nbsp;</div>
                     </div>
                 </div>
             </div>
+
+            <div class="col m3 s12">
+                <div class="card panel partial">
+                    <div class="card-header grey lighten-5">
+                        <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">folder</i>&nbsp;&nbsp;<?php echo lang('org_related_tags'); ?></p>
+                    </div>
+                    <div class="card-content">
+                        <div id="organigrama-tags">
+                            <?php foreach ($organization->tags->result() as $tag): ?>
+                                <span class="blue white-text tag trend">
+                                    <?php echo $tag->name; ?>
+                                    <a class="white-text" href="#" onclick="javascript:$(this).parent().remove();">
+                                        <i class="tiny material-icons">cancel</i>
+                                    </a>
+                                    <input type="hidden" name="tags[]" value="<?php echo $tag->id; ?>">
+                                </span>
+
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="clearfix">&nbsp;</div>
+                        <label><?php echo lang('org_select_tags'); ?></label>
+                        <select id="tags_sel" class="browser-default">
+                            <option value="" disabled selected><?php echo lang('select'); ?></option>
+                            <?php foreach ($tags->result() as $tag): ?>
+                                <option value="<?php echo $tag->id; ?>"><?php echo $tag->name; ?></span>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="clearfix">&nbsp;</div>
+                        <button class="btn btn-small blue waves-effect waves-light right" type="button" onclick="javascript:tag_add()">
+                            <i class="tiny material-icons">add</i>
+                        </button>
+
+                        <div class="clearfix">&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+
             <div id="profile">
-                <input id="avatar-,<?php echo $organization->avatar;?>" type="hidden" name="organization[avatar]" value="'+response.file_name+'">
+
             </div>
             <input type="hidden" name="organization[id]" value="<?php echo $organization->id; ?>">
             <input type="hidden" name="address[id]" value="<?php echo $organization->address->id; ?>">
@@ -323,6 +351,25 @@
                     +'<a class="white-text" href="#!" onclick="javascript:$(this).parent().remove();">'
                     +'<i class="tiny material-icons">cancel</i></a>'
                     +'<input type="hidden" name="categories[]" value="'+val+'"></span>');
+        }
+    }
+
+    function tag_add(){
+        var val= $("#tags_sel").val();
+        var text= $("#tags_sel option:selected").text();
+        var exists=false;
+
+        $.each($("#organigrama-tags input"), function(index,child){
+            if($(child).val()==val){
+                exists=true;
+            }
+        });
+
+        if($.isNumeric(val) && val > 0 && !exists){
+            $("#organigrama-tags").append('<span class="blue white-text tag trend">'+text
+                    +'<a class="white-text" href="#!" onclick="javascript:$(this).parent().remove();">'
+                    +'<i class="tiny material-icons">cancel</i></a>'
+                    +'<input type="hidden" name="tags[]" value="'+val+'"></span>');
         }
     }
 

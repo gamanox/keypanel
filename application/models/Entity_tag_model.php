@@ -42,7 +42,7 @@ class Entity_tag_model extends CI_Model {
          * @return Object
          */
         public function find_entities_by_tag($id) {
-            $this->db->select("e.*");
+            $this->db->select("et.id id_relation, e.*");
             $this->db->where("et.id_tag", $id);
             $this->db->where('e.status_row', ENABLED);
             $this->db->where('et.status_row', ENABLED);
@@ -61,7 +61,7 @@ class Entity_tag_model extends CI_Model {
          * @return Object
          */
         public function find_tags_by_entity($id) {
-            $this->db->select("t.*");
+            $this->db->select("et.id id_relation, t.*");
             $this->db->where("et.id_entity", $id);
             $this->db->where('t.status_row', ENABLED);
             $this->db->where('et.status_row', ENABLED);
@@ -83,6 +83,20 @@ class Entity_tag_model extends CI_Model {
             $entity_tag['create_at']= date('Y-m-d H:i:s');
             $success= $this->db->insert($this->table, $entity_tag);
             return ($success ? $this->db->insert_id() : 0);
+        }
+
+        /**
+         * update
+         *
+         * Guarda una relación entity tag
+         *
+         * @param Array $entity_tag
+         * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
+         */
+        public function update($entity_tag ) {
+            $entity_tag['update_at']= date('Y-m-d H:i:s');
+            $success= $this->db->update($this->table, $entity_tag, array("id" => $entity_tag['id']));
+            return ($success ? 1 : 0);
         }
 
         /**

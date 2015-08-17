@@ -24,6 +24,18 @@
     $lang['new-password']               = 'Nueva clave';
     $lang['password_confirmation']      = 'Repite la clave';
 
+    //direccion
+    $lang['addr_info-address']= 'Información de Ubicación';
+    $lang['addr_country'] = 'País';
+    $lang['addr_state'] = 'Estado';
+    $lang['addr_city'] = 'Ciudad';
+    $lang['addr_neighborhood'] = 'Colonia';
+    $lang['addr_street'] = 'Calle';
+    $lang['addr_zip_code'] = 'Código postal';
+    $lang['addr_num_ext'] = 'Num ext.';
+    $lang['addr_num_int'] = 'Num int.';
+
+
     $lang['column-actions']             = 'Acciones';
 
     $lang['MEMBER']                     = 'Miembro';

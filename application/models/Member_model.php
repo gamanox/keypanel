@@ -50,6 +50,32 @@ class Member_model extends Entity_model {
     }
 
     /**
+     * find
+     *
+     * Devuelve un objeto miembro
+     *
+     * @param Integer $id
+     * @return Object
+     */
+    public function find($id) {
+        $this->db->select("u.*");
+        $this->db->where("id", $id);
+        $this->db->where('type', MEMBER);
+        $q= $this->db->get($this->table." u");
+        $entity= ($q->num_rows() > 0 ? $q->row(0,"Member_model") : $q->row());
+
+        $entity->history= $this->history;
+
+        if(isset($entity->id)){
+                $entity->addresses= $this->address->find_by_entity($entity->id);
+                $entity->contact= $this->contact->find($entity->id_contact);
+                $entity->history= $this->history();
+        }
+
+        return $entity;
+    }
+
+    /**
      * find_me
      *
      * Devuelve una entidad Member
@@ -104,7 +130,7 @@ class Member_model extends Entity_model {
         $history= $this->db->get("entities_history");
 
         foreach ($history->result() as $row) {
-            $row->profile= $this->find($row->id_profile);
+            $row->profile= parent::find($row->id_profile);
         }
 
         return $history;

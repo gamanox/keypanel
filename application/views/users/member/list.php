@@ -27,8 +27,8 @@
                                     <span class="grey-text lighten-1 tiny-text"><?php echo sprintf(lang('label-member-since'), lang(MEMBER)); ?>: <?php echo date_to_humans($member->create_at); ?></span>
                                 </td>
                                 <td>
-                                    <a class="blue-text darken-1" href="<?php echo base_url('administration/edit_member/'. $member->id); ?>"><i class="tiny material-icons">edit</i></a>
-                                    <a class="blue-text darken-1" href="<?php echo base_url('administration/delete_member/'. $member->id); ?>"><i class="tiny material-icons">delete</i></a>
+                                    <a class="blue-text darken-1" href="<?php echo base_url('admin/member/edit/'. $member->id); ?>"><i class="tiny material-icons">edit</i></a>
+                                    <a class="blue-text darken-1" href="<?php echo base_url('admin/member/delete/'. $member->id); ?>"><i class="tiny material-icons">delete</i></a>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

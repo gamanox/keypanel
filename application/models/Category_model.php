@@ -77,18 +77,16 @@ class Category_model extends CI_Model {
      * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
      */
     public function update($category ) {
-        //actualizo el breadcrumb de los nodos hijos
-        if(isset($category['breadcrumb'])){
-            $old_category= $this->category->find($category['id']);
-            $old_breadcrumb= $old_category->breadcrumb."|".$old_category->id;
-            $new_breadcrumb= $category['breadcrumb']."|".$category['id'];
 
-            $this->db->query("update ".$this->table." set breadcrumb= replace(breadcrumb,'".$old_breadcrumb."','".$new_breadcrumb."') where breadcrumb like '".$old_breadcrumb."%'", false);
+        //actualizo el breadcrumb de los nodos hijos si se movio el id_parent
+        if(key_exists("breadcrumb", $category)){
+            $this->move_r($category['id'], $category['breadcrumb']);
         }
 
         //actualizo al nodo raiz
         $category['update_at']= date('Y-m-d H:i:s');
         $success= $this->db->update($this->table, $category, array("id" => $category['id']));
+
         return ($success ? 1 : 0);
     }
 
@@ -284,6 +282,48 @@ class Category_model extends CI_Model {
 
         return $categories;
     }*/
+
+    /**
+    * move_r
+    *
+    * Mueve entidades de un lugar a otro. Sobrescribe el breadcrumb.
+    *
+    * @access public
+    * @param int $id_nodo_a_mover id de entidad a mover
+    * @param String $breadcrumb Nuevo breadcrumb
+    * @return void
+    */
+    function move_r($id_nodo_a_mover, $breadcrumb) {
+
+        $nuevo_breadcrumb= (isset($breadcrumb) ?  $breadcrumb . "|" . $id_nodo_a_mover : $id_nodo_a_mover);
+
+        $this->db->select("id, id_parent, breadcrumb");
+        $this->db->where("id_parent", $id_nodo_a_mover);
+        $rst = $this->db->get($this->table);
+        $children = $rst->result();
+        $children_count = $rst->num_rows();
+        $rst->free_result();
+
+        $datos_update_children = array(
+            "id_parent" => $id_nodo_a_mover,
+            "breadcrumb" => $nuevo_breadcrumb,
+            "update_at" => date('Y-m-d H:i:s')
+        );
+
+        //actualizar datos de nodos hijos si existen
+        if ($children_count > 0) {
+            $this->db->where("id_parent", $id_nodo_a_mover);
+            $this->db->limit($children_count);
+            $this->db->update($this->table, $datos_update_children);
+        }
+
+        //por cada hijo actualizar a sus hijos
+        if ($children_count > 0) {
+            foreach ($children as $child) {
+                $this->move_r($child->id, $nuevo_breadcrumb);
+            }
+        }
+    }
 
     /**
      * find_children_json

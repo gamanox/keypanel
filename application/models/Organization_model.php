@@ -20,6 +20,16 @@ class Organization_model extends Entity_model {
     public $name;
 
     /**
+     * @var Object
+     */
+    public $categories= null;
+
+    /**
+     * @var Object
+     */
+    public $tags= null;
+
+    /**
      * find
      *
      * Devuelve un objeto organization
@@ -30,7 +40,7 @@ class Organization_model extends Entity_model {
     public function find($id) {
         $this->db->select("u.*, u.first_name as name");
         $this->db->where("id", $id);
-        $this->db->where_in('type', array(ORGANIZATION, AREA));
+        $this->db->where('type', ORGANIZATION);
         $q= $this->db->get($this->table." u");
         $entity= ($q->num_rows() > 0 ? $q->row(0,"Organization_model") : $q->row());
 
@@ -43,7 +53,7 @@ class Organization_model extends Entity_model {
                 }
 
                 $entity->categories= $this->entity_category->find_categories_by_entity($entity->id);
-
+                $entity->tags= $this->entity_tag->find_tags_by_entity($entity->id);
         }
 
         return $entity;
@@ -58,7 +68,7 @@ class Organization_model extends Entity_model {
      * @return Object
      */
     public function find_children($id) {
-        $this->db->select("u.*, u.first_name as name");
+        $this->db->select("u.*, u.first_name as name, , trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name");
         $this->db->where("id_parent", $id);
         $this->db->where('status_row', ENABLED);
         $nodes= $this->db->get($this->table. " u");
