@@ -66,8 +66,6 @@ class Category extends Base {
 
         }
 
-        $this->lang->load('panel');
-
         $param_header['title'] = lang('org_title');
         $this->load->view('includes/header', $param_header);
 
@@ -78,10 +76,7 @@ class Category extends Base {
 
         $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN), $param_menu);
 
-        $param['dynamic_view']= 'categories/list';
-        $param['vars_to_load']= array("nodes",'parent');
-
-        $this->load->view('panel/template', $param);
+        $this->load->view('categories/list', $param);
         $this->load->view('includes/footer');
     }
 
@@ -141,7 +136,7 @@ class Category extends Base {
                     $response["msg"]= lang('msg_operacion_fallida');
                 }else{
                     if(isset($parent->id)){
-                        $category['breadcrumb']= $parent->breadcrumb."|".$parent->id;
+                        $category['breadcrumb']= (isset($parent->breadcrumb) ? $parent->breadcrumb."|".$parent->id : $parent->id);
                     }else{
                         $category['id_parent']=null;
                     }
@@ -229,9 +224,10 @@ class Category extends Base {
                     $response["msg"]= lang('msg_operacion_fallida');
                 }else{
                     if(isset($parent->id)){
-                        $category['breadcrumb']= $parent->breadcrumb."|".$parent->id;
+                        $category['breadcrumb']= (isset($parent->breadcrumb) ? $parent->breadcrumb."|".$parent->id : $parent->id);
                     }else{
                         $category['id_parent']=null;
+                        $category['breadcrumb']=null;
                     }
 
                     if($category_exists->name != $category['name']){
@@ -242,7 +238,7 @@ class Category extends Base {
                             $i++;
                         }
                     }
-
+//                    dd($category);
                     $id_category= $this->category->update($category);
 
                     if ($id_category){

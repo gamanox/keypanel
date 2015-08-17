@@ -10,9 +10,9 @@
                 <input type="hidden" name="category[id]" value="<?php echo $category->id; ?>">
             </div>
             <div class="clearfix">&nbsp;</div>
-            <label><?php echo lang('cat_list'); ?></label>
+            <label><?php echo lang('cat_parent_list'); ?></label>
             <select id="categories_sel" class="browser-default" name="category[id_parent]">
-                <option value="0" disabled selected><?php echo lang('select'); ?></option>
+                <option value="0"><?php echo lang('select'); ?></option>
                 <?php foreach ($categories->result() as $row): ?>
                 <option value="<?php echo $row->id; ?>" <?php echo ($row->id==$category->id_parent ? 'selected':''); ?>><?php echo $row->name; ?></span>
                 <?php endforeach; ?>

@@ -24,6 +24,18 @@
     $lang['new-password']               = 'Nueva clave';
     $lang['password_confirmation']      = 'Repite la clave';
 
+    //direccion
+    $lang['addr_info-address']= 'Información de Ubicación';
+    $lang['addr_country'] = 'País';
+    $lang['addr_state'] = 'Estado';
+    $lang['addr_city'] = 'Ciudad';
+    $lang['addr_neighborhood'] = 'Colonia';
+    $lang['addr_street'] = 'Calle';
+    $lang['addr_zip_code'] = 'Código postal';
+    $lang['addr_num_ext'] = 'Num ext.';
+    $lang['addr_num_int'] = 'Num int.';
+
+
     $lang['column-actions']             = 'Acciones';
 
     $lang['MEMBER']                     = 'Miembro';
@@ -31,13 +43,20 @@
     $lang['ORGANIZATION']               = 'Organigrama';
     $lang['AREA']                       = 'Area';
 
+    $lang['d3_nivel']                   = 'Nivel';
+    $lang['d3_niveles']                 = 'Niveles';
+    $lang['d3_perfil']                  = 'Perfil';
+    $lang['d3_perfiles']                = 'Perfiles';
+    $lang['d3_sin_perfiles']            = 'Sin perfiles';
+    $lang['d3_ver_organigrama']         = 'Ver organigrama';
+
     $lang['menu-myaccount']             = 'Mi cuenta';
     $lang['menu-help']                  = 'Preguntas Frecuentes';
     $lang['menu-news']                  = 'Noticias';
     $lang['menu-members']               = 'Miembros';
     $lang['menu-enterprises']           = 'Empresas';
     $lang['menu-organization']          = 'Organigramas';
-    $lang['menu-categories']          = 'Categorias';
+    $lang['menu-categories']            = 'Categorias';
 
     $lang['btn_terminos_y_condiciones'] = 'Términos y Condiciones';
     $lang['btn_forgot_password']        = '¿Olvidaste tu clave?';

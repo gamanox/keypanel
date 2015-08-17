@@ -136,9 +136,15 @@ class Entity_model extends CI_model {
          * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($entity) {
-                $entity['update_at']= date('Y-m-d H:i:s');
-                $success= $this->db->update($this->table, $entity, array("id" => $entity['id']));
-                return ($success ? 1 : 0);
+
+            //actualizo el breadcrumb de los nodos hijos si se movio el id_parent
+            if(key_exists("breadcrumb", $entity)){
+                $this->move_r($entity['id'], $entity['breadcrumb']);
+            }
+
+            $entity['update_at']= date('Y-m-d H:i:s');
+            $success= $this->db->update($this->table, $entity, array("id" => $entity['id']));
+            return ($success ? 1 : 0);
         }
 
         /**
@@ -303,5 +309,77 @@ class Entity_model extends CI_model {
 
                 return $entities;
         }
+
+    /**
+    * move_r
+    *
+    * Mueve entidades de un lugar a otro. Sobrescribe el breadcrumb.
+    *
+    * @access public
+    * @param int $id_nodo_a_mover id de entidad a mover
+    * @param String $breadcrumb Nuevo breadcrumb
+    * @return void
+    */
+    function move_r($id_nodo_a_mover, $breadcrumb) {
+
+        $nuevo_breadcrumb= (isset($breadcrumb) ?  $breadcrumb . "|" . $id_nodo_a_mover : $id_nodo_a_mover);
+
+        $this->db->select("id, id_parent, breadcrumb");
+        $this->db->where("id_parent", $id_nodo_a_mover);
+        $rst = $this->db->get($this->table);
+        $children = $rst->result();
+        $children_count = $rst->num_rows();
+        $rst->free_result();
+
+        $datos_update_children = array(
+            "id_parent" => $id_nodo_a_mover,
+            "breadcrumb" => $nuevo_breadcrumb,
+            "update_at" => date('Y-m-d H:i:s')
+        );
+
+        //actualizar datos de nodos hijos si existen
+        if ($children_count > 0) {
+            $this->db->where("id_parent", $id_nodo_a_mover);
+            $this->db->limit($children_count);
+            $this->db->update($this->table, $datos_update_children);
+        }
+
+        //por cada hijo actualizar a sus hijos
+        if ($children_count > 0) {
+            foreach ($children as $child) {
+                $this->move_r($child->id, $nuevo_breadcrumb);
+            }
+        }
+    }
+
+    /**
+     * find_container
+     *
+     * Devuelve un objeto organization que si puede ser padre de entidades
+     *
+     * @param Integer $id
+     * @return Object
+     */
+    public function find_container($id) {
+        $this->db->select("u.*, u.first_name as name");
+        $this->db->where("id", $id);
+        $this->db->where_in('type', array(ORGANIZATION, AREA));
+        $q= $this->db->get($this->table." u");
+        $entity= ($q->num_rows() > 0 ? $q->row(0,"Entity_model") : $q->row());
+
+        if(isset($entity->id)){
+                $entity->addresses= $this->address->find_by_entity($entity->id);
+                $entity->contact= $this->contact->find($entity->id_contact);
+
+                if($entity->id_parent==1){
+                    $entity->id_parent=null;
+                }
+
+                $entity->categories= $this->entity_category->find_categories_by_entity($entity->id);
+
+        }
+
+        return $entity;
+    }
 
 }

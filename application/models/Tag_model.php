@@ -78,8 +78,15 @@ class Tag_model extends CI_Model {
          * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($tag ) {
+            //actualizo el breadcrumb de los nodos hijos si se movio el id_parent
+            if(key_exists("breadcrumb", $tag)){
+                $this->move_r($tag['id'], $tag['breadcrumb']);
+            }
+
+            //actualizo al nodo raiz
             $tag['update_at']= date('Y-m-d H:i:s');
             $success= $this->db->update($this->table, $tag, array("id" => $tag['id']));
+
             return ($success ? 1 : 0);
         }
 
@@ -92,14 +99,29 @@ class Tag_model extends CI_Model {
          * @return Integer Devuelve la cantidad de registros afectados
          */
         public function delete($id ) {
-            $id = (is_array($id) ? $id : array($id));
-            if(count($id)){
-                $this->db->where_in("id", $id);
-                $this->db->limit(count($id));
-                $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+            $ids = (is_array($id) ? $id : array($id));
+            $affected_rows= 0;
+            if(count($ids)){
+                foreach ($ids as $id_entity) {
+                    $entity= $this->find($id_entity);
+
+                    //elimino a los nodos hijos por su breadcrumb
+                    if(isset($entity->id)){
+                        $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'right');
+                        $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+
+                        $affected_rows+= ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+                    }
+
+                    //elimino al nodo raiz
+                    $this->db->where('id', $id_entity);
+                    $this->db->limit(1);
+                    $affected_rows+= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
+                }
+
             }
 
-            return ((isset($success) and $success) ? $this->db->affected_rows() : 0);
+            return $affected_rows;
         }
 
         /**
@@ -196,5 +218,61 @@ class Tag_model extends CI_Model {
 
             return $tags;
         }
+
+    /**
+     * find_all
+     *
+     * Devuelve un objeto de resultado de bases de datos que contiene nodos tags
+     *
+     * @return Object
+     */
+    public function find_all() {
+        $this->db->where('status_row', ENABLED);
+        $tags= $this->db->get($this->table);
+
+        return $tags;
+    }
+
+    /**
+    * move_r
+    *
+    * Mueve entidades de un lugar a otro. Sobrescribe el breadcrumb.
+    *
+    * @access public
+    * @param int $id_nodo_a_mover id de entidad a mover
+    * @param String $breadcrumb Nuevo breadcrumb
+    * @return void
+    */
+    function move_r($id_nodo_a_mover, $breadcrumb) {
+
+        $nuevo_breadcrumb= (isset($breadcrumb) ?  $breadcrumb . "|" . $id_nodo_a_mover : $id_nodo_a_mover);
+
+        $this->db->select("id, id_parent, breadcrumb");
+        $this->db->where("id_parent", $id_nodo_a_mover);
+        $rst = $this->db->get($this->table);
+        $children = $rst->result();
+        $children_count = $rst->num_rows();
+        $rst->free_result();
+
+        $datos_update_children = array(
+            "id_parent" => $id_nodo_a_mover,
+            "breadcrumb" => $nuevo_breadcrumb,
+            "update_at" => date('Y-m-d H:i:s')
+        );
+
+        //actualizar datos de nodos hijos si existen
+        if ($children_count > 0) {
+            $this->db->where("id_parent", $id_nodo_a_mover);
+            $this->db->limit($children_count);
+            $this->db->update($this->table, $datos_update_children);
+        }
+
+        //por cada hijo actualizar a sus hijos
+        if ($children_count > 0) {
+            foreach ($children as $child) {
+                $this->move_r($child->id, $nuevo_breadcrumb);
+            }
+        }
+    }
 
 }

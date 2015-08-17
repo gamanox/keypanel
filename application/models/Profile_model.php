@@ -8,24 +8,40 @@ require_once APPPATH.'models/Entity_model.php';
 class Profile_model extends Entity_model {
 
 
-        /**
-         * @var String
-         */
-        public $last_name;
+    /**
+     * @var String
+     */
+    public $last_name;
 
+    /**
+     * @var Object
+     */
+    public $related_tags;
 
-        /**
-         * find
-         *
-         * Devuelve un objeto perfil
-         *
-         * @param Integer $id
-         * @return Object
-         */
-        public function find($id) {
-            // TODO implement here
-            return parent::find($id);
+    /**
+     * find
+     *
+     * Devuelve un objeto perfil
+     *
+     * @param Integer $id
+     * @return Object
+     */
+    public function find($id) {
+        $this->db->select("u.*");
+        $this->db->where("id", $id);
+        $this->db->where('type', PROFILE);
+        $q= $this->db->get($this->table." u");
+        $entity= ($q->num_rows() > 0 ? $q->row(0,"Profile_model") : $q->row());
+
+        if(isset($entity->id)){
+                $entity->address= $this->address->find_by_entity($entity->id);
+                $entity->address= $entity->address->row();
+                $entity->contact= $this->contact->find($entity->id_contact);
+                $entity->tags= $this->entity_tag->find_tags_by_entity($entity->id);
         }
+
+        return $entity;
+    }
 
     /**
      * find_all_by_breadcrumb

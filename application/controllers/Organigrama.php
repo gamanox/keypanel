@@ -57,10 +57,8 @@ class Organigrama extends CI_Controller {
 
         // Buscamos la categoria enviada
         $info_categoria = $this->category->find_by_slug( $slug );
-        if( isset($info_categoria) ){
+        if( isset($info_categoria)){
             $param_view['categoria']      = $info_categoria;
-            // $param_view['organizations']  = $this->entity_category->find_entities_by_category( $info_categoria->id );
-            // $param_view['sub_categorias'] = $this->category->find_children( $info_categoria->id );
             $this->load->view('panel/categories', $param_view);
         }
         else {
@@ -71,7 +69,8 @@ class Organigrama extends CI_Controller {
     }
 
     /**
-     * [function_name description]
+     * getTreeJSON
+     * Esta funcion arma el json requerido para la vista de boxes de las categorias
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -93,9 +92,11 @@ class Organigrama extends CI_Controller {
                 );
         }
 
+        // echo '<pre>'. print_r($response, true) .'</pre>';
+        // die();
+
         //Regresamos el status del evento
         $json = json_encode($response, JSON_UNESCAPED_UNICODE);
-        // echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
 
         @ob_end_clean();
         header('Content-Type: "application/json"');
@@ -108,7 +109,8 @@ class Organigrama extends CI_Controller {
     }
 
     /**
-     * [function_name description]
+     * nivel
+     * Esta funcion manda a la vista del finder
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -127,9 +129,9 @@ class Organigrama extends CI_Controller {
         $param_menu['breadcrumb'] = array();
         $this->load->view('includes/menu-extended-'. strtolower($this->session->type));
 
-        $info_categoria = $this->category->find_by_slug( $slug );
-        if( isset($info_categoria) ){
-            $param_view['categoria']      = $info_categoria;
+        $info_organigrama = $this->organization->find( $slug );
+        if( isset($info_organigrama) ){
+            $param_view['organigrama'] = $info_organigrama;
             $this->load->view('panel/finder', $param_view);
         }
         else {
@@ -140,7 +142,8 @@ class Organigrama extends CI_Controller {
     }
 
     /**
-     * [function_name description]
+     * find_nodes
+     * Esta funcion se encarga de armar el json requerido para la vista del finder
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -150,8 +153,8 @@ class Organigrama extends CI_Controller {
      */
     public function find_nodes( ){
         if( $this->input->is_ajax_request() ){
-            $id_category = $this->input->get_post('id_categoria');
-            $entidades   = $this->entity_category->find_entities_by_category( $id_category );
+            $id_organigrama = $this->input->get_post('id_organigrama');
+            $entidades      = $this->organization->find_children( $id_organigrama );
 
             $response = array();
             if( $entidades->num_rows() > 0){
@@ -176,6 +179,7 @@ class Organigrama extends CI_Controller {
 
     /**
      * getTREE
+     * Funcion recursiva para armar el arbol de un organigrama
      *
      * @access private
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -191,7 +195,7 @@ class Organigrama extends CI_Controller {
                 foreach ($children->result() as $node) {
                     $navigation[$entidad->id][] = (Object) array(
                             'id'    => $node->id,
-                            'label' => $node->name,
+                            'label' => $node->name .($node->type == PROFILE ? ' '. $node->last_name : ''),
                             'type'  => ($node->type == AREA ? 'folder' : 'direct_link')
                         );
                 }

@@ -1,9 +1,9 @@
 /* column view container */
 .column-view-container {
-    width: 900px;
-    height: 300px;
-    border: 1px solid #ccc;
-    background: #FFF;
+    width: 100%;
+    height: 500px;
+    /*border: 1px solid #ccc;
+    background: #FFF;*/
     display: block;
 
     overflow-x: auto;
@@ -11,7 +11,7 @@
 }
 
 /* the composition div for colums */
-.column-view-composition { 
+.column-view-composition {
     display: table;
     white-space: nowrap;
 }
@@ -19,7 +19,8 @@
 /**/
 .column {
     display: table-cell;
-    border-right: 1px solid #999;
+    /*border-right: 1px solid #999;*/
+    padding: 0 10px;
 }
 
 .column:last-child {
@@ -27,7 +28,7 @@
 }
 
 .column:only-child {
-    border-right: 1px solid #999;
+    /*border-right: 1px solid #999;*/
 }
 
 /* for error messages */
@@ -98,7 +99,7 @@
 }
 
 /* css hack for firefox */
-@-moz-document url-prefix() { 
+@-moz-document url-prefix() {
     [class^="icon-"],
     [class*=" icon-"] {
         margin-top: -14px;

@@ -1,6 +1,6 @@
 <div class="container main-content">
     <div class="row">
-        <form action="#" method="post" id="frmAddOrganization">
+        <form action="#" method="post" id="frmAddProfile">
             <div class="col s12 m12">
                 <div id="alertBox" class="card-panel red" style="display: none;">
                     <span id="profile_msg" class="white-text"></span>
@@ -15,7 +15,7 @@
                     <div class="card-content">
                         <div class="dropzone dz-clickable center-align columns" id="my-dropzone" style="min-height: 120px;">
                             <div class="dz-message">
-                                <span><?php echo lang('org_upload_logo'); ?></span>
+                                <span><?php echo lang('profile_upload_img'); ?></span>
                             </div>
                         </div>
                     </div>
@@ -25,23 +25,27 @@
             <div class="col m6 s12">
                 <div class="card panel no-padding">
                     <div class="card-header grey lighten-5">
-                        <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">device_hub</i>&nbsp;&nbsp;<?php echo lang('org_add'); ?></p>
+                        <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">device_hub</i>&nbsp;&nbsp;<?php echo lang('profile_add'); ?></p>
                     </div>
                     <div class="card-content">
 
 
                         <h6><?php echo lang('org_info-general'); ?></h6>
                         <div class="input-field col s12 m6">
-                            <input class="validate" name="organization[first_name]" id="first_name" type="text">
+                            <input class="validate" name="profile[first_name]" id="first_name" type="text">
                             <label class="col s12 m6 no-padding" for="first_name" data-error="<?php echo lang('org_first_name_required'); ?>"><?php echo lang('org_first_name'); ?></label>
                         </div>
                         <div class="input-field col s12 m6">
-                            <input class="validate" name="organization[email]" id="email" type="email">
+                            <input name="profile[last_name]" id="last_name" type="text">
+                            <label class="col s12 m6 no-padding" for="last_name"><?php echo lang('org_last_name'); ?></label>
+                        </div>
+                        <div class="input-field col s12 m12">
+                            <input class="validate" name="profile[email]" id="email" type="email">
                             <label class="col s12 m12 no-padding" for="email" data-error="<?php echo lang('org_email_required'); ?>"><?php echo lang('org_email'); ?></label>
                         </div>
                         <div class="input-field col s12 m12">
-                            <textarea name="contact[description]" id="description" class="materialize-textarea validate"></textarea>
-                            <label for="description"><?php echo lang('org_description'); ?></label>
+                            <textarea name="contact[bio]" id="bio" class="materialize-textarea validate"></textarea>
+                            <label for="bio"><?php echo lang('org_bio'); ?></label>
                         </div>
 
                         <div class="clearfix"></div>
@@ -104,34 +108,8 @@
 
 
                         <div class="clearfix"></div>
-                        <a href="javascript:;" onclick="javascript:$('#frmAddOrganization').submit();" class="btn blue waves-effect waves-light s12 m3 l3 text-white"><i class="tiny material-icons">done_all</i><?php echo lang('org_btn_save_organization'); ?></a>
+                        <a href="javascript:;" onclick="javascript:$('#frmAddProfile').submit();" class="btn blue waves-effect waves-light s12 m3 l3 text-white"><i class="tiny material-icons">done_all</i><?php echo lang('org_btn_save_profile'); ?></a>
 
-                    </div>
-                </div>
-            </div>
-            <div class="col m3 s12">
-                <div class="card panel partial">
-                    <div class="card-header grey lighten-5">
-                        <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">folder</i>&nbsp;&nbsp;<?php echo lang('org_categories'); ?></p>
-                    </div>
-                    <div class="card-content">
-                        <div id="organigrama-categories">
-
-                        </div>
-                        <div class="clearfix">&nbsp;</div>
-                        <label><?php echo lang('org_select_categories'); ?></label>
-                        <select id="categories_sel" class="browser-default">
-                            <option value="" disabled selected><?php echo lang('select'); ?></option>
-                            <?php foreach ($categories->result() as $categoria): ?>
-                                <option value="<?php echo $categoria->id; ?>"><?php echo $categoria->name; ?></span>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="clearfix">&nbsp;</div>
-                        <button class="btn btn-small blue waves-effect waves-light right" type="button" onclick="javascript:category_add()">
-                            <i class="tiny material-icons">add</i>
-                        </button>
-
-                        <div class="clearfix">&nbsp;</div>
                     </div>
                 </div>
             </div>
@@ -139,7 +117,7 @@
             <div class="col m3 s12">
                 <div class="card panel partial">
                     <div class="card-header grey lighten-5">
-                        <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">label</i>&nbsp;&nbsp;<?php echo lang('org_related_tags'); ?></p>
+                        <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">folder</i>&nbsp;&nbsp;<?php echo lang('org_related_tags'); ?></p>
                     </div>
                     <div class="card-content">
                         <div id="organigrama-tags">
@@ -166,13 +144,14 @@
             <div id="profile">
                 <?php /*aqui se pondra el hidden de la imagen del perfil*/?>
             </div>
+            <input type="hidden" name="profile[id_parent]" value="<?php echo $parent->id; ?>">
         </form>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo base_url('assets/js/dropZone/lib/dropzone.js');?>"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#frmAddOrganization").on("submit", function(e){
+        $("#frmAddProfile").on("submit", function(e){
             e.preventDefault();
             e.stopPropagation();
             create();
@@ -237,7 +216,7 @@
                         $("#alertBox").show();
                     }else{
                         $("#profile").append(
-                            '<input id="avatar-'+response.file_name+'" type="hidden" name="organization[avatar]" value="'+response.file_name+'">'
+                            '<input id="avatar-'+response.file_name+'" type="hidden" name="profile[avatar]" value="'+response.file_name+'">'
                         );
 
                         // Create the remove button
@@ -281,39 +260,20 @@
             $("#email").addClass("invalid");
             $("#first_name").focus();
         }else{
-            var str = $('#frmAddOrganization').serialize();
+            var str = $('#frmAddProfile').serialize();
 
             $.ajax({
                 type: 'POST',
-                url: '<?php echo base_url('admin/organigrama/create'); ?>',
+                url: '<?php echo base_url('admin/organigrama/profile_create'); ?>',
                 data: str,
                 dataType: 'jsonp',
                 beforeSend:function(){},
                 complete:function(){},
                 success:function(response) {
                     if( response.status )
-                        location.href = '<?php echo base_url('admin/organigrama'); ?>';
+                        location.href = '<?php echo base_url('admin/organigrama/explore/'.$parent->id); ?>';
                 }
             });
-        }
-    }
-
-    function category_add(){
-        var val= $("#categories_sel").val();
-        var text= $("#categories_sel option:selected").text();
-        var exists=false;
-
-        $.each($("#organigrama-categories input"), function(index,child){
-            if($(child).val()==val){
-                exists=true;
-            }
-        });
-
-        if($.isNumeric(val) && val > 0 && !exists){
-            $("#organigrama-categories").append('<span class="blue white-text category trend">'+text
-                    +'<a class="white-text" href="#!" onclick="javascript:$(this).parent().remove();">'
-                    +'<i class="tiny material-icons">cancel</i></a>'
-                    +'<input type="hidden" name="categories[]" value="'+val+'"></span>');
         }
     }
 
@@ -339,7 +299,7 @@
     function remove_image(img){
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url('admin/base/remove_profile'); ?>',
+            url: '<?php echo base_url('admin/organigrama/remove_profile'); ?>',
             data: {
                 file: img
             },

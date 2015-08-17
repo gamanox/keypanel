@@ -90,10 +90,7 @@ class Member extends Base {
 
         // Cargamos la lista de miembros
         $param['members']      = $this->member->find_all( MEMBER );
-        $param['dynamic_view'] = 'users/member/list';
-        $param['vars_to_load'] = array('members');
-
-        $this->load->view('panel/template', $param);
+        $this->load->view('users/member/list', $param);
 
         $this->load->view('includes/footer');
     }
@@ -119,7 +116,10 @@ class Member extends Base {
         $errors     = array();
 
         if( $_POST ){
-            $member         = $this->input->post('member');
+            $member= $this->input->post('member');
+            $contact= $this->input->post('contact');
+            $address= $this->input->post('address');
+
             $member['type'] = MEMBER;
 
             $validate_empty_fields = array('first_name', 'last_name');
@@ -171,9 +171,18 @@ class Member extends Base {
             }
 
             if( count($errors) == 0 ){
-                $success = $this->entity->save( $member );
-                if( isset($success) and $success ){
-                    redirect('administration/members');
+                //guardamos contacto
+                $id_contact= $this->contact->save($contact);
+                $member['id_contact']= $id_contact;
+                $member['breadcrumb']= $this->session->id;
+                //guardamos miembro
+                $id_member = $this->entity->save( $member );
+                $address['id_entity']=$id_member;
+                //guardamos direccion
+                $this->address->save($address);
+
+                if($id_member){
+                    redirect('admin/member/show_list');
                 }
             }
 
@@ -205,7 +214,7 @@ class Member extends Base {
         }
 
         if( !isset($id_member) ){
-            redirect('administration/members');
+            redirect('admin/member/show_list');
         }
 
         $param_header['title'] = lang('members_title');
@@ -213,7 +222,7 @@ class Member extends Base {
 
         $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN));
 
-        $param_view['member'] = $this->entity->find( $id_member );
+        $param_view['member'] = $this->member->find( $id_member );
         $this->load->view('users/member/edit', $param_view);
 
         $this->load->view('includes/footer');
@@ -246,7 +255,7 @@ class Member extends Base {
 
                 $success = $this->entity->update( $member_data );
                 if( $success ){
-                    redirect('administration/members');
+                    redirect('admin/member/show_list');
                 }
             }
             else {
@@ -254,11 +263,11 @@ class Member extends Base {
                 $_SESSION['errors'] = lang('signature-validation');
                 $this->session->mark_as_temp('errors', 5);
 
-                redirect('administration/members');
+                redirect('admin/member/show_list');
             }
         }
         else {
-            redirect('administration/members');
+            redirect('admin/member/show_list');
         }
     }
 
@@ -276,17 +285,17 @@ class Member extends Base {
      * @return void
      */
     public function delete( $id_member = NULL ){
-        if( !$this->auth->is_auth('Auth-Members', CREATE) ){
+        if( !$this->auth->is_auth($this->router->class, DELETE) ){
             redirect('account');
         }
 
         if( !isset($id_member) ){
-            redirect('administration/members');
+            redirect('admin/member/show_list');
         }
 
         $success = $this->entity->delete( $id_member );
         if( $success > 0){
-            redirect('administration/members');
+            redirect('admin/member/show_list');
         }
     }
 }

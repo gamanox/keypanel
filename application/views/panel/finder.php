@@ -3,9 +3,7 @@
     .column-view-container { width: 100%; }
 </style>
 <div class="container main-content">
-    <div class="row">
-        <div id="columns"></div>
-    </div>
+    <div id="columns"></div>
 </div>
 <script src="<?php echo base_url('assets/js/hcolumns.js'); ?>"></script>
 <script>
@@ -14,7 +12,7 @@
         $.ajax({
             type: 'POST',
             url: '<?php echo base_url("organigrama/find_nodes"); ?>',
-            data: { id_categoria: <?php echo $categoria->id; ?>},
+            data: { id_organigrama: <?php echo $organigrama->id; ?>},
             dataType: 'json',
             beforeSend:function(){},
             complete:function(){},
