@@ -31,11 +31,12 @@
     $lang['ORGANIZATION']               = 'Organigrama';
     $lang['AREA']                       = 'Area';
 
-    $lang['d3_nivel']           = 'Nivel';
-    $lang['d3_niveles']         = 'Niveles';
-    $lang['d3_perfil']          = 'Perfil';
-    $lang['d3_perfiles']        = 'Perfiles';
-    $lang['d3_ver_organigrama'] = 'Ver organigrama';
+    $lang['d3_nivel']                   = 'Nivel';
+    $lang['d3_niveles']                 = 'Niveles';
+    $lang['d3_perfil']                  = 'Perfil';
+    $lang['d3_perfiles']                = 'Perfiles';
+    $lang['d3_sin_perfiles']            = 'Sin perfiles';
+    $lang['d3_ver_organigrama']         = 'Ver organigrama';
 
     $lang['menu-myaccount']             = 'Mi cuenta';
     $lang['menu-help']                  = 'Preguntas Frecuentes';
@@ -43,7 +44,7 @@
     $lang['menu-members']               = 'Miembros';
     $lang['menu-enterprises']           = 'Empresas';
     $lang['menu-organization']          = 'Organigramas';
-    $lang['menu-categories']          = 'Categorias';
+    $lang['menu-categories']            = 'Categorias';
 
     $lang['btn_terminos_y_condiciones'] = 'Términos y Condiciones';
     $lang['btn_forgot_password']        = '¿Olvidaste tu clave?';

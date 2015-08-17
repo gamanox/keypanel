@@ -111,7 +111,8 @@
         .children(function(d, depth) { return depth ? null : d._children; })
         .sort(function(a, b) { return a.value - b.value; })
         .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
-        .round(false);
+        .round(false)
+        .value( function(d) { return d.value + 250; });
 
     var svg = d3.select("#chart").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -227,7 +228,7 @@
                         return Math.min(2 * d.dx, (2 * d.dx - 8) / this.getComputedTextLength() * 10) + "px";
                     }
                     else
-                        return '1.5em';
+                        return '1.3em';
                 })
                 .call(text);
 
@@ -245,14 +246,21 @@
                 .attr("dy", ".75em")
                 .attr('id','info-niveles')
                 .attr('text-anchor','end')
-                .text(function(d) { return d.niveles + (d.niveles > 1 ? ' <?php echo lang("d3_niveles"); ?>' : ' <?php echo lang("d3_nivel"); ?>'); })
+                .text(function(d) {
+                    return d.niveles + (d.niveles > 1 ? ' <?php echo lang("d3_niveles"); ?>' : ' <?php echo lang("d3_nivel"); ?>');
+                })
                 .call(niveles);
 
             g.append("text")
                 .attr("dy", ".75em")
                 .attr('id','info-perfiles')
                 .attr('text-anchor','end')
-                .text(function(d) { return d.profiles + (d.profiles > 1 ? ' <?php echo lang("d3_perfiles"); ?>' : ' <?php echo lang("d3_perfil"); ?>'); })
+                .text(function(d) {
+                    if( typeof d.profiles === 'undefined' || d.profiles == 0)
+                        return '<?php echo lang("d3_sin_perfiles"); ?>';
+                    else
+                        return d.profiles + (d.profiles == 1 ? ' <?php echo lang("d3_perfil"); ?>' : ' <?php echo lang("d3_perfiles"); ?>');
+                })
                 .call(perfiles);
 
             function transition(d) {
