@@ -16,6 +16,8 @@
     $lang['org_twitter']= 'Twitter';
     $lang['org_gplus']= 'Google plus';
     $lang['org_linkedin']= 'LinkedIn';
+    $lang['org_link_adjunto']= 'Link';
+    $lang['org_upload_link']= 'Subir pdf';
 
     //contacto
     $lang['org_info-contact']= 'Información de Contacto';
