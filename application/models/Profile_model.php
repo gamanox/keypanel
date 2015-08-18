@@ -27,7 +27,7 @@ class Profile_model extends Entity_model {
      * @return Object
      */
     public function find($id) {
-        $this->db->select("u.*");
+        $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name");
         $this->db->where("id", $id);
         $this->db->where('type', PROFILE);
         $q= $this->db->get($this->table." u");

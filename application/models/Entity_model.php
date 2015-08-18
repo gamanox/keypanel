@@ -14,6 +14,7 @@ class Entity_model extends CI_model {
                 parent::__construct();
                 $this->load->model("Address_model", "address");
                 $this->load->model("Contact_model", "contact");
+                $this->load->model("Entity_tag_model", "entity_tag");
         }
 
         /**
