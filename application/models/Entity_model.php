@@ -193,6 +193,7 @@ class Entity_model extends CI_model {
         public function find($id) {
                 $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name",false);
                 $this->db->where("id", $id);
+                $this->db->where("status_row", ENABLED);
                 $q= $this->db->get($this->table." u");
                 $entity= ($q->num_rows() > 0 ? $q->row(0,"Entity_model") : $q->row());
 
@@ -293,7 +294,7 @@ class Entity_model extends CI_model {
         public function updates($limit=null, $offset=null) {
                 $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name");
                 $this->db->select("if(create_at > update_at, create_at, update_at)updates, if(create_at > update_at, 'CREATED', 'UPDATED')action", false);
-                $this->db->where_in("status_row", ENABLED);
+                $this->db->where("status_row", ENABLED);
                 $this->db->where_in("type", array(ORGANIZATION, PROFILE));
                 $this->db->order_by("updates","desc");
 
@@ -365,6 +366,7 @@ class Entity_model extends CI_model {
         $this->db->select("u.*, u.first_name as name");
         $this->db->where("id", $id);
         $this->db->where_in('type', array(ORGANIZATION, AREA));
+        $this->db->where("status_row", ENABLED);
         $q= $this->db->get($this->table." u");
         $entity= ($q->num_rows() > 0 ? $q->row(0,"Entity_model") : $q->row());
 

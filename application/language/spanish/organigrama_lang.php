@@ -47,6 +47,7 @@
     $lang['org_select_tags'] = 'Etiquetas';
     $lang['org_related_tags'] = 'Etiquetas relacionadas';
     $lang['org_list']= 'Organigramas';
+    $lang['org_show'] = 'Perfil';
 
     $lang['area_name'] = 'Nombre';
     $lang['area_add'] = 'Agregar area';

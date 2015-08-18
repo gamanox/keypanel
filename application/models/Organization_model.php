@@ -42,6 +42,7 @@ class Organization_model extends Entity_model {
         $this->db->select("u.*, u.first_name as name");
         $this->db->where("id", $id);
         $this->db->where('type', ORGANIZATION);
+        $this->db->where("status_row", ENABLED);
         $q= $this->db->get($this->table." u");
         $entity= ($q->num_rows() > 0 ? $q->row(0,"Organization_model") : $q->row());
 

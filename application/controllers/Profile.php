@@ -23,10 +23,10 @@ class Profile extends CI_Controller {
     /**
      * show
      *
+     * Carga la vista html del perfil
+     * @author Luis E. Salazar <luis.830424@gmail.com>
      * @access public
-     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
-     * @copyright
-     *
+     * @param int $id_profile Id del perfil
      * @return void
      */
     public function show($id_profile){
@@ -51,9 +51,5 @@ class Profile extends CI_Controller {
 
     }
 }
-/* End of file name.php */
-/* Location: ./application/controllers/name.php */
-
-/* Desarrollado por: Guillermo Lucio */
-/* guillermo@lexiumonline.com */
-/* Lexium */
+/* End of file profile.php */
+/* Location: ./application/controllers/profile.php */

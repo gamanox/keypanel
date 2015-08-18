@@ -61,6 +61,7 @@ class Member_model extends Entity_model {
         $this->db->select("u.*");
         $this->db->where("id", $id);
         $this->db->where('type', MEMBER);
+        $this->db->where("status_row", ENABLED);
         $q= $this->db->get($this->table." u");
         $entity= ($q->num_rows() > 0 ? $q->row(0,"Member_model") : $q->row());
 

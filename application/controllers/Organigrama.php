@@ -34,6 +34,37 @@ class Organigrama extends CI_Controller {
     }
 
     /**
+     * show
+     *
+     * Carga la vista html del perfil
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access public
+     * @param int $id_organization Id del organigrama
+     * @return void
+     */
+    public function show($id_organization){
+
+        $organization= $this->organization->find($id_organization);
+
+        if(!isset($organization->id)){
+            show_404();
+        }
+
+        $this->lang->load('panel');
+
+        $param_header['title'] = lang('org_show');
+        $this->load->view('includes/header', $param_header);
+
+        $this->load->view('includes/menu-extended-'. strtolower($this->session->type));
+
+        $param['organization']= $organization;
+        $this->load->view("organization/show", $param);
+
+        $this->load->view('includes/footer');
+
+    }
+
+    /**
      * explorar
      *
      * Esta función carga todas las sub-categorias de una categoria dada
