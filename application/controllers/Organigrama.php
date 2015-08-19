@@ -230,7 +230,7 @@ class Organigrama extends CI_Controller {
                     $navigation[$entidad->id][] = (Object) array(
                             'id'    => $node->id,
                             'label' => $node->name .($node->type == PROFILE ? ' '. $node->last_name : ''),
-                            'type'  => ($node->type == AREA ? 'folder' : 'direct_link')
+                            'type'  => ($node->type == AREA ? 'folder' : 'link')
                         );
                 }
 

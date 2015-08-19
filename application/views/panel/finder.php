@@ -19,9 +19,7 @@
             beforeSend:function(){},
             complete:function(){},
             success:function(response) {
-                console.log(response);
                 nodes = response;
-
                 $("#columns").hColumns({
                     labelText_maxLength: 30,
 
