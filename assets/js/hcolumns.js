@@ -75,7 +75,7 @@
             }
             list.map(function(entry) {
                 var EntryElm = $("<li></li>").addClass('collection-item').data("node-id", entry.id).data("node-type", entry.type).data("node-data", entry);
-                var EntryIconElm = $("<i></i>").addClass(self.settings.indicators[entry.type]);
+                var EntryIconElm = $("<i></i>").addClass('tiny material-icons').html(self.settings.indicators[entry.type]);
                 if (entry.label.length > self.settings.labelText_maxLength) {
                     entry.label = entry.label.substring(0, self.settings.labelText_maxLength - 3) + "..."
                 }
@@ -89,7 +89,7 @@
             var ColumnElm = $("<div></div>").addClass("column col s12 m3");
 
             var card = $('<div></div>').addClass('card panel partial nopadding');
-            var cardHeader = $('<div></div>').addClass('card-header grey lighten-4 p-t-10 p-l-10 p-b-10 p-r-10').html('Title');
+            var cardHeader = $('<div></div>').addClass('card-header grey lighten-4 p-t-5 p-l-10 p-b-5 p-r-10').html('');
 
             var cardContent = $('<div></div>').addClass('card-content nopadding');
             cardContent.append(content_dom_node);
