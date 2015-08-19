@@ -25,15 +25,15 @@
     $lang['password_confirmation']      = 'Repite la clave';
 
     //direccion
-    $lang['addr_info-address']= 'Información de Ubicación';
-    $lang['addr_country'] = 'País';
-    $lang['addr_state'] = 'Estado';
-    $lang['addr_city'] = 'Ciudad';
-    $lang['addr_neighborhood'] = 'Colonia';
-    $lang['addr_street'] = 'Calle';
-    $lang['addr_zip_code'] = 'Código postal';
-    $lang['addr_num_ext'] = 'Num ext.';
-    $lang['addr_num_int'] = 'Num int.';
+    $lang['addr_info-address']          = 'Información de Ubicación';
+    $lang['addr_country']               = 'País';
+    $lang['addr_state']                 = 'Estado';
+    $lang['addr_city']                  = 'Ciudad';
+    $lang['addr_neighborhood']          = 'Colonia';
+    $lang['addr_street']                = 'Calle';
+    $lang['addr_zip_code']              = 'Código postal';
+    $lang['addr_num_ext']               = 'Num ext.';
+    $lang['addr_num_int']               = 'Num int.';
 
 
     $lang['column-actions']             = 'Acciones';
@@ -65,6 +65,7 @@
     $lang['btn_menu']                   = 'menu';
     $lang['btn_cerrar_sesion']          = 'CERRAR SESIÓN';
     $lang['btn_entrar']                 = 'Entrar';
+    $lang['btn_entrar_perfil']          = 'Entrar al perfil';
     $lang['btn_ver_mas']                = 'Ver más';
     $lang['btn_mas_noticias']           = 'Más noticias';
     $lang['btn_atras']                  = 'Atrás';
@@ -81,10 +82,10 @@
     $lang['desea_realizar_esta_accion'] = '¿Desea realizar esta acción?';
 
     //permisos
-    $lang['error_sin_permisos']             = 'No tienes permisos para realizar esta operación';
+    $lang['error_sin_permisos']         = 'No tienes permisos para realizar esta operación';
 
     //mensajes
-    $lang['msg_operacion_exitosa']          = 'Operación realizada con éxito.';
-    $lang['msg_operacion_fallida']          = 'Ocurrio un error al realizar la operación.';
-    $lang['msg_registros_afectados']        = 'Registros afectados (%s).';
-    $lang['msg_proceso_fallido']            = 'Ocurrio un error al procesar la información.';
+    $lang['msg_operacion_exitosa']      = 'Operación realizada con éxito.';
+    $lang['msg_operacion_fallida']      = 'Ocurrio un error al realizar la operación.';
+    $lang['msg_registros_afectados']    = 'Registros afectados (%s).';
+    $lang['msg_proceso_fallido']        = 'Ocurrio un error al procesar la información.';

@@ -61,7 +61,7 @@ $route['organigramas_privados'] = 'organigrama/explorar/otros';
 $route['organigrama/id-(:num)']   = 'organigrama/nivel/$1';
 
 // Routing para profiles
-$route['organigrama/perfil-(:num)'] = "perfil/find_by_id/$1";
+$route['organigrama/perfil-(:num)'] = "profile/show/$1";
 
 // General info
 $route['help'] = "faq/help";

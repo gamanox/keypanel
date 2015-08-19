@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="<?php echo base_url('assets/css/hcolumns.css'); ?>">
 <style type="text/css">
     .column-view-container { width: 100%; }
+    .collection .collection-item.active {
+        background-color: #40A5FD;
+    }
 </style>
 <div class="container main-content">
     <?php //echo '<pre>'. print_r($organigrama, true) .'</pre>'; ?>
@@ -46,11 +49,30 @@
     function loadInfo(){
         var $main_column = $('#columns').find('.column').first();
 
-        var title = '<div class="left"><a href="#">Info</a></div><div class="right"><a href="#"><img src="<?php echo base_url("assets/images/flow_link.png") ?>" alt="flow link"></a></div><div class="clearfix"></div>';
+        var title = '<div class="left"><a href="#">Info</a></div><div class="right"><a class="valign-wrapper" href="#"><img src="<?php echo base_url("assets/images/flow_link.png") ?>" alt="flow link"></a></div><div class="clearfix"></div>';
         $main_column.find('.card .card-header').html( title );
     }
 
-    function loadProfile( id ){
+    function unloadProfile(){
+        $('.box-profile').remove();
+    }
 
+    function loadProfile( id ){
+        var ColumnElm = $('<div style="width:250px;"></div>').addClass("column col s12 m3");
+
+        var card = $('<div></div>').addClass('card panel partial nopadding');
+        var cardTitle = '<div class="left">'+ id +'</div><div class="clearfix"></div>';
+        var cardHeader = $('<div></div>').addClass('card-header grey lighten-4 p-t-5 p-l-10 p-b-5 p-r-10').html(cardTitle);
+
+        var link = '<div class="center-align"><a class="btn blue accent-4 waves-light waves-effect" href="<?php echo base_url("organigrama/perfil-"); ?>'+ id +'"><?php echo lang("btn_entrar_perfil"); ?></a></div>';
+
+        var cardContent = $('<div></div>').addClass('card-content nopadding').html(link);
+
+        card.append(cardHeader);
+        card.append(cardContent);
+
+        ColumnElm.append(card);
+        $('#columns').find(".column-view-composition").append(ColumnElm);
+        $('#columns').scrollLeft($(".column-view-composition").width());
     }
 </script>

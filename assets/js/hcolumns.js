@@ -12,15 +12,18 @@
     };
     var defaultHandler = {
         folder: function(hColumn, node, data) {
+            var column_label = data.label;
+
             hColumn.nodeSource(data.id, function(err, data) {
                 if (err) {
                     return $.error(err)
                 }
-                return hColumn.columnView._addColumnList(data, hColumn.columnView)
+                return hColumn.columnView._addColumnList(data, hColumn.columnView, column_label);
             })
         },
         link: function(hColumn, node, data) {
-            return window.open(data.url)
+            loadProfile( data.id );
+            // return window.open(data.url)
         }
     };
     var defaultIndicator = {
@@ -66,7 +69,8 @@
             $(this).addClass("active");
             return columnView.handlers[current_node_type](columnView, this, current_node_data)
         },
-        _addColumnList: function(list, columnView) {
+        _addColumnList: function(list, columnView, title_column) {
+            var title_column = !title_column ? 'Title' : title_column;
             var self = !columnView ? this : columnView;
             var ListElm = $("<ul></ul>").addClass('collection');
             if (list.length === 0) {
@@ -79,17 +83,28 @@
                 if (entry.label.length > self.settings.labelText_maxLength) {
                     entry.label = entry.label.substring(0, self.settings.labelText_maxLength - 3) + "..."
                 }
-                EntryElm.append(document.createTextNode(entry.label));
+
+                if( entry.type == 'link' ){
+                    var node_label = '<a class="loadProfile" href="javascript:;">'+ entry.label +'</a>';
+                }
+                else {
+                    var node_label = document.createTextNode(entry.label);
+                }
+
+                EntryElm.append(node_label);
                 EntryElm.append(EntryIconElm);
                 EntryElm.appendTo(ListElm)
             });
-            return self._addColumn(ListElm, self)
+
+            return self._addColumn(ListElm, self, title_column);
         },
-        _addColumn: function(content_dom_node, columnView) {
+        _addColumn: function(content_dom_node, columnView, title_column) {
+
             var ColumnElm = $("<div></div>").addClass("column col s12 m3");
 
             var card = $('<div></div>').addClass('card panel partial nopadding');
-            var cardHeader = $('<div></div>').addClass('card-header grey lighten-4 p-t-5 p-l-10 p-b-5 p-r-10').html('');
+            var cardTitle = '<div class="left">'+ title_column +'</div><div class="clearfix"></div>';
+            var cardHeader = $('<div></div>').addClass('card-header grey lighten-4 p-t-5 p-l-10 p-b-5 p-r-10').html(cardTitle);
 
             var cardContent = $('<div></div>').addClass('card-content nopadding');
             cardContent.append(content_dom_node);
