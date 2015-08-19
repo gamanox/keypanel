@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="<?php echo base_url('assets/css/hcolumns.css'); ?>">
 <style type="text/css">
     .column-view-container { width: 100%; }
-    .collection .collection-item.active {
-        background-color: #40A5FD;
-    }
+    .collection .collection-item.active { background-color: #40A5FD; }
+    .card-profile { height: 300px; width: 250px; }
+    .column { vertical-align: top; }
 </style>
 <div class="container main-content">
     <?php //echo '<pre>'. print_r($organigrama, true) .'</pre>'; ?>
@@ -58,7 +58,7 @@
     }
 
     function loadProfile( id ){
-        var ColumnElm = $('<div style="width:250px;"></div>').addClass("column col s12 m3");
+        var ColumnElm = $('<div></div>').addClass("column col s12 m3");
 
         var card = $('<div></div>').addClass('card panel partial nopadding');
         var cardTitle = '<div class="left">'+ id +'</div><div class="clearfix"></div>';
@@ -66,7 +66,7 @@
 
         var link = '<div class="center-align"><a class="btn blue accent-4 waves-light waves-effect" href="<?php echo base_url("organigrama/perfil-"); ?>'+ id +'"><?php echo lang("btn_entrar_perfil"); ?></a></div>';
 
-        var cardContent = $('<div></div>').addClass('card-content nopadding').html(link);
+        var cardContent = $('<div></div>').addClass('card-content card-profile').html(link);
 
         card.append(cardHeader);
         card.append(cardContent);
