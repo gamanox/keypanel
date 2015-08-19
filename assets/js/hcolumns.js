@@ -78,10 +78,10 @@
                 return self._addColumn(NoContentElm, self)
             }
             list.map(function(entry) {
-                var EntryElm = $("<li></li>").addClass('collection-item valign-wrapper').data("node-id", entry.id).data("node-type", entry.type).data("node-data", entry);
+                var EntryElm = $("<li></li>").addClass('collection-item').data("node-id", entry.id).data("node-type", entry.type).data("node-data", entry);
                 var EntryIconElm = $("<i></i>").addClass('tiny material-icons').html(self.settings.indicators[entry.type]);
                 if (entry.label.length > self.settings.labelText_maxLength) {
-                    entry.label = entry.label.substring(0, self.settings.labelText_maxLength - 3) + "..."
+                    entry.label = entry.label.substring(0, self.settings.labelText_maxLength - 5) + "..."
                 }
 
                 if( entry.type == 'link' ){
