@@ -30,9 +30,12 @@
     $lang['add_member_title']      = 'Agregar Miembro | KeyPanel';
     $lang['enterprises_title']     = 'Empresas | KeyPanel';
 
-    $lang['members_card_title']     = 'Lista de miembros';
-    $lang['add_member_card_title']  = 'Nuevo Miembro';
-    $lang['edit_member_card_title'] = 'Editar Miembro';
+    $lang['member_list'] = 'Miembros';
+    $lang['member_add'] = 'Agregar miembro';
+    $lang['member_create'] = 'Crear miembro';
+    $lang['member_edit'] = 'Editar miembro';
+    $lang['member_delete'] = 'Eliminar miembro';
+    $lang['member_save'] = 'Guardar miembro';
 
     /**
      * Buttons
@@ -53,3 +56,4 @@
     $lang['username-empty']                  = 'El nombre de usuario no puede ser vacío.';
     $lang['password-confirmation-not-match'] = 'La clave y la confirmación de la clave no coinciden, debes asegurarte de introducirlas igual.';
     $lang['password-empty']                  = 'La clave no puede ser vacía, por favor introduce una.';
+    $lang['current-password-empty']                  = 'La clave actual no coincide.';

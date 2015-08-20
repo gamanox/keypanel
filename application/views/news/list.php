@@ -7,7 +7,7 @@
         </div>
 
         <div class="card-content">
-            <table class="responsive-table striped datatable">
+            <table class="striped datatable">
                 <thead>
                     <tr>
                         <th data-field="name"><?php echo lang('column-info'); ?></th>

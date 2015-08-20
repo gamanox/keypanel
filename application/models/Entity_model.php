@@ -137,14 +137,22 @@ class Entity_model extends CI_model {
          * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($entity) {
-
+            $fields_protected= array("id",'username','type');
+            $id= $entity['id'];
             //actualizo el breadcrumb de los nodos hijos si se movio el id_parent
             if(key_exists("breadcrumb", $entity)){
-                $this->move_r($entity['id'], $entity['breadcrumb']);
+                $this->move_r($id, $entity['breadcrumb']);
+            }
+
+            //quitando los campos protegidos
+            foreach ($entity as $field=> $value) {
+                if(in_array($field, $fields_protected)){
+                    unset($fields_protected[$field]);
+                }
             }
 
             $entity['update_at']= date('Y-m-d H:i:s');
-            $success= $this->db->update($this->table, $entity, array("id" => $entity['id']));
+            $success= $this->db->update($this->table, $entity, array("id" => $id));
             return ($success ? 1 : 0);
         }
 
@@ -164,8 +172,8 @@ class Entity_model extends CI_model {
                         $entity= $this->find($id_entity);
 
                         //elimino a los nodos hijos por su breadcrumb
-                        if(isset($entity->id)){
-                            $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'right');
+                        if(isset($entity->id) and in_array($entity->type, array(ORGANIZATION, AREA))){
+                            $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'both');
                             $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
 
                             $affected_rows+= ((isset($success) and $success) ? $this->db->affected_rows() : 0);

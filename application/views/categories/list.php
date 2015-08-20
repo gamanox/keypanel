@@ -1,7 +1,7 @@
 <div class="container main-content">
     <div class="row">
         <h4><?php echo $title; ?></h4>
-        <table class="datatable hover mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp is-upgraded">
+        <table class="datatable striped hover mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp is-upgraded">
             <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric"><?php echo lang('cat_name'); ?></th>

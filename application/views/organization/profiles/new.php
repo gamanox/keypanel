@@ -258,7 +258,7 @@
         }else if($("#email").val()===""){
             $("#email").removeClass("valid invalid");
             $("#email").addClass("invalid");
-            $("#first_name").focus();
+            $("#email").focus();
         }else{
             var str = $('#frmAddProfile').serialize();
 
