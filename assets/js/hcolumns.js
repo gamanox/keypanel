@@ -58,12 +58,12 @@
             })
         },
         _entryClick: function() {
-            var columnView = $(this).parents(".column-view-container").data("hColumn");
-            var current_container = $(this).parents(".column-view-container");
+            var columnView           = $(this).parents(".column-view-container").data("hColumn");
+            var current_container    = $(this).parents(".column-view-container");
             var current_click_column = $(this).parents(".column");
-            var current_click_level = $(this).parents(".column").index();
-            var current_node_type = $(this).data("node-type");
-            var current_node_data = $(this).data("node-data");
+            var current_click_level  = $(this).parents(".column").index();
+            var current_node_type    = $(this).data("node-type");
+            var current_node_data    = $(this).data("node-data");
             $(current_container).find(".column-view-composition .column:gt(" + current_click_level + ")").remove();
             current_click_column.find(".active").removeClass("active");
             $(this).addClass("active");
@@ -78,7 +78,7 @@
                 return self._addColumn(NoContentElm, self)
             }
             list.map(function(entry) {
-                var EntryElm = $("<li></li>").addClass('collection-item').data("node-id", entry.id).data("node-type", entry.type).data("node-data", entry);
+                var EntryElm = $("<li></li>").addClass('collection-item light').data("node-id", entry.id).data("node-type", entry.type).data("node-data", entry);
                 var EntryIconElm = $("<i></i>").addClass('tiny material-icons').html(self.settings.indicators[entry.type]);
                 if (entry.label.length > self.settings.labelText_maxLength) {
                     entry.label = entry.label.substring(0, self.settings.labelText_maxLength - 5) + "..."
@@ -103,8 +103,8 @@
             var ColumnElm = $("<div></div>").addClass("column col s12 m3");
 
             var card = $('<div></div>').addClass('card panel partial nopadding');
-            var cardTitle = '<div class="left">'+ title_column +'</div><div class="clearfix"></div>';
-            var cardHeader = $('<div></div>').addClass('card-header grey lighten-4 p-t-5 p-l-10 p-b-5 p-r-10').html(cardTitle);
+            var cardTitle = '<div class="left"><p class="card-title nomargin nopadding black-text">'+ title_column +'</p></div><div class="clearfix"></div>';
+            var cardHeader = $('<div></div>').addClass('card-header grey lighten-4 p-t-10 p-l-10 p-b-10 p-r-10').html(cardTitle);
 
             var cardContent = $('<div></div>').addClass('card-content nopadding');
             cardContent.append(content_dom_node);

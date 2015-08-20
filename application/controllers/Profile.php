@@ -50,6 +50,36 @@ class Profile extends CI_Controller {
         $this->load->view('includes/footer');
 
     }
+
+    /**
+     * [function_name description]
+     *
+     * @access public
+     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
+     * @copyright
+     *
+     * @return [type] [description]
+     */
+    public function preview(){
+        if( $this->input->is_ajax_request() ){
+            $response = array('status' => false);
+
+            $id_profile = $this->input->post('id_profile');
+            $profile    = $this->profile->find($id_profile);
+
+            if( isset($profile->id)){
+                $response['status']  = true;
+                $response['profile'] = $profile;
+            }
+
+            //Regresamos el status del evento
+            $json = json_encode($response);
+            echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
+        }
+        else {
+            show_404();
+        }
+    }
 }
 /* End of file profile.php */
 /* Location: ./application/controllers/profile.php */

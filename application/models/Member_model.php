@@ -62,15 +62,17 @@ class Member_model extends Entity_model {
         $this->db->where("id", $id);
         $this->db->where('type', MEMBER);
         $this->db->where("status_row", ENABLED);
-        $q= $this->db->get($this->table." u");
-        $entity= ($q->num_rows() > 0 ? $q->row(0,"Member_model") : $q->row());
+        $q      = $this->db->get($this->table." u");
+        $entity = ($q->num_rows() > 0 ? $q->row(0,"Member_model") : $q->row());
 
-        $entity->history= $this->history;
+        if( isset($entity) ){
+            $entity->history = $this->history;
 
-        if(isset($entity->id)){
-                $entity->addresses= $this->address->find_by_entity($entity->id);
-                $entity->contact= $this->contact->find($entity->id_contact);
-                $entity->history= $this->history();
+            if(isset($entity->id)){
+                $entity->addresses = $this->address->find_by_entity($entity->id);
+                $entity->contact   = $this->contact->find($entity->id_contact);
+                $entity->history   = $this->history();
+            }
         }
 
         return $entity;
@@ -84,12 +86,16 @@ class Member_model extends Entity_model {
      * @return Object
      */
     public function find_me() {
-            $me= $this->find($this->session->id);
-            $me->history= $this->history;
+        $me = $this->find($this->session->id);
+
+        if( isset($me) ){
+            $me->history = $this->history;
             if(isset($me->id)){
                 $me->history= $this->history();
             }
-            return $me;
+        }
+
+        return $me;
     }
 
     /**
