@@ -22,6 +22,7 @@
     $lang['username']                   = 'Usuario';
     $lang['password']                   = 'Clave';
     $lang['new-password']               = 'Nueva clave';
+    $lang['current-password']               = 'Clave actual';
     $lang['password_confirmation']      = 'Repite la clave';
 
     //direccion
@@ -37,6 +38,11 @@
 
 
     $lang['column-actions']             = 'Acciones';
+    $lang['membership'] = 'Membresía';
+
+    //datos requeridos
+    $lang['email_required']= 'Correo electrónico inválido';
+    $lang['first_name_required']= 'Nombre requerido';
 
     $lang['MEMBER']                     = 'Miembro';
     $lang['PROFILE']                    = 'Perfil';
