@@ -275,7 +275,7 @@ class Member extends Base {
                 }else{
 
                     if(isset($new_password) and $new_password!=""){
-                        $member['password']= $new_password;
+                        $member['password']= md5($new_password);
                     }
 
 //                    dd($member);
