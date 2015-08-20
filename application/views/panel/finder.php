@@ -4,6 +4,7 @@
     .collection .collection-item.active { background-color: #40A5FD; }
     .card-profile { height: 300px; width: 250px; }
     .column { vertical-align: top; }
+    .column ul li i { margin-top: -20px; }
 </style>
 <div class="container main-content">
     <?php //echo '<pre>'. print_r($organigrama, true) .'</pre>'; ?>
