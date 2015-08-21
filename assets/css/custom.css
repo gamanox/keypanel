@@ -174,19 +174,32 @@ form#login-card p {
   margin-bottom: 0px;
 }
 
-#dashboard .card.profile .social .fb {
-  background-image: url(/assets/images/fb-off.png);
+a.fb {
+  background-image: url(../images/fb-off.png);
   height: 24px;
   width: 24px;
   display: inline-block;
+  margin: 0 20px;
 }
+a.fb:hover { background-image: url(../images/fb.png); }
 
-#dashboard .card.profile .social .tw {
-  background-image: url(/assets/images/fb-off.png);
+a.tw {
+  background-image: url(../images/tw-off.png);
   height: 24px;
   width: 24px;
   display: inline-block;
+  margin: 0 20px;
 }
+a.tw:hover { background-image: url(../images/tw.png); }
+
+a.mail {
+  background-image: url(../images/mail-off.png);
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+  margin: 0 20px;
+}
+a.mail:hover { background-image: url(../images/mail.png); }
 
 #dashboard .card.profile .user-bio {
   font-size: 10px;

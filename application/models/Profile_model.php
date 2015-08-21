@@ -27,16 +27,26 @@ class Profile_model extends Entity_model {
      * @return Object
      */
     public function find($id) {
-        $this->db->select("u.*");
+        $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name");
         $this->db->where("id", $id);
         $this->db->where('type', PROFILE);
+        $this->db->where("status_row", ENABLED);
         $q= $this->db->get($this->table." u");
         $entity= ($q->num_rows() > 0 ? $q->row(0,"Profile_model") : $q->row());
 
         if(isset($entity->id)){
                 $entity->address= $this->address->find_by_entity($entity->id);
                 $entity->address= $entity->address->row();
+
+                if(!isset($entity->address->id)){
+                    $entity->address= $this->address;
+                }
+
                 $entity->contact= $this->contact->find($entity->id_contact);
+                if(!isset($entity->contact->id)){
+                    $entity->contact= $this->contact;
+                }
+                
                 $entity->tags= $this->entity_tag->find_tags_by_entity($entity->id);
         }
 

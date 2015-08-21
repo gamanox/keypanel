@@ -62,7 +62,7 @@ class Member extends Base {
      * @return void
      */
     public function index(){
-        redirect('admin/member/show_list');
+        $this->show_list();
     }
 
     /**
@@ -83,22 +83,22 @@ class Member extends Base {
 
         $this->lang->load('panel');
 
-        $param_header['title'] = lang('members_title');
+        $param_header['title'] = lang('member_list');
         $this->load->view('includes/header', $param_header);
 
         $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN));
 
         // Cargamos la lista de miembros
-        $param['members']      = $this->member->find_all( MEMBER );
+        $param['members']      = $this->member->find_list();
         $this->load->view('users/member/list', $param);
 
         $this->load->view('includes/footer');
     }
 
     /**
-     * add_member
+     * add
      *
-     * Funcion para agregar miembros a la plataforma - Formulario
+     * Carga la vista html para capturar y crear un miembro
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -108,7 +108,7 @@ class Member extends Base {
      */
     public function add(){
         if( !$this->auth->is_auth( $this->router->class, CREATE) ){
-            redirect('account');
+            redirect("errores/no_authorized");
         }
 
         $this->load->library('form_validation');
@@ -175,13 +175,37 @@ class Member extends Base {
                 $id_contact= $this->contact->save($contact);
                 $member['id_contact']= $id_contact;
                 $member['breadcrumb']= $this->session->id;
-                //guardamos miembro
+                //guardamos miembro con estatus registrado para que el active su cuenta
+                $member['status_row']= REGISTERED;
                 $id_member = $this->entity->save( $member );
                 $address['id_entity']=$id_member;
                 //guardamos direccion
                 $this->address->save($address);
 
                 if($id_member){
+                    //creamos un token
+                    $this->load->model("Token_model","token");
+                    $this->load->model("Mailing_model","mailing");
+                    $token= array(
+                        "id_entity"=> $id_member,
+                        'token'=> md5(time()),
+                        'expires_at'=> add_days_to_date(date('Y-m-d H:i:s'), 7)
+                    );
+
+                    $this->token->save($token);
+
+                    //agregamos el token al miembro
+                    $member['token']= $token;
+
+                    //mandar mail al correo del miembro para que active su cuenta
+                    $param_email = array(
+                        'to'      => $member['email'],
+                        'from'    => $this->config->item('noreply_email'),
+                        'subject' => lang('activa_tu_cuenta'),
+                        'msg'     => $this->load->view('mailing/activa_cuenta', array('member' => $member), true)
+                    );
+                    $this->mailing->send($param_email);
+
                     redirect('admin/member/show_list');
                 }
             }
@@ -190,17 +214,20 @@ class Member extends Base {
             $param_view['errors'] = $errors;
         }
 
-        $param_header['title'] = lang('members_title');
+        $param_header['title'] = lang('member_add');
         $this->load->view('includes/header', $param_header);
 
-        $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN));
+        $param_menu['back_btn']= base_url("admin/member");
+        $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN), $param_menu);
         $this->load->view('users/member/new', $param_view);
 
         $this->load->view('includes/footer');
     }
 
     /**
-     * edit_member
+     * edit
+     *
+     * Carga la vista html para editar un miembro
      *
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
@@ -209,95 +236,178 @@ class Member extends Base {
      * @return void
      */
     public function edit( $id_member = NULL ){
-        if( !$this->auth->is_auth( $this->router->class, UPDATE) ){
-            redirect('account');
+        if (!$this->auth->is_auth($this->router->class, UPDATE)) {
+            redirect("errores/no_authorized");
         }
 
-        if( !isset($id_member) ){
-            redirect('admin/member/show_list');
+        $member= $this->member->find($id_member);
+
+        if(!isset($member->id)){
+            show_404();
         }
 
-        $param_header['title'] = lang('members_title');
+        $this->lang->load('panel');
+
+        $param_header['title'] = lang('member_edit');
         $this->load->view('includes/header', $param_header);
 
-        $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN));
+        $param_menu['back_btn']= base_url("admin/member");
+        $this->load->view('includes/menu-extended-'. strtolower(SUPERADMIN), $param_menu);
 
-        $param_view['member'] = $this->member->find( $id_member );
-        $this->load->view('users/member/edit', $param_view);
-
+        $param['member']= $member;
+        $this->load->view('users/member/edit', $param);
         $this->load->view('includes/footer');
     }
 
     /**
-     * update_member
+     * save
      *
+     * Guarda cambios de un miembro
+     * @author Luis E. Salazar <luis.830424@gmail.com>
      * @access public
-     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
-     * @copyright
-     *
      * @return void
      */
-    public function update(){
-        if( !$this->auth->is_auth( $this->router->class, UPDATE) ){
-            redirect('account');
-        }
+    function save() {
+        $response["status"]=0;
+        $response["msg"]= lang('msg_operacion_fallida');
+	if(!$this->input->is_ajax_request()){
+	    show_404();
+	}elseif (!$this->auth->is_auth($this->router->class, UPDATE)) {
+	    $response['msg']= lang('error_sin_permisos');
+	}else{
+//            dd($this->input->post());
+            $member= $this->input->post('member');
+            $address= $this->input->post('address');
 
-        if( $_POST ){
+            $current_password= $this->input->post('current_password');
+            $new_password= $this->input->post('new_password');
+
             // Validamos el signature
             $validation_signature = md5('KeyPanel#'. $this->input->post('id'));
             $signature            = $this->input->post('signature');
 
-            if( $signature == $validation_signature ){
-                $member_data       = $this->input->post('member');
-                $member_data['id'] = $this->input->post('id');
+            $success=0;
 
-                // Validar datos
+            if( $signature != $validation_signature ){
+                $response["msg"]= lang('msg_operacion_fallida');
+            }else{
+                $member['id']= $this->input->post('id');
+                $member_exists= $this->member->find($member['id']);
 
-                $success = $this->entity->update( $member_data );
-                if( $success ){
-                    redirect('admin/member/show_list');
+                if( (isset($new_password) and $new_password!="") and md5($current_password) != $member_exists->password ){
+                    $response["msg"]= lang('current-password-empty');
+                }else{
+
+                    if(isset($new_password) and $new_password!=""){
+                        $member['password']= md5($new_password);
+                    }
+
+//                    dd($member);
+
+                    //actualizamos el organigrama
+                    $success+= $this->member->update($member);
+                    //actualizamos direccion
+                    $success+= $this->address->update($address);
+
+                    if ($success){
+                        $response["status"] = 1;
+                        $response["msg"]    = lang('msg_operacion_exitosa');
+                    }
+                    else {
+                        $response["msg"] = lang('msg_operacion_fallida');
+                    }
                 }
-            }
-            else {
-                // Signature y validacion no coinciden
-                $_SESSION['errors'] = lang('signature-validation');
-                $this->session->mark_as_temp('errors', 5);
 
-                redirect('admin/member/show_list');
             }
         }
-        else {
-            redirect('admin/member/show_list');
-        }
+
+	//cocinado!!
+	$json = json_encode($response);
+	echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
     }
 
     /**
-     * delete_member
+     * delete
      *
-     * Función que se usa para eliminar miembros del sistema [borrado logico]
-     *
+     * Petición por ajax que elimina logicamente a una o varios miembros enviados
+     * @author Luis E. Salazar <luis.830424@gmail.com>
      * @access public
-     * @author Guillermo Lucio <guillermo.lucio@gmail.com>
-     * @copyright
+     * @return array $response
+     */
+    function delete() {
+	$response["status"]=0;
+        $response["msg"]=  lang('msg_operacion_fallida');
+	if(!$this->input->is_ajax_request()){
+	    show_404();
+	}elseif (!$this->auth->is_auth($this->router->class, DELETE)) {
+	    $response['msg']= lang('error_sin_permisos');
+	}else{
+
+	    //variables post
+	    $member_id=$this->input->post('member_id');
+
+            $member_exists= $this->member->find($member_id);
+
+            if(!isset($member_exists->id)){
+                $response["msg"]=  lang('msg_operacion_fallida');
+            }else{
+                $row_affected= $this->member->delete($member_id);
+
+                if ($row_affected){
+                    $response["status"]=1;
+                    $response["msg"]=  lang('msg_operacion_exitosa'). " ".sprintf(lang('msg_registros_afectados'),$row_affected);
+                }else{
+                    $response["msg"]=  lang('msg_operacion_fallida');
+                }
+            }
+	}
+	//cocinado!!
+	$json = json_encode($response);
+	echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
+    }
+
+    /**
+     * update_membership_status
      *
-     * @param int $id_member ID del miembro a borrar
-     *
+     * actualiza el estatus de la membresia
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access access
      * @return void
      */
-    public function delete( $id_member = NULL ){
-        if( !$this->auth->is_auth($this->router->class, DELETE) ){
-            redirect('account');
+    function update_membership_status() {
+        $response["status"] = 0;
+        if(!$this->input->is_ajax_request()){
+            show_404();
+        }
+        elseif( !$this->auth->is_auth($this->router->class, UPDATE) ){
+            $response['msg']= lang('error_sin_permisos');
+        }else {
+            //variables post
+            $datos_post        = $this->input->post();
+            $member['status_row'] = ($datos_post['status_row'] ? ENABLED : DISABLED);
+            $member['id']     = $datos_post['id'];
+
+            $member_exists = $this->member->find($member['id']);
+
+            if(!isset($member_exists->id)){
+                $response['msg']= lang('msg_operacion_fallida');
+            }else {
+                $succeed = $this->member->update($member);
+
+                if ($succeed){
+                    $response["status"] = 1;
+                    $response["msg"]    = lang('msg_operacion_exitosa');
+                }else {
+                    $response["msg"] = lang('msg_operacion_fallida');
+                }
+            }
         }
 
-        if( !isset($id_member) ){
-            redirect('admin/member/show_list');
-        }
-
-        $success = $this->entity->delete( $id_member );
-        if( $success > 0){
-            redirect('admin/member/show_list');
-        }
+        //cocinado!!
+        $json = json_encode($response);
+        echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
     }
+
 }
 /* End of file Administration.php */
 /* Location: ./application/controllers/Administration.php */

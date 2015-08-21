@@ -4,7 +4,7 @@
         <div class="card-header grey lighten-5">
             <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">forum</i>&nbsp;<?php echo lang('card-noticias-title'); ?></p>
         </div>
-        <div class="card-content">
+        <div class="card-content nopadding">
             <?php if( isset($news) and $news->num_rows() > 0 ) : ?>
             <ul class="collection">
                 <?php
@@ -43,7 +43,7 @@
         </div>
         <div class="card-content no-padding">
             <?php
-                $history = $user_info->history->result();
+                $history = ( isset($user_info->history) ? $user_info->history->result() : array());
                 $index   = 1;
 
                 if( count($history) > 0 ) :

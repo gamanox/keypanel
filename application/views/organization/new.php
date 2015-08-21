@@ -163,8 +163,27 @@
                 </div>
             </div>
 
+            <div class="col m3 s12">
+                <div class="card panel partial">
+                    <div class="card-header grey lighten-5">
+                        <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">attach_file</i>&nbsp;&nbsp;<?php echo lang('org_link_adjunto'); ?></p>
+                    </div>
+                    <div class="card-content">
+                        <div class="dropzone dz-clickable center-align columns" id="my-dropzone-link" style="min-height: 120px;">
+                            <div class="dz-message">
+                                <span><?php echo lang('org_upload_link'); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="profile">
                 <?php /*aqui se pondra el hidden de la imagen del perfil*/?>
+            </div>
+
+            <div id="attach">
+                <?php /*aqui se pondra el hidden del adjunto*/?>
             </div>
         </form>
     </div>
@@ -269,6 +288,86 @@
        });
     });
 
+    $(function(){
+         var dz_link = new Dropzone("#my-dropzone-link", {
+            url: "<?php echo base_url('admin/organigrama/upload_attach'); ?>",
+            uploadMultiple: false,
+            paramName: "attach",
+            maxFiles: 1,
+            maxFilesize: 1,
+            acceptedFiles:'.pdf',
+            init: function() {
+                this.on("addedfile", function(file) {
+                    $("#alertBox").hide();
+                });
+
+                this.on("error", function(file, response) {
+                    $("#alertBox #profile_msg").html(response);
+                        $("#alertBox").show();
+
+                    // Create the remove button
+                        var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-block btn-danger'>Quitar</button>");
+
+                        // Capture the Dropzone instance as closure.
+                        var _this = this;
+
+                        // Listen to the click event
+                        removeButton.addEventListener("click", function(e) {
+                            $("#alertBox").hide();
+                            // Make sure the button click doesn't submit the form:
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Remove the file preview.
+                            _this.removeFile(file);
+                            // If you want to the delete the file on the server as well,
+                            // you can do the AJAX request here.
+                        });
+
+                        // Add the button to the file preview element.
+                        file.previewElement.appendChild(removeButton);
+                });
+
+                this.on("success", function(file, response) {
+                    response= JSON.parse(response);
+
+                    if(!response.status){
+                        $("#alertBox #profile_msg").html(response.msg);
+                        $("#alertBox").show();
+                    }else{
+                        $("#attach").append(
+                            '<input id="attach-'+response.file_name+'" type="hidden" name="contact[attachment]" value="'+response.file_name+'">'
+                        );
+
+                        // Create the remove button
+                        var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-block btn-danger'>Quitar</button>");
+
+                        // Capture the Dropzone instance as closure.
+                        var _this = this;
+
+                        // Listen to the click event
+                        removeButton.addEventListener("click", function(e) {
+                            $("#alertBox").hide();
+                            // Make sure the button click doesn't submit the form:
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Remove the file preview.
+                            _this.removeFile(file);
+                            // If you want to the delete the file on the server as well,
+                            // you can do the AJAX request here.
+
+                            remove_attach(response.file_name);
+                        });
+
+                        // Add the button to the file preview element.
+                        file.previewElement.appendChild(removeButton);
+                    }
+                });
+            }
+       });
+    });
+
     Dropzone.autoDiscover = false;
 
     function create(){
@@ -279,7 +378,7 @@
         }else if($("#email").val()===""){
             $("#email").removeClass("valid invalid");
             $("#email").addClass("invalid");
-            $("#first_name").focus();
+            $("#email").focus();
         }else{
             var str = $('#frmAddOrganization').serialize();
 
@@ -339,7 +438,7 @@
     function remove_image(img){
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url('admin/base/remove_profile'); ?>',
+            url: '<?php echo base_url('admin/organigrama/remove_profile'); ?>',
             data: {
                 file: img
             },
@@ -347,6 +446,22 @@
             success: function(response){
                 if(response.status){
                     $("#profile-"+img).remove();
+                }
+            }
+        });
+    }
+
+    function remove_attach(file){
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url('admin/organigrama/remove_attach'); ?>',
+            data: {
+                file: file
+            },
+            dataType: 'jsonp',
+            success: function(response){
+                if(response.status){
+                    $("#attach-"+file).remove();
                 }
             }
         });

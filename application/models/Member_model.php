@@ -61,14 +61,18 @@ class Member_model extends Entity_model {
         $this->db->select("u.*");
         $this->db->where("id", $id);
         $this->db->where('type', MEMBER);
+        $this->db->where_in("status_row", array(ENABLED, DISABLED, REGISTERED));
         $q= $this->db->get($this->table." u");
         $entity= ($q->num_rows() > 0 ? $q->row(0,"Member_model") : $q->row());
-
-        $entity->history= $this->history;
 
         if(isset($entity->id)){
                 $entity->addresses= $this->address->find_by_entity($entity->id);
                 $entity->contact= $this->contact->find($entity->id_contact);
+
+                if(!isset($entity->contact->id)){
+                    $entity->contact= $this->contact;
+                }
+                
                 $entity->history= $this->history();
         }
 
@@ -84,11 +88,12 @@ class Member_model extends Entity_model {
      */
     public function find_me() {
             $me= $this->find($this->session->id);
-            $me->history= $this->history;
             if(isset($me->id)){
                 $me->history= $this->history();
             }
-            return $me;
+        }
+
+        return $me;
     }
 
     /**
@@ -208,5 +213,22 @@ class Member_model extends Entity_model {
             // Registramos el nuevo
             $this->access_log->save($new_access_log);
         }
+    }
+
+    /**
+    * find_list
+    *
+    * Devuelve un objeto de resultado de bases de datos que contiene a los objetos members del sistema
+    * @return Object
+    */
+    function find_list() {
+        $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name",false);
+        $this->db->where("type", MEMBER);
+        $this->db->where_in("status_row", array(ENABLED,DISABLED,REGISTERED));
+        $this->db->order_by("create_at", "asc");
+
+        $members= $this->db->get($this->table. " u");
+
+        return $members;
     }
 }

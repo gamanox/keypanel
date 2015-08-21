@@ -117,6 +117,7 @@ class Comment_model extends CI_Model {
          */
         public function find($id) {
             $this->db->where("id", $id);
+            $this->db->where("status_row", ENABLED);
             $comment= $this->db->get($this->table);
 
             return ($comment->num_rows() > 0 ? $comment->row(0,"Comment_model") : $comment->row());
@@ -132,6 +133,7 @@ class Comment_model extends CI_Model {
          */
         public function find_by_entity($id_entity) {
                 $this->db->where("id_entity", $id_entity);
+                $this->db->where("status_row", ENABLED);
                 $comments= $this->db->get($this->table);
 
                 return $comments;
@@ -147,6 +149,7 @@ class Comment_model extends CI_Model {
          */
         public function find_children($id) {
                 $this->db->where("id_parent", $id);
+                $this->db->where("status_row", ENABLED);
                 $comments= $this->db->get($this->table);
 
                 return $comments;

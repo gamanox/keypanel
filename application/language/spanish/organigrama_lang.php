@@ -16,6 +16,8 @@
     $lang['org_twitter']= 'Twitter';
     $lang['org_gplus']= 'Google plus';
     $lang['org_linkedin']= 'LinkedIn';
+    $lang['org_link_adjunto']= 'Link';
+    $lang['org_upload_link']= 'Subir pdf';
 
     //contacto
     $lang['org_info-contact']= 'Información de Contacto';
@@ -47,6 +49,7 @@
     $lang['org_select_tags'] = 'Etiquetas';
     $lang['org_related_tags'] = 'Etiquetas relacionadas';
     $lang['org_list']= 'Organigramas';
+    $lang['org_show'] = 'Perfil';
 
     $lang['area_name'] = 'Nombre';
     $lang['area_add'] = 'Agregar area';

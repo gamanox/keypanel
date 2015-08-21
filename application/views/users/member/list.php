@@ -1,46 +1,49 @@
 <?php $this->load->view('includes/common-functions'); ?>
 <div class="container main-content">
     <div class="row">
-        <div class="s12 m12">
-            <div class="card-panel nopadding">
-                <div class="card-header grey lighten-5">
-                    <p class="card-title grey-text nomargin valign-wrapper"><i class="material-icons valign">view_list</i>&nbsp;<?php echo lang('members_card_title'); ?></p>
-                </div>
+        <h4><?php echo $title; ?></h4>
 
-                <div class="card-content">
-                    <?php
-                        // echo '<pre>'. print_r($members->result(), true) .'</pre>';
-                    ?>
-                    <?php if( isset($members) and count($members) > 0 ) : ?>
-                    <table class="responsive-table striped datatable">
-                        <thead>
-                            <tr>
-                                <th data-field="name"><?php echo lang('column-info'); ?></th>
-                                <th data-field="actions" style="width:10%"><?php echo lang('column_actions'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($members->result() as $key => $member): ?>
-                            <tr>
-                                <td>
-                                    <span><?php echo $member->full_name .' - <a class="indigo-text" href="mailto:'. $member->email .'">'. $member->email .'</a>'; ?></span><br>
-                                    <span class="grey-text lighten-1 tiny-text"><?php echo sprintf(lang('label-member-since'), lang(MEMBER)); ?>: <?php echo date_to_humans($member->create_at); ?></span>
-                                </td>
-                                <td>
-                                    <a class="blue-text darken-1" href="<?php echo base_url('admin/member/edit/'. $member->id); ?>"><i class="tiny material-icons">edit</i></a>
-                                    <a class="blue-text darken-1" href="<?php echo base_url('admin/member/delete/'. $member->id); ?>"><i class="tiny material-icons">delete</i></a>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <div class="clearfix"></div>
-                    <?php else : ?>
-
-                    <?php endif; ?>
-                </div>
+        <div class="col s12 m12">
+            <div id="alertBox" class="card-panel red" style="display: none;">
+                <span id="msg" class="white-text"></span>
             </div>
         </div>
+
+        <table class="datatable striped  hover mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp is-upgraded">
+            <thead>
+                <tr>
+                    <th data-field="name"><?php echo lang('info-general'); ?></th>
+                    <th data-field="actions" style="width: 15%;"><?php echo lang('membership'); ?></th>
+                    <th data-field="membership" style="width: 10%;"><?php echo lang('column-actions'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($members->result() as $key => $member): ?>
+                <tr>
+                    <td>
+                        <span><?php echo $member->full_name .' - <a class="indigo-text" href="mailto:'. $member->email .'">'. $member->email .'</a>'; ?></span><br>
+                        <span class="grey-text lighten-1 tiny-text"><?php echo sprintf(lang('label-member-since'), lang(MEMBER)); ?>: <?php echo date_to_humans($member->create_at); ?></span><br>
+                        <span class="grey-text lighten-1 tiny-text"><?php echo lang($member->status_row); ?></span>
+                    </td>
+                    <td>
+                        <div class="switch">
+                            <label>
+                                Off
+                                <input id="member_<?php echo $member->id; ?>" class="member-membership" <?php echo ($member->status_row == ENABLED ? 'checked' : ''); ?> data-id='<?php echo $member->id; ?>' type="checkbox">
+                                <span class="lever"></span>
+                                On
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <a class="blue-text darken-1" href="<?php echo base_url('admin/member/edit/'. $member->id); ?>"><i class="tiny material-icons">edit</i></a>
+                        <a href="#!" class="blue-text darken-1" onclick="javascript:trash(<?php echo $member->id; ?>, this);"><i class="tiny material-icons">delete</i></a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="clearfix"></div>
     </div>
 </div>
 
@@ -52,3 +55,57 @@
         </li>
     </ul>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.member-membership').on('change', function(){
+            update_membership($(this));
+        });
+    });
+
+    function update_membership(obj){
+        $("#alertBox").hide();
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url('admin/member/update_membership_status'); ?>',
+            data: {id: $(obj).data('id'), status_row: ($(obj).prop("checked")== false ? 0 : 1)},
+            dataType: 'jsonp',
+            success:function(response) {
+                if(!response.status){
+                    $("#alertBox").show();
+                    $("#alertBox #msg").html(response.msg);
+                }
+            }
+        });
+    }
+
+    function trash(id, obj) {
+        if (confirm("<?php echo lang('desea_realizar_esta_accion');?>")){
+            obj          = $(obj);
+            var old_obj  = obj.html();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url('admin/member/delete'); ?>',
+                data: {
+                    member_id: id
+                },
+                dataType: 'jsonp',
+                beforeSend:function(){
+                    obj.html('<i class="mdl-spinner mdl-js-spinner is-active"></i>');
+                },
+                complete:function(){
+                    obj.html(old_obj);
+                },
+                success:function(response) {
+                    if(response.status){
+                        alert(response.msg);
+                        location.reload();
+                    } else {
+                        alert(response.msg);
+                    }
+                }
+            });
+        }
+    }
+</script>

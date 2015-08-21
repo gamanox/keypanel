@@ -2,7 +2,7 @@
     <div class="row">
         <div class="card panel no-padding">
             <div class="card-header grey lighten-5">
-                <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">person_add</i>&nbsp;&nbsp;<?php echo lang('add_member_card_title'); ?></p>
+                <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">person_add</i>&nbsp;&nbsp;<?php echo lang('member_add'); ?></p>
             </div>
             <div class="card-content">
 
@@ -29,7 +29,7 @@
                         <label for="email"><?php echo lang('email'); ?></label>
                     </div>
 
-                    <div class="clearfix"></div>
+                    <div class="clearfix">&nbsp;</div>
                     <h6><?php echo lang('info-contact'); ?></h6>
                     <div class="input-field col s12 m6">
                         <input name="contact[phone_personal]" value="<?php echo set_value('contact[phone_personal]'); ?>" id="phone_personal" type="text">
@@ -40,7 +40,7 @@
                         <label for="phone_business"><?php echo lang('phone-business'); ?></label>
                     </div>
 
-                    <div class="clearfix"></div>
+                    <div class="clearfix">&nbsp;</div>
                     <h6><?php echo lang('addr_info-address'); ?></h6>
                     <div class="input-field col s12 m4">
                         <input name="address[country]" id="country" type="text" value="<?php echo set_value('address[country]'); ?>">
@@ -75,7 +75,7 @@
                         <label for="num_int"><?php echo lang('addr_num_int'); ?></label>
                     </div>
 
-                    <div class="clearfix"></div>
+                    <div class="clearfix">&nbsp;</div>
                     <h6><?php echo lang('datos-acceso'); ?></h6>
                     <div class="input-field col s12 m4">
                         <input name="member[username]" value="<?php echo set_value('member[username]'); ?>" id="username" type="text">

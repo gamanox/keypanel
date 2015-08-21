@@ -1,8 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * Controlador para funciones relacionadas al Controlador name
- */
 
 class Blog extends CI_Controller {
 

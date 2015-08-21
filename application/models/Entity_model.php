@@ -14,6 +14,7 @@ class Entity_model extends CI_model {
                 parent::__construct();
                 $this->load->model("Address_model", "address");
                 $this->load->model("Contact_model", "contact");
+                $this->load->model("Entity_tag_model", "entity_tag");
         }
 
         /**
@@ -136,14 +137,22 @@ class Entity_model extends CI_model {
          * @return Integer Devuelve <b>1</> si hubo éxito, caso contrario devuelve <b>0</b>
          */
         public function update($entity) {
-
+            $fields_protected= array("id",'username','type');
+            $id= $entity['id'];
             //actualizo el breadcrumb de los nodos hijos si se movio el id_parent
             if(key_exists("breadcrumb", $entity)){
-                $this->move_r($entity['id'], $entity['breadcrumb']);
+                $this->move_r($id, $entity['breadcrumb']);
+            }
+
+            //quitando los campos protegidos
+            foreach ($entity as $field=> $value) {
+                if(in_array($field, $fields_protected)){
+                    unset($fields_protected[$field]);
+                }
             }
 
             $entity['update_at']= date('Y-m-d H:i:s');
-            $success= $this->db->update($this->table, $entity, array("id" => $entity['id']));
+            $success= $this->db->update($this->table, $entity, array("id" => $id));
             return ($success ? 1 : 0);
         }
 
@@ -163,8 +172,8 @@ class Entity_model extends CI_model {
                         $entity= $this->find($id_entity);
 
                         //elimino a los nodos hijos por su breadcrumb
-                        if(isset($entity->id)){
-                            $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'right');
+                        if(isset($entity->id) and in_array($entity->type, array(ORGANIZATION, AREA))){
+                            $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'both');
                             $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
 
                             $affected_rows+= ((isset($success) and $success) ? $this->db->affected_rows() : 0);
@@ -192,12 +201,17 @@ class Entity_model extends CI_model {
         public function find($id) {
                 $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name",false);
                 $this->db->where("id", $id);
+                $this->db->where("status_row", ENABLED);
                 $q= $this->db->get($this->table." u");
                 $entity= ($q->num_rows() > 0 ? $q->row(0,"Entity_model") : $q->row());
 
                 if(isset($entity->id)){
                         $entity->addresses= $this->address->find_by_entity($entity->id);
                         $entity->contact= $this->contact->find($entity->id_contact);
+
+                        if(!isset($entity->contact->id)){
+                            $entity->contact= $this->contact;
+                        }
 
                 }
 
@@ -292,7 +306,7 @@ class Entity_model extends CI_model {
         public function updates($limit=null, $offset=null) {
                 $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name");
                 $this->db->select("if(create_at > update_at, create_at, update_at)updates, if(create_at > update_at, 'CREATED', 'UPDATED')action", false);
-                $this->db->where_in("status_row", ENABLED);
+                $this->db->where("status_row", ENABLED);
                 $this->db->where_in("type", array(ORGANIZATION, PROFILE));
                 $this->db->order_by("updates","desc");
 
@@ -364,6 +378,7 @@ class Entity_model extends CI_model {
         $this->db->select("u.*, u.first_name as name");
         $this->db->where("id", $id);
         $this->db->where_in('type', array(ORGANIZATION, AREA));
+        $this->db->where("status_row", ENABLED);
         $q= $this->db->get($this->table." u");
         $entity= ($q->num_rows() > 0 ? $q->row(0,"Entity_model") : $q->row());
 

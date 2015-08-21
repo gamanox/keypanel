@@ -246,7 +246,7 @@ class Organigrama extends Base {
         $response["msg"]= lang('msg_operacion_fallida');
 	if(!$this->input->is_ajax_request()){
 	    show_404();
-	}elseif (!$this->auth->is_auth($this->router->class, CREATE)) {
+	}elseif (!$this->auth->is_auth($this->router->class, UPDATE)) {
 	    $response['msg']= lang('error_sin_permisos');
 	}else{
 //            dd($this->input->post());
@@ -500,7 +500,7 @@ class Organigrama extends Base {
         $response["msg"]= lang('msg_operacion_fallida');
 	if(!$this->input->is_ajax_request()){
 	    show_404();
-	}elseif (!$this->auth->is_auth($this->router->class, CREATE)) {
+	}elseif (!$this->auth->is_auth($this->router->class, UPDATE)) {
 	    $response['msg']= lang('error_sin_permisos');
 	}else{
             $area= $this->input->post('area');
@@ -689,7 +689,7 @@ class Organigrama extends Base {
         $response["msg"]= lang('msg_operacion_fallida');
 	if(!$this->input->is_ajax_request()){
 	    show_404();
-	}elseif (!$this->auth->is_auth($this->router->class, CREATE)) {
+	}elseif (!$this->auth->is_auth($this->router->class, UPDATE)) {
 	    $response['msg']= lang('error_sin_permisos');
 	}else{
 //            dd($this->input->post());

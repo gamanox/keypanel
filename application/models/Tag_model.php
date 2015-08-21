@@ -107,7 +107,7 @@ class Tag_model extends CI_Model {
 
                     //elimino a los nodos hijos por su breadcrumb
                     if(isset($entity->id)){
-                        $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'right');
+                        $this->db->like("breadcrumb",$entity->breadcrumb."|".$entity->id ,'both');
                         $success= $this->db->update($this->table, array("update_at"=>date('Y-m-d H:i:s'),"status_row"=>DELETED));
 
                         $affected_rows+= ((isset($success) and $success) ? $this->db->affected_rows() : 0);

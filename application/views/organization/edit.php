@@ -1,6 +1,7 @@
 <div class="container main-content">
     <div class="row">
-        <?php if(isset($organization->addresses))$organization->address= $organization->addresses->first_row();?>
+        <?php // dd($organization); ?>
+        <?php $organization->address= $organization->addresses->row();?>
         <form action="#" method="post" id="frmEditOrganization">
             <div class="col s12 m12">
                 <div id="alertBox" class="card-panel red" style="display: none;">
@@ -86,35 +87,35 @@
                         <div class="clearfix"></div>
                         <h6><?php echo lang('org_info-address'); ?></h6>
                         <div class="input-field col s12 m4">
-                            <input name="address[country]" value="<?php echo $organization->address->country; ?>" id="country" type="text">
+                            <input name="address[country]" value="<?php echo (isset($organization->address) ? $organization->address->country:""); ?>" id="country" type="text">
                             <label for="country"><?php echo lang('org_country'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[state]" value="<?php echo $organization->address->state; ?>" id="state" type="text">
+                            <input name="address[state]" value="<?php echo (isset($organization->address) ? $organization->address->state:""); ?>" id="state" type="text">
                             <label for="state"><?php echo lang('org_state'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[city]" value="<?php echo $organization->address->city; ?>" id="city" type="text">
+                            <input name="address[city]" value="<?php echo (isset($organization->address) ? $organization->address->city:""); ?>" id="city" type="text">
                             <label for="city"><?php echo lang('org_city'); ?></label>
                         </div>
                         <div class="input-field col s12 m6">
-                            <input name="address[neighborhood]" value="<?php echo $organization->address->neighborhood; ?>" id="neighborhood" type="text">
+                            <input name="address[neighborhood]" value="<?php echo (isset($organization->address) ? $organization->address->neighborhood:""); ?>" id="neighborhood" type="text">
                             <label for="neighborhood"><?php echo lang('org_neighborhood'); ?></label>
                         </div>
                         <div class="input-field col s12 m6">
-                            <input name="address[street]" value="<?php echo $organization->address->street; ?>" id="street" type="text">
+                            <input name="address[street]" value="<?php echo (isset($organization->address) ? $organization->address->street:""); ?>" id="street" type="text">
                             <label for="street"><?php echo lang('org_street'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[zip_code]" value="<?php echo $organization->address->zip_code; ?>" id="zip_code" type="text">
+                            <input name="address[zip_code]" value="<?php echo (isset($organization->address) ? $organization->address->zip_code:""); ?>" id="zip_code" type="text">
                             <label for="zip_code"><?php echo lang('org_zip_code'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[num_ext]" value="<?php echo $organization->address->num_ext; ?>" id="num_ext" type="text">
+                            <input name="address[num_ext]" value="<?php echo (isset($organization->address) ? $organization->address->num_ext:""); ?>" id="num_ext" type="text">
                             <label for="num_ext"><?php echo lang('org_num_ext'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[num_int]" value="<?php echo $organization->address->num_int; ?>" id="num_int" type="text">
+                            <input name="address[num_int]" value="<?php echo (isset($organization->address) ? $organization->address->num_int:""); ?>" id="num_int" type="text">
                             <label for="num_int"><?php echo lang('org_num_int'); ?></label>
                         </div>
 
@@ -198,11 +199,48 @@
                 </div>
             </div>
 
-            <div id="profile">
-
+            <div class="col m3 s12">
+                <div class="card panel partial">
+                    <div class="card-header grey lighten-5">
+                        <p class="card-title blue-grey-text text-darken-4 nomargin valign-wrapper"><i class="tiny material-icons valign">attach_file</i>&nbsp;&nbsp;<?php echo lang('org_link_adjunto'); ?></p>
+                    </div>
+                    <div class="card-content">
+                        <?php if (isset($organization->contact) and isset($organization->contact->attachment)): ?>
+                            <div class="dropzone dz-clickable center-align columns" id="my-dropzone-link" style="min-height: 120px;">
+                                <div class="dz-message" style="display: none;">
+                                    <span><?php echo lang('org_upload_link'); ?></span>
+                                </div>
+                                <div class="dz-preview dz-processing dz-image-preview dz-success">
+                                    <div class="dz-details">
+                                        <div class="dz-filename">
+                                            <span data-dz-name=""><?php echo $organization->contact->attachment; ?></span>
+                                        </div>
+                                        <img data-dz-thumbnail="">
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-block btn-danger" onclick="javascript:remove_attach('<?php echo $organization->contact->attachment;?>');">Quitar</button>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="dropzone dz-clickable center-align columns" id="my-dropzone-link" style="min-height: 120px;">
+                                <div class="dz-message">
+                                    <span><?php echo lang('org_upload_link'); ?></span>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
+
+            <div id="profile">
+                <?php /*aqui se pondra el hidden de la imagen del perfil*/?>
+            </div>
+
+            <div id="attach">
+                <?php /*aqui se pondra el hidden del adjunto*/?>
+            </div>
+
             <input type="hidden" name="organization[id]" value="<?php echo $organization->id; ?>">
-            <input type="hidden" name="address[id]" value="<?php echo $organization->address->id; ?>">
+            <input type="hidden" name="address[id]" value="<?php echo (isset($organization->address) ? $organization->address->id:""); ?>">
             <input type="hidden" name="contact[id]" value="<?php echo $organization->contact->id; ?>">
         </form>
     </div>
@@ -307,6 +345,86 @@
        });
     });
 
+    $(function(){
+         var dz_link = new Dropzone("#my-dropzone-link", {
+            url: "<?php echo base_url('admin/organigrama/upload_attach'); ?>",
+            uploadMultiple: false,
+            paramName: "attach",
+            maxFiles: 1,
+            maxFilesize: 1,
+            acceptedFiles: ".pdf",
+            init: function() {
+                this.on("addedfile", function(file) {
+                    $("#alertBox").hide();
+                });
+
+                this.on("error", function(file, response) {
+                    $("#alertBox #profile_msg").html(response);
+                        $("#alertBox").show();
+
+                    // Create the remove button
+                        var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-block btn-danger'>Quitar</button>");
+
+                        // Capture the Dropzone instance as closure.
+                        var _this = this;
+
+                        // Listen to the click event
+                        removeButton.addEventListener("click", function(e) {
+                            $("#alertBox").hide();
+                            // Make sure the button click doesn't submit the form:
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Remove the file preview.
+                            _this.removeFile(file);
+                            // If you want to the delete the file on the server as well,
+                            // you can do the AJAX request here.
+                        });
+
+                        // Add the button to the file preview element.
+                        file.previewElement.appendChild(removeButton);
+                });
+
+                this.on("success", function(file, response) {
+                    response= JSON.parse(response);
+
+                    if(!response.status){
+                        $("#alertBox #profile_msg").html(response.msg);
+                        $("#alertBox").show();
+                    }else{
+                        $("#attach").append(
+                            '<input id="attach-'+response.file_name+'" type="hidden" name="contact[attachment]" value="'+response.file_name+'">'
+                        );
+
+                        // Create the remove button
+                        var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-block btn-danger'>Quitar</button>");
+
+                        // Capture the Dropzone instance as closure.
+                        var _this = this;
+
+                        // Listen to the click event
+                        removeButton.addEventListener("click", function(e) {
+                            $("#alertBox").hide();
+                            // Make sure the button click doesn't submit the form:
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Remove the file preview.
+                            _this.removeFile(file);
+                            // If you want to the delete the file on the server as well,
+                            // you can do the AJAX request here.
+
+                            remove_attach(response.file_name);
+                        });
+
+                        // Add the button to the file preview element.
+                        file.previewElement.appendChild(removeButton);
+                    }
+                });
+            }
+       });
+    });
+
     Dropzone.autoDiscover = false;
     function save(){
         if($("#first_name").val()===""){
@@ -316,7 +434,7 @@
         }else if($("#email").val()===""){
             $("#email").removeClass("valid invalid");
             $("#email").addClass("invalid");
-            $("#first_name").focus();
+            $("#email").focus();
         }else{
             var str = $('#frmEditOrganization').serialize();
 
@@ -386,6 +504,22 @@
                 if(response.status){
                     $("#profile-"+img).remove();
                     location.reload();
+                }
+            }
+        });
+    }
+
+    function remove_attach(file){
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url('admin/organigrama/remove_attach'); ?>',
+            data: {
+                file: file
+            },
+            dataType: 'jsonp',
+            success: function(response){
+                if(response.status){
+                    $("#attach-"+file).remove();
                 }
             }
         });

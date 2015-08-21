@@ -42,12 +42,17 @@ class Organization_model extends Entity_model {
         $this->db->select("u.*, u.first_name as name");
         $this->db->where("id", $id);
         $this->db->where('type', ORGANIZATION);
+        $this->db->where("status_row", ENABLED);
         $q= $this->db->get($this->table." u");
         $entity= ($q->num_rows() > 0 ? $q->row(0,"Organization_model") : $q->row());
 
         if(isset($entity->id)){
                 $entity->addresses= $this->address->find_by_entity($entity->id);
                 $entity->contact= $this->contact->find($entity->id_contact);
+
+                if(!isset($entity->contact->id)){
+                    $entity->contact= $this->contact;
+                }
 
                 if($entity->id_parent==1){
                     $entity->id_parent=null;

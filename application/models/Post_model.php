@@ -143,6 +143,7 @@ class Post_model extends CI_Model {
          */
         public function find($id) {
             $this->db->where("id", $id);
+            $this->db->where("status_row", ENABLED);
             $post= $this->db->get($this->table);
 
             return ($post->num_rows() > 0 ? $post->row(0,"Post_model") : $post->row());

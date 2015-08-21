@@ -10,21 +10,34 @@ class Mailing_model extends CI_Model {
     /**
     * send
     *
-    * Devuelve un objeto de resultado de bases de datos que contiene a los objetos dirección de una entidad especificada
+    * Envia un email
     *
-    * @param Array $param_email
+    * @param Array $param
     * @return Boolean
     */
-    function send($param_email) {
-        $this->email->from($param_email['from']);
-        $this->email->to($param_email['to']);
-        // $this->email->cc($param['cc']);
-        // $this->email->bcc($param['bcc']);
+    function send($param) {
+        $this->email->initialize(array(
+            'protocol'  => 'smtp',
+            'smtp_host' => 'smtp.sendgrid.net',
+            'smtp_user' => SENDGRID_USERNAME,
+            'smtp_pass' => SENDGRID_PASSWORD,
+            'smtp_port' => 587,
+            'crlf'      => "\r\n",
+            'newline'   => "\r\n"
+        ));
 
-        $this->email->subject($param_email['subject']);
-        $this->email->message($param_email['msg']);
 
-        return $this->email->send();
+        $this->email->from($param['from']);
+        $this->email->to($param['to']);
+        $this->email->subject($param['subject']);
+        $this->email->message($param['msg']);
+
+        if( ENVIRONMENT == 'development' ){
+            return TRUE;
+        }
+        else {
+            return $this->email->send();
+        }
         // $this->email->print_debugger();
     }
 }

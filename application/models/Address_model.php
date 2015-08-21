@@ -143,6 +143,7 @@ class Address_model extends CI_Model {
          */
         public function find($id) {
                 $this->db->where("id", $id);
+                $this->db->where("status_row", ENABLED);
                 $address= $this->db->get($this->table);
 
                 return ($address->num_rows() > 0 ? $address->row(0,"Address_model") : $address->row());
