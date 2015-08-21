@@ -91,7 +91,7 @@ class Member_model extends Entity_model {
             if(isset($me->id)){
                 $me->history= $this->history();
             }
-        }
+        
 
         return $me;
     }
