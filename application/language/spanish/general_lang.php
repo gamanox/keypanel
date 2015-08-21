@@ -13,10 +13,14 @@
     $lang['twitter']                    = 'Twitter';
     $lang['gplus']                      = 'Google plus';
     $lang['linkedin']                   = 'LinkedIn';
+    $lang['upload_img'] = 'Subir perfil';
+    $lang['editar_img'] = 'Editar';
 
     $lang['info-contact']               = 'Información de Contacto';
     $lang['phone-personal']             = 'Teléfono';
     $lang['phone-business']             = 'Teléfono (Oficina)';
+    $lang['contact_bio'] = 'Descripcion';
+    $lang['contact_facebook'] = 'Facebook';
 
     $lang['datos-acceso']               = 'Datos de Acceso';
     $lang['username']                   = 'Usuario';

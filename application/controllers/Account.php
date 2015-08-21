@@ -16,6 +16,8 @@ class Account extends CI_Controller {
         parent::__construct();
         $this->load->model('Member_model','member',TRUE);
         $this->load->model('Profile_model','profile',TRUE);
+        $this->load->language('member');
+
     }
 
     /**
@@ -127,6 +129,143 @@ class Account extends CI_Controller {
     public function logout(){
         session_destroy();
         redirect('main');
+    }
+
+    /**
+     * save
+     *
+     * Guarda cambios de la cuenta
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access public
+     * @return void
+     */
+    function save() {
+        $response["status"]=0;
+        $response["msg"]= lang('msg_operacion_fallida');
+	if(!$this->input->is_ajax_request()){
+	    show_404();
+	}else{
+            $member_exists= $this->member->find_me();
+
+            if(!isset($member_exists->id)){
+                $response["msg"]= lang('msg_operacion_fallida');
+            }else{
+//            dd($this->input->post());
+                $member= $this->input->post('member');
+                $address= $this->input->post('address');
+                $contact= $this->input->post('contact');
+
+                $current_password= $this->input->post('current_password');
+                $new_password= $this->input->post('new_password');
+
+                // Validamos el signature
+                $validation_signature = md5('KeyPanel#'. $member_exists->id);
+                $signature            = $this->input->post('signature');
+
+                $success=0;
+
+                if( $signature != $validation_signature ){
+                    $response["msg"]= lang('msg_operacion_fallida');
+                }else{
+                    $member['id']= $member_exists->id;
+
+
+                    if( (isset($new_password) and $new_password!="") and md5($current_password) != $member_exists->password ){
+                        $response["msg"]= lang('current-password-empty');
+                    }else{
+
+                        if(isset($new_password) and $new_password!=""){
+                            $member['password']= md5($new_password);
+                        }
+
+    //                  dd($member);
+
+                        //actualizamos el organigrama
+                        //$success+= $this->member->update($member);
+                        //actualizamos direccion
+                        $address_exists= $member_exists->addresess->row();
+                        $address['id']= $address_exists->id;
+                        $success+= $this->address->update($address);
+                        //actualizamos contacto
+                        $contact["id"]= $member_exists->id_contact;
+                        //$success+= $this->contact->update($contact);
+
+                        if ($success){
+                            $response["status"] = 1;
+                            $response["msg"]    = lang('msg_operacion_exitosa');
+                        }
+                        else {
+                            $response["msg"] = lang('msg_operacion_fallida');
+                        }
+                    }
+
+                }
+            }
+        }
+	//cocinado!!
+	$json = json_encode($response);
+	echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
+    }
+
+    public function upload_profile() {
+        $response = array( 'status' => false, 'msg'=>lang('msg_operacion_fallida'));
+	if(!$this->input->is_ajax_request()){
+	    show_404();
+	}else {
+            if($_FILES){
+                /* Subimos el archivo */
+                $config['upload_path'] = './assets/images/profiles';
+                $config['allowed_types'] = 'jpeg|jpg|png';
+                $config['file_name']= time();
+
+                $this->load->library('upload', $config);
+                $id_entity= $this->input->post('id_entity');
+
+                if(!$this->upload->do_upload('file')){
+                    //$this->lang->load('upload');
+                    $response['msg']= $this->upload->display_errors('<p>','</p>');
+                }else{
+                    if($id_entity){
+                        $this->member->update(array("id"=>$id_entity,"avatar"=>$config['file_name'].$this->upload->file_ext));
+                    }
+                    $response['status']=true;
+                    $response['msg']=lang('msg_operacion_exitosa');
+                    $response['file_name']=$config['file_name'].$this->upload->file_ext;
+                }
+            }
+
+//            print_r_pre_d($_FILES);
+	    //Regresamos el form ...Cocinado!!
+	    $json = json_encode($response);
+	    echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
+	}
+    }
+
+    public function remove_profile() {
+        $response = array( 'status' => false, 'msg'=>lang('msg_operacion_fallida'));
+	if(!$this->input->is_ajax_request()){
+	    show_404();
+	}else {
+            $file= $this->input->post('file');
+            $id_entity= $this->input->post('id_entity');
+            $path_to_file= './assets/images/profiles/'.$file;
+            if(file_exists($path_to_file)){
+                if(unlink($path_to_file)){
+
+                    if($id_entity){
+                        $this->member->update(array("id"=>$id_entity,"avatar"=>null));
+                    }
+
+                    $response['status']=true;
+                    $response['file_name']= $file;
+                    $response['msg']= lang('msg_operacion_exitosa');
+                }
+            }
+
+	    //Regresamos el form ...Cocinado!!
+	    $json = json_encode($response);
+	    echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
+	}
     }
 }
 /* End of file Account.php */
