@@ -1,6 +1,7 @@
 <div class="container main-content">
     <div class="row">
-        <?php if(isset($organization->addresses))$organization->address= $organization->addresses->first_row();?>
+        <?php // dd($organization); ?>
+        <?php $organization->address= $organization->addresses->row();?>
         <form action="#" method="post" id="frmEditOrganization">
             <div class="col s12 m12">
                 <div id="alertBox" class="card-panel red" style="display: none;">
@@ -86,35 +87,35 @@
                         <div class="clearfix"></div>
                         <h6><?php echo lang('org_info-address'); ?></h6>
                         <div class="input-field col s12 m4">
-                            <input name="address[country]" value="<?php echo $organization->address->country; ?>" id="country" type="text">
+                            <input name="address[country]" value="<?php echo (isset($organization->address) ? $organization->address->country:""); ?>" id="country" type="text">
                             <label for="country"><?php echo lang('org_country'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[state]" value="<?php echo $organization->address->state; ?>" id="state" type="text">
+                            <input name="address[state]" value="<?php echo (isset($organization->address) ? $organization->address->state:""); ?>" id="state" type="text">
                             <label for="state"><?php echo lang('org_state'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[city]" value="<?php echo $organization->address->city; ?>" id="city" type="text">
+                            <input name="address[city]" value="<?php echo (isset($organization->address) ? $organization->address->city:""); ?>" id="city" type="text">
                             <label for="city"><?php echo lang('org_city'); ?></label>
                         </div>
                         <div class="input-field col s12 m6">
-                            <input name="address[neighborhood]" value="<?php echo $organization->address->neighborhood; ?>" id="neighborhood" type="text">
+                            <input name="address[neighborhood]" value="<?php echo (isset($organization->address) ? $organization->address->neighborhood:""); ?>" id="neighborhood" type="text">
                             <label for="neighborhood"><?php echo lang('org_neighborhood'); ?></label>
                         </div>
                         <div class="input-field col s12 m6">
-                            <input name="address[street]" value="<?php echo $organization->address->street; ?>" id="street" type="text">
+                            <input name="address[street]" value="<?php echo (isset($organization->address) ? $organization->address->street:""); ?>" id="street" type="text">
                             <label for="street"><?php echo lang('org_street'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[zip_code]" value="<?php echo $organization->address->zip_code; ?>" id="zip_code" type="text">
+                            <input name="address[zip_code]" value="<?php echo (isset($organization->address) ? $organization->address->zip_code:""); ?>" id="zip_code" type="text">
                             <label for="zip_code"><?php echo lang('org_zip_code'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[num_ext]" value="<?php echo $organization->address->num_ext; ?>" id="num_ext" type="text">
+                            <input name="address[num_ext]" value="<?php echo (isset($organization->address) ? $organization->address->num_ext:""); ?>" id="num_ext" type="text">
                             <label for="num_ext"><?php echo lang('org_num_ext'); ?></label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input name="address[num_int]" value="<?php echo $organization->address->num_int; ?>" id="num_int" type="text">
+                            <input name="address[num_int]" value="<?php echo (isset($organization->address) ? $organization->address->num_int:""); ?>" id="num_int" type="text">
                             <label for="num_int"><?php echo lang('org_num_int'); ?></label>
                         </div>
 
@@ -239,7 +240,7 @@
             </div>
 
             <input type="hidden" name="organization[id]" value="<?php echo $organization->id; ?>">
-            <input type="hidden" name="address[id]" value="<?php echo $organization->address->id; ?>">
+            <input type="hidden" name="address[id]" value="<?php echo (isset($organization->address) ? $organization->address->id:""); ?>">
             <input type="hidden" name="contact[id]" value="<?php echo $organization->contact->id; ?>">
         </form>
     </div>

@@ -14,8 +14,9 @@ class Account extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Member_model','member',TRUE);
-        $this->load->model('Profile_model','profile',TRUE);
+        $this->load->model('Member_model','member');
+        $this->load->model('Profile_model','profile');
+        $this->load->model("Token_model","token");
         $this->load->language('member');
 
     }
@@ -43,7 +44,9 @@ class Account extends CI_Controller {
             $this->load->view('includes/menu-'. strtolower($this->session->type));
 
             // $this->load->view('users/'. strtolower($this->session->type) .'/my_account');
-            $param_view['user_info']    = $this->member->find_me();
+            $member= $this->member->find_me();
+            $member->address= $member->addresses->row();
+            $param_view['user_info']    = $member;
             $param_view['dynamic_view'] = 'users/'. strtolower($this->session->type) .'/my_account';
             $param_view['vars_to_load'] = array('user_info');
 
@@ -178,13 +181,15 @@ class Account extends CI_Controller {
                             $member['password']= md5($new_password);
                         }
 
-    //                  dd($member);
+//                      dd($member_exists->addresses->row());
 
-                        //actualizamos el organigrama
-                        //$success+= $this->member->update($member);
+                        //actualizamos el miembro
+                        $success+= $this->member->update($member);
                         //actualizamos direccion
-                        $address_exists= $member_exists->addresess->row();
+                        $address_exists= $member_exists->addresses->row();
                         $address['id']= $address_exists->id;
+
+//                        dd($address);
                         $success+= $this->address->update($address);
                         //actualizamos contacto
                         $contact["id"]= $member_exists->id_contact;
@@ -207,6 +212,14 @@ class Account extends CI_Controller {
 	echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
     }
 
+    /**
+     * upload_profile
+     *
+     * Sube una imagen al server
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access access
+     * @return void imprime un json
+     */
     public function upload_profile() {
         $response = array( 'status' => false, 'msg'=>lang('msg_operacion_fallida'));
 	if(!$this->input->is_ajax_request()){
@@ -241,6 +254,14 @@ class Account extends CI_Controller {
 	}
     }
 
+    /**
+     * remove_profile
+     *
+     * Elimina una imagen del server
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access access
+     * @return void imprime un json
+     */
     public function remove_profile() {
         $response = array( 'status' => false, 'msg'=>lang('msg_operacion_fallida'));
 	if(!$this->input->is_ajax_request()){
@@ -266,6 +287,72 @@ class Account extends CI_Controller {
 	    $json = json_encode($response);
 	    echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
 	}
+    }
+
+    /**
+     * activation
+     *
+     * Activa una cuenta. Actualiza el <b>estatus_row a ENABLED</b> de un miembro.
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access public
+     * @param String $token_id Codigo de activacion de cuenta
+     * @return void
+     */
+    function activation($token_id) {
+        $token= $this->token->find($token_id);
+
+        //si no existe 404
+        if(!isset($token->id)){
+            show_404();
+        }
+
+        //actualizamos el token a USED
+        $token_update= array(
+            "id"=> $token->id,
+            "status_row"=> USED
+        );
+
+        $success= $this->token->update($token_update);
+
+        //si paso
+        if($success){
+            //actualizamos al miembro a ENABLED
+            $member_upadate= array(
+                "id"=> $token->entity->id,
+                "status_row"=> ENABLED
+            );
+
+            $this->member->update($member_upadate);
+
+            $member_data= array(
+                "username"=> $token->entity->username,
+                'password'=> $token->entity->password
+            );
+
+            $member_access  = $this->member->validate_credentials($member_data);
+
+            if( isset($member_access) and $member_access['status'] ){
+                $member_session_data = $member_access['user_data'];
+
+                // checamos membresia y guardamos en sesion
+                $member_valid = $this->member->is_membership_valid();
+                if( $member_valid )
+                    $member_session_data['membership_valid'] = TRUE;
+                else
+                    $member_session_data['membership_valid'] = FALSE;
+
+                // Armamos la sesion
+                $member_session_data['isloggedin'] = TRUE;
+                $this->session->set_userdata( $member_session_data );
+
+                // Guardamos el ultimo login
+                $this->member->update_access_log();
+                redirect("panel");
+            }
+
+        }
+
+        show_404();
     }
 }
 /* End of file Account.php */

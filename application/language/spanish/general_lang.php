@@ -52,6 +52,9 @@
     $lang['PROFILE']                    = 'Perfil';
     $lang['ORGANIZATION']               = 'Organigrama';
     $lang['AREA']                       = 'Area';
+    $lang['DISABLED'] = 'Deshabilitado';
+    $lang['ENABLED'] = 'Habilitado';
+    $lang['REGISTERED'] = 'Registrado';
 
     $lang['d3_nivel']                   = 'Nivel';
     $lang['d3_niveles']                 = 'Niveles';
@@ -99,3 +102,6 @@
     $lang['msg_operacion_fallida']      = 'Ocurrio un error al realizar la operación.';
     $lang['msg_registros_afectados']    = 'Registros afectados (%s).';
     $lang['msg_proceso_fallido']        = 'Ocurrio un error al procesar la información.';
+
+    $lang['activa_tu_cuenta'] = 'Keypanel - Activación';
+    $lang['msg_activa_tu_cuenta'] = 'Hola %s, te han registrado en la plataforma keypanel. Tienes hasta 7 dias para activar tu cuenta.';
