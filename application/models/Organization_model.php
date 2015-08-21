@@ -50,6 +50,10 @@ class Organization_model extends Entity_model {
                 $entity->addresses= $this->address->find_by_entity($entity->id);
                 $entity->contact= $this->contact->find($entity->id_contact);
 
+                if(!isset($entity->contact->id)){
+                    $entity->contact= $this->contact;
+                }
+
                 if($entity->id_parent==1){
                     $entity->id_parent=null;
                 }

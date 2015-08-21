@@ -61,14 +61,18 @@ class Member_model extends Entity_model {
         $this->db->select("u.*");
         $this->db->where("id", $id);
         $this->db->where('type', MEMBER);
-
-        $this->db->where_in("status_row", array(ENABLED, DISABLED));
+        $this->db->where_in("status_row", array(ENABLED, DISABLED, REGISTERED));
         $q= $this->db->get($this->table." u");
         $entity= ($q->num_rows() > 0 ? $q->row(0,"Member_model") : $q->row());
 
         if(isset($entity->id)){
                 $entity->addresses= $this->address->find_by_entity($entity->id);
                 $entity->contact= $this->contact->find($entity->id_contact);
+
+                if(!isset($entity->contact->id)){
+                    $entity->contact= $this->contact;
+                }
+                
                 $entity->history= $this->history();
         }
 
@@ -83,10 +87,7 @@ class Member_model extends Entity_model {
      * @return Object
      */
     public function find_me() {
-        $me = $this->find($this->session->id);
-
-        if( isset($me) ){
-            $me->history = $this->history;
+            $me= $this->find($this->session->id);
             if(isset($me->id)){
                 $me->history= $this->history();
             }
@@ -223,7 +224,7 @@ class Member_model extends Entity_model {
     function find_list() {
         $this->db->select("u.*, trim(concat_ws(space(1),u.first_name, ifnull(u.last_name,''))) as full_name",false);
         $this->db->where("type", MEMBER);
-        $this->db->where_in("status_row", array(ENABLED,DISABLED));
+        $this->db->where_in("status_row", array(ENABLED,DISABLED,REGISTERED));
         $this->db->order_by("create_at", "asc");
 
         $members= $this->db->get($this->table. " u");

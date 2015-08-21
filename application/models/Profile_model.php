@@ -37,7 +37,16 @@ class Profile_model extends Entity_model {
         if(isset($entity->id)){
                 $entity->address= $this->address->find_by_entity($entity->id);
                 $entity->address= $entity->address->row();
+
+                if(!isset($entity->address->id)){
+                    $entity->address= $this->address;
+                }
+
                 $entity->contact= $this->contact->find($entity->id_contact);
+                if(!isset($entity->contact->id)){
+                    $entity->contact= $this->contact;
+                }
+                
                 $entity->tags= $this->entity_tag->find_tags_by_entity($entity->id);
         }
 

@@ -13,8 +13,8 @@
             <div class="card card-panel profile hoverable">
                 <?php
                     $avatar = $this->session->avatar;
-                    if( isset($avatar) and $avatar != '' ) : ?>
-                <div class="col s12 m12 l12 center-align"><img src="<?php echo base_url('assets/images/profiles/'. $avatar); ?>" alt="Avatar" class="profile-pic responsive-img circle"></div>
+                    if( isset($user_info->avatar) and $user_info->avatar != '' ) : ?>
+                <div class="col s12 m12 l12 center-align"><img src="<?php echo base_url('assets/images/profiles/'. $user_info->avatar); ?>" alt="Avatar" class="profile-pic responsive-img circle"></div>
                 <?php endif; ?>
                 <p class="user-name center-align blue-grey-text text-darken-4"><?php echo $this->session->full_name; ?></p>
 

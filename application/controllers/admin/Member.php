@@ -175,13 +175,37 @@ class Member extends Base {
                 $id_contact= $this->contact->save($contact);
                 $member['id_contact']= $id_contact;
                 $member['breadcrumb']= $this->session->id;
-                //guardamos miembro
+                //guardamos miembro con estatus registrado para que el active su cuenta
+                $member['status_row']= REGISTERED;
                 $id_member = $this->entity->save( $member );
                 $address['id_entity']=$id_member;
                 //guardamos direccion
                 $this->address->save($address);
 
                 if($id_member){
+                    //creamos un token
+                    $this->load->model("Token_model","token");
+                    $this->load->model("Mailing_model","mailing");
+                    $token= array(
+                        "id_entity"=> $id_member,
+                        'token'=> md5(time()),
+                        'expires_at'=> add_days_to_date(date('Y-m-d H:i:s'), 7)
+                    );
+
+                    $this->token->save($token);
+
+                    //agregamos el token al miembro
+                    $member['token']= $token;
+
+                    //mandar mail al correo del miembro para que active su cuenta
+                    $param_email = array(
+                        'to'      => $member['email'],
+                        'from'    => $this->config->item('noreply_email'),
+                        'subject' => lang('activa_tu_cuenta'),
+                        'msg'     => $this->load->view('mailing/activa_cuenta', array('member' => $member), true)
+                    );
+                    $this->mailing->send($param_email);
+
                     redirect('admin/member/show_list');
                 }
             }

@@ -209,6 +209,10 @@ class Entity_model extends CI_model {
                         $entity->addresses= $this->address->find_by_entity($entity->id);
                         $entity->contact= $this->contact->find($entity->id_contact);
 
+                        if(!isset($entity->contact->id)){
+                            $entity->contact= $this->contact;
+                        }
+
                 }
 
                 return $entity;

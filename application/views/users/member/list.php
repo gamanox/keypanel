@@ -22,7 +22,8 @@
                 <tr>
                     <td>
                         <span><?php echo $member->full_name .' - <a class="indigo-text" href="mailto:'. $member->email .'">'. $member->email .'</a>'; ?></span><br>
-                        <span class="grey-text lighten-1 tiny-text"><?php echo sprintf(lang('label-member-since'), lang(MEMBER)); ?>: <?php echo date_to_humans($member->create_at); ?></span>
+                        <span class="grey-text lighten-1 tiny-text"><?php echo sprintf(lang('label-member-since'), lang(MEMBER)); ?>: <?php echo date_to_humans($member->create_at); ?></span><br>
+                        <span class="grey-text lighten-1 tiny-text"><?php echo lang($member->status_row); ?></span>
                     </td>
                     <td>
                         <div class="switch">

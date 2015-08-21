@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-    
+
 class Main extends CI_Controller {
-    
+
     //Constructor del Controlador
     function __construct()
     {
@@ -9,8 +9,11 @@ class Main extends CI_Controller {
     }
 
     public function index(){
-        // $this->load->view('micrositio/main');    
-        $this->load->view('micrositio/micro');    
+        // $this->load->view('micrositio/main');
+        if($this->session->isloggedin){
+            redirect("panel");
+        }
+        $this->load->view('micrositio/micro');
     }
 }
 /* End of file Main.php */
