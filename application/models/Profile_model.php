@@ -55,7 +55,7 @@ class Profile_model extends Entity_model {
 
     /**
      * find_all_by_breadcrumb
-     *
+     * Devuelve un objeto de resultado de base de datos que contiene perfiles de un breadcrumb especifico
      * @access public
      * @author Guillermo Lucio <guillermo.lucio@gmail.com>
      * @copyright KeyPanel - 2015
