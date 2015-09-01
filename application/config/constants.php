@@ -88,6 +88,8 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 define("DELETED", "DELETED");
 define("ENABLED", "ENABLED");
 define("DISABLED", "DISABLED");
+define("REGISTERED", "REGISTERED");
+define("USED", "USED");
 
 define("SUPERADMIN", "SUPERADMIN");
 define("ADMIN", "ADMIN");
@@ -104,3 +106,8 @@ define('DELETE', 'd');
 
 define("PUBLISHED", "PUBLISHED");
 define("UNPUBLISHED", "UNPUBLISHED");
+
+define("SENDGRID_APIKEY", 'apikey');
+define("SENDGRID_APIKEY_ID", 'apikeyid');
+define("SENDGRID_USERNAME", 'username');
+define("SENDGRID_PASSWORD", 'passwd');

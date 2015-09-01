@@ -19,37 +19,52 @@ class Base extends CI_Controller {
             show_404();
         }
     }
+    /**
+     * upload_profile
+     *
+     * Sube una imagen al server
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access access
+     * @return void imprime un json
+     */
+    public function upload_profile() {
+       $response = array( 'status' => false, 'msg'=>lang('msg_operacion_fallida'));
+       if(!$this->input->is_ajax_request()){
+           show_404();
+       }else {
+           if($_FILES){
+               /* Subimos el archivo */
+               $config['upload_path'] = './assets/images/profiles';
+               $config['allowed_types'] = 'jpeg|jpg';
+               $config['file_name']= time();
 
-     public function upload_profile() {
-        $response = array( 'status' => false, 'msg'=>lang('msg_operacion_fallida'));
-	if(!$this->input->is_ajax_request()){
-	    show_404();
-	}else {
-            if($_FILES){
-                /* Subimos el archivo */
-                $config['upload_path'] = './assets/images/profiles';
-                $config['allowed_types'] = 'jpeg|jpg';
-                $config['file_name']= time();
+               $this->load->library('upload', $config);
 
-                $this->load->library('upload', $config);
+               if(!$this->upload->do_upload('file')){
+                   //$this->lang->load('upload');
+                   $response['msg']= $this->upload->display_errors('<p>','</p>');
+               }else{
+                   $response['status']=true;
+                   $response['msg']=lang('msg_operacion_exitosa');
+                   $response['file_name']=$config['file_name'].$this->upload->file_ext;
+               }
+           }
 
-                if(!$this->upload->do_upload('file')){
-                    //$this->lang->load('upload');
-                    $response['msg']= $this->upload->display_errors('<p>','</p>');
-                }else{
-                    $response['status']=true;
-                    $response['msg']=lang('msg_operacion_exitosa');
-                    $response['file_name']=$config['file_name'].$this->upload->file_ext;
-                }
-            }
-
-//            print_r_pre_d($_FILES);
-	    //Regresamos el form ...Cocinado!!
-	    $json = json_encode($response);
-	    echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
-	}
+    //            print_r_pre_d($_FILES);
+           //Regresamos el form ...Cocinado!!
+           $json = json_encode($response);
+           echo isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json;
+       }
     }
 
+    /**
+     * remove_profile
+     *
+     * Elimina una imagen del server
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access access
+     * @return void imprime un json
+     */
     public function remove_profile() {
         $response = array( 'status' => false, 'msg'=>lang('msg_operacion_fallida'));
 	if(!$this->input->is_ajax_request()){
@@ -77,6 +92,14 @@ class Base extends CI_Controller {
 	}
     }
 
+    /**
+     * upload_attach
+     *
+     * sube una archivo al server
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access access
+     * @return void imprime un json
+     */
     public function upload_attach() {
         $response = array( 'status' => false, 'msg'=>lang('msg_operacion_fallida'));
 	if(!$this->input->is_ajax_request()){
@@ -106,6 +129,14 @@ class Base extends CI_Controller {
 	}
     }
 
+    /**
+     * remove_attach
+     *
+     * Elimina un archivo del server
+     * @author Luis E. Salazar <luis.830424@gmail.com>
+     * @access access
+     * @return void imprime un json
+     */
     public function remove_attach() {
         $response = array( 'status' => false, 'msg'=>lang('msg_operacion_fallida'));
 	if(!$this->input->is_ajax_request()){
