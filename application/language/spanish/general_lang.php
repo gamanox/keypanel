@@ -22,7 +22,7 @@
     $lang['username']                   = 'Usuario';
     $lang['password']                   = 'Clave';
     $lang['new-password']               = 'Nueva clave';
-    $lang['current-password']               = 'Clave actual';
+    $lang['current-password']           = 'Clave actual';
     $lang['password_confirmation']      = 'Repite la clave';
 
     //direccion
@@ -38,11 +38,11 @@
 
 
     $lang['column-actions']             = 'Acciones';
-    $lang['membership'] = 'Membresía';
+    $lang['membership']                 = 'Membresía';
 
     //datos requeridos
-    $lang['email_required']= 'Correo electrónico inválido';
-    $lang['first_name_required']= 'Nombre requerido';
+    $lang['email_required']             = 'Correo electrónico inválido';
+    $lang['first_name_required']        = 'Nombre requerido';
 
     $lang['MEMBER']                     = 'Miembro';
     $lang['PROFILE']                    = 'Perfil';
@@ -63,6 +63,7 @@
     $lang['menu-enterprises']           = 'Empresas';
     $lang['menu-organization']          = 'Organigramas';
     $lang['menu-categories']            = 'Categorias';
+    $lang['menu-faq']                   = 'Faq';
 
     $lang['btn_terminos_y_condiciones'] = 'Términos y Condiciones';
     $lang['btn_forgot_password']        = '¿Olvidaste tu clave?';
@@ -83,7 +84,7 @@
 
     $lang['label-member-since']         = '%s desde';
     $lang['card-configuracion-title']   = 'Configuración';
-    $lang['select'] = '-- Seleccione';
+    $lang['select']                     = '-- Seleccione';
 
     $lang['desea_realizar_esta_accion'] = '¿Desea realizar esta acción?';
 

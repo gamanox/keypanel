@@ -6,7 +6,8 @@
     <meta name="description" content="">
     <title><?php echo ( isset($title) ? $title : ''); ?></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/materialize.css'); ?>" media="screen,projection">
+    <link href="<?php echo base_url('assets/css/materialNote.css'); ?>" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="<?php echo base_url('assets/css/materialize.css'); ?>" media="screen,projection"> -->
     <link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css'); ?>" media="screen,projection">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/custom_v2.css'); ?>" media="screen,projection">
 
