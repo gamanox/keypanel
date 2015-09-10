@@ -26,10 +26,10 @@ class Member_model extends Entity_model {
     /**
      * validate_credentials
      *
-     * Valida las credenciales de un miembro, si son correctas devuelve un array de lo contrario null
+     * Valida las credenciales de un miembro, si son correctas devuelve un array
      *
      * @param Array $member_data username y password dentro del arreglo
-     * @return Array|Null Array('status'=>boolean, 'user_data'=>Array())
+     * @return Array Array('status'=>boolean, 'user_data'=>Array())
      */
     public function validate_credentials($member_data) {
         $response = array('status' => false);
@@ -99,7 +99,7 @@ class Member_model extends Entity_model {
     /**
      * is_membership_valid
      *
-     * Devuelve *1 o 0* si la membresía de un miembro es válida o no.
+     * Devuelve <b>1 o 0</b> si la membresía de un miembro es válida o no.
      *
      * @return Boolean
      */

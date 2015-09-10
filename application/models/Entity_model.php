@@ -300,7 +300,8 @@ class Entity_model extends CI_model {
          *
          * Devuelve un objeto de resultado de bases de datos que contiene a los objetos entities del sistema que se han creado o actualizado
          * ordenados por la fecha mas reciente
-         *
+         * @param Integer $limit Cantidad de registros a devolver
+		 * @param Integer $offset Apartir de cual registro devolvera la consulta
          * @return Object
          */
         public function updates($limit=null, $offset=null) {
